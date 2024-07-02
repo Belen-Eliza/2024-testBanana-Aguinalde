@@ -225,7 +225,7 @@ Game >> move: aSpaceship to: aPosition [
 { #category : #action }
 Game >> moveAllBackToBeginning [
 	
-	spaceshipsData do: [ :dataForASpaceship | dataForASpaceship moveTo: 0 ]
+	spaceshipsData do: [ :dataForASpaceship | dataForASpaceship moveTo: 1 ]
 ]
 
 { #category : #action }
@@ -301,7 +301,7 @@ Game >> reducePartyShieldsByOneOf: loser [
 	
 	activeCards  do: [ :card | card reduceShieldsOfAllyOf: loser in: self ].
 	(self dataFor: loser) decreaseShieldsByOne . 
-	(self dataFor: loser) moveTo: 0
+	(self dataFor: loser) moveTo: 1
 	
 ]
 
@@ -359,7 +359,7 @@ Game >> turn [
 	aSpaceship := self nextSpaceshipToPlay .
 	self calculateFinalPositionFor: aSpaceship.
 	position := self positionOf: aSpaceship.
-	position = 0 ifFalse: [ self battleIn: position ]. 
+	position = 1 ifFalse: [ self battleIn: position ]. 
 	self checkForWinner.
 ]
 

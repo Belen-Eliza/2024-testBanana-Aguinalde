@@ -54,7 +54,7 @@ SpaceshipLog class >> randomCardsfor: aSpaceship [
 { #category : #comparing }
 SpaceshipLog >> = anotherSpaceship [
 
-	"^laps = anotherSpaceship laps and:  position = anotherSpaceship position "
+	
 	^position = anotherSpaceship position 
 ]
 
@@ -115,7 +115,7 @@ SpaceshipLog >> decreaseShieldsByOne [
 { #category : #comparing }
 SpaceshipLog >> hash [ 
 
-^"laps hash"  shields hash + position hash + spaceship hash 
+^shields hash + position hash + spaceship hash 
 ]
 
 { #category : #initialization }
