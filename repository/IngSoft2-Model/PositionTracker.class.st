@@ -1,57 +1,71 @@
+"
+Please comment me using the following template inspired by Class Responsibility Collaborator (CRC) design:
+
+For the Class part:  Keeps track of a spaceship position on the board and of its laps
+
+For the Responsibility part: Three sentences about my main responsibilities - what I do, what I know.
+
+For the Collaborators Part: State my main collaborators and one line about how I interact with them.
+
+Public API and Key Messages
+
+- message one
+- message two
+- (for bonus points) how to create instances.
+
+   One simple example is simply gorgeous.
+
+Internal Representation and Key Implementation Points.
+
+    Instance Variables
+	boardLength:		<Object>
+	laps:		<Object>
+	square:		<Object>
+
+
+    Implementation Points
+"
 Class {
 	#name : #PositionTracker,
 	#superclass : #Object,
 	#instVars : [
-		'square',
-		'laps',
-		'boardLength'
+		'totalSquaresMoved',
+		'board'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #'instance creation' }
-PositionTracker class >> beginInABoardOf: aLengthOfSquares [
+PositionTracker class >> beginIn: aBoard [
 
-	^ self new initializeBeginInABoardOf: aLengthOfSquares
-]
-
-{ #category : #analyze }
-PositionTracker >> adjustBounds [
-
-	square >= boardLength ifTrue: [ square := (square % boardLength ) ].
-	square < 0 ifTrue: [ square := boardLength - square ].
-	
-]
-
-{ #category : #action }
-PositionTracker >> calculateLapsFor: aSpaceship in: totalPosition [
-	"	
-	totalPosition >= board length ifTrue: [
-		(self dataFor: aSpaceship )updateLapsBy: totalPosition // board length ].
-	totalPosition < 0 ifTrue: [
-		(self dataFor: aSpaceship ) updateLapsBy: totalPosition // board length - 1 ]
-	"
+	^ self new initializeBeginIn: aBoard
 ]
 
 { #category : #initialization }
-PositionTracker >> initializeBeginInABoardOf: aLengthOfSquares [
-	square := 0.
-	laps := 0.
-	boardLength := aLengthOfSquares.
+PositionTracker >> initializeBeginIn: aBoard [
+
+	totalSquaresMoved := 0.
+	board := aBoard
 ]
 
 { #category : #accessing }
 PositionTracker >> laps [
-	^laps.
+	^board lapsAfterMoving: totalSquaresMoved 
+]
+
+{ #category : #arithmetic }
+PositionTracker >> move: someSquares [
+
+totalSquaresMoved := totalSquaresMoved +someSquares max: 0
+]
+
+{ #category : #action }
+PositionTracker >> moveTo: aSquare [
+ 	self move: (aSquare - self square )
 ]
 
 { #category : #accessing }
-PositionTracker >> move: anAmountOfSquares [ 
-	square := square + anAmountOfSquares.
-	self adjustBounds.
-]
-
-{ #category : #shapes }
 PositionTracker >> square [
-	^square
+
+	^board squareNumberAfterMoving: totalSquaresMoved 
 ]

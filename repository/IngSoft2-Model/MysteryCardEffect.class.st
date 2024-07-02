@@ -39,8 +39,7 @@ MysteryCardEffect class >> isIn: aPosition [
 MysteryCardEffect >> applyIn: aGame for: aSpaceship [
 
 aGame addRandomCardFor: aSpaceship .
-aGame move: aSpaceship  to:  myPosition .
-^0
+
 ]
 
 { #category : #initialization }

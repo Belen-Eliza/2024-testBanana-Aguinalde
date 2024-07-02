@@ -31,7 +31,6 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'spaceship',
-		'laps',
 		'shields',
 		'position',
 		'state',
@@ -55,15 +54,19 @@ SpaceshipLog class >> randomCardsfor: aSpaceship [
 { #category : #comparing }
 SpaceshipLog >> = anotherSpaceship [
 
-	^laps = anotherSpaceship laps and:  position = anotherSpaceship position 
+	"^laps = anotherSpaceship laps and:  position = anotherSpaceship position "
+	^position = anotherSpaceship position 
 ]
 
 { #category : #comparing }
 SpaceshipLog >> >= anotherSpaceship [
 
-	laps = anotherSpaceship laps
-		ifFalse: [ ^ laps >= anotherSpaceship laps ]
-		ifTrue: [ ^ position >= anotherSpaceship position ]
+	self laps = anotherSpaceship laps
+		ifFalse: [ ^ self laps >= anotherSpaceship laps ]
+		ifTrue: [ ^ self position >= anotherSpaceship position ]
+		
+
+		
 ]
 
 { #category : #adding }
@@ -92,6 +95,12 @@ SpaceshipLog >> cards [
 ]
 
 { #category : #accessing }
+SpaceshipLog >> changePositionTo: newPosition [
+
+position := newPosition .
+]
+
+{ #category : #accessing }
 SpaceshipLog >> changeStateTo: aState [ 
 
 state := aState 
@@ -106,15 +115,13 @@ SpaceshipLog >> decreaseShieldsByOne [
 { #category : #comparing }
 SpaceshipLog >> hash [ 
 
-^laps hash + shields hash + position hash + spaceship hash 
+^"laps hash"  shields hash + position hash + spaceship hash 
 ]
 
 { #category : #initialization }
 SpaceshipLog >> initializeFor: aSpaceship withDeck: someCards [
 
 	spaceship := aSpaceship .
-	position := 0.
-	laps := 0.
 	state := NoPenaltyState new.
 	shields := 3.
 	cards:= OrderedCollection withAll:  someCards.
@@ -124,8 +131,6 @@ SpaceshipLog >> initializeFor: aSpaceship withDeck: someCards [
 SpaceshipLog >> initializeRandomCardsFor: aSpaceship [
 
 	spaceship := aSpaceship .
-	position := 0.
-	laps := 0.
 	state := NoPenaltyState new.
 	shields := 3.
 	cards:= OrderedCollection new.
@@ -134,13 +139,19 @@ SpaceshipLog >> initializeRandomCardsFor: aSpaceship [
 
 { #category : #accessing }
 SpaceshipLog >> laps [
-^laps 
+^position laps  
+]
+
+{ #category : #accessing }
+SpaceshipLog >> move: someSquares [
+
+position move: someSquares 
 ]
 
 { #category : #accessing }
 SpaceshipLog >> moveTo: aPosition [
 
-	position := aPosition 
+	position moveTo:  aPosition 
 ]
 
 { #category : #action }
@@ -151,7 +162,7 @@ SpaceshipLog >> playIn: aGame [
 
 { #category : #accessing }
 SpaceshipLog >> position [
-^position 
+^position square
 ]
 
 { #category : #adding }
@@ -179,16 +190,6 @@ SpaceshipLog >> spaceship [
 { #category : #accessing }
 SpaceshipLog >> state [ 
 ^state 
-]
-
-{ #category : #adding }
-SpaceshipLog >> updateLapsBy: amountOfLaps [
-
-	| currentLaps  totalLaps |
-
-	currentLaps := laps .
-	totalLaps := (currentLaps + amountOfLaps) max: 0 .
-	laps:= totalLaps
 ]
 
 { #category : #validation }

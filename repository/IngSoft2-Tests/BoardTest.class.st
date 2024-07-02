@@ -8,15 +8,15 @@ Class {
 BoardTest >> createBoardOf: length distance: aDistance withEffects: someEffects wormholeBeginsAt: startPoint andEndsAt: endPoint [
 
 	| squares |
-	squares := ZeroBasedArray newEmpty.
-	0 to: length - 1 do: [ :i |
+	squares := OrderedCollection new.
+	1 to: length  do: [ :i |
 	squares add: (Square with: (NullEffect isIn: i)) ].
 
 	someEffects do: [ :effect |
 		squares at: effect position put: (Square with: effect) ].
 	^ Board
 		  with: squares
-		  parsecs: aDistance
+		  length: aDistance
 		  wormholeBeginsAt: startPoint
 		  andEndsAt: endPoint
 ]
@@ -36,8 +36,8 @@ BoardTest >> test007BoardCreatedWithTwoSquares [
 
 	| aBoard |
 
-	aBoard := Board of: 2 wormholeBeginsAt: 0 andEndsAt: 1.
-	self assert: aBoard length equals: 2
+	aBoard := Board of: 2 wormholeBeginsAt: 1 andEndsAt: 2.
+	self assert: aBoard lengthInSquares  equals: 2
 ]
 
 { #category : #tests }
@@ -46,7 +46,7 @@ BoardTest >> test010BoardCreatedWithNSquares [
 | aBoard |
 
 aBoard := Board of: 20 wormholeBeginsAt: 1 andEndsAt: 2.
-self assert: aBoard length equals: 20.
+self assert: aBoard lengthInSquares  equals: 20.
 ]
 
 { #category : #tests }
@@ -183,15 +183,12 @@ BoardTest >> test038WhenSpaceshipMovesTenInBoardOfEightThenGoesToSquareThree [
 { #category : #tests }
 BoardTest >> test055WhenLandingInABlackholeSpaceshipGoesBackFourSquares [
 
-	| aGame aSpaceship aBoard aDie squares blackholeEffect spaceshipsData |
+	| aGame aSpaceship aBoard aDie  spaceshipsData |
 	aSpaceship := Spaceship launch: 'One'.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship).
-	blackholeEffect :=Square with:( BlackholeEffect isIn: 6).
-	squares := ZeroBasedArray newEmpty .
-	0 to: 9 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
-	squares at: 6 put: blackholeEffect .
-	aBoard := Board with: squares  parsecs: 1 wormholeBeginsAt: 0 andEndsAt: 1.
-	aDie := LoadedDie of: 6.
+
+	aBoard := self createBoardOf: 10 distance: (ParsecDistance of: 10) withEffects: { (BlackholeEffect isIn: 6) }  wormholeBeginsAt: 1 andEndsAt: 3.
+	aDie := LoadedDie of: 5.
 	aGame := Game
 		         playedBy: spaceshipsData 
 		         on: aBoard
@@ -204,17 +201,13 @@ BoardTest >> test055WhenLandingInABlackholeSpaceshipGoesBackFourSquares [
 { #category : #tests }
 BoardTest >> test056IfSpaceshipLandsOnHyperSpaceJumpSquareThenAdvancesFourSquares [
 
-	| aGame aSpaceship aBoard aDie squares hyperSpaceJumpEffect spaceshipsData |
+	| aGame aSpaceship aBoard aDie spaceshipsData |
 	aSpaceship := Spaceship launch: 'One'.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship).
-	hyperSpaceJumpEffect :=Square with:( HyperSpaceJumpEffect isIn: 6).
-	
-	squares := ZeroBasedArray newEmpty .
-	0 to: 10 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
-	squares at: 6 put: hyperSpaceJumpEffect.
-	aBoard := Board with: squares  parsecs: 1 wormholeBeginsAt: 0 andEndsAt: 1.
 
-	aDie := LoadedDie of: 6.
+	aBoard := self createBoardOf: 11 distance: (ParsecDistance of: 1) withEffects: { ( HyperSpaceJumpEffect isIn: 6) } wormholeBeginsAt: 1 andEndsAt: 3.
+
+	aDie := LoadedDie of: 5.
 	aGame := Game
 		         playedBy: spaceshipsData
 		         on: aBoard
@@ -227,16 +220,14 @@ BoardTest >> test056IfSpaceshipLandsOnHyperSpaceJumpSquareThenAdvancesFourSquare
 { #category : #tests }
 BoardTest >> test057IfSpaceshipLandsOnHyperSpaceJumpSquareThenLosesAShield [
 
-	| aGame aSpaceship aBoard aDie squares hyperSpaceJumpEffect spaceshipsData |
+	| aGame aSpaceship aBoard aDie spaceshipsData |
 	aSpaceship := Spaceship launch: 'One'.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship).
-	hyperSpaceJumpEffect := Square with: ( HyperSpaceJumpEffect isIn: 6).
-	squares := ZeroBasedArray newEmpty .
-	0 to: 10 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
-	squares at: 6 put: hyperSpaceJumpEffect.
-	aBoard := Board with: squares  parsecs: 1 wormholeBeginsAt: 0 andEndsAt: 1.
+	
+	aBoard := self createBoardOf: 11 distance: (ParsecDistance of: 1) withEffects: { ( HyperSpaceJumpEffect isIn: 6) } wormholeBeginsAt: 1 andEndsAt: 3.
 
-	aDie := LoadedDie of: 6.
+	aDie := LoadedDie of: 5.
+
 	aGame := Game
 		         playedBy: spaceshipsData
 		         on: aBoard
@@ -257,7 +248,7 @@ BoardTest >> test058WhenSpaceshipLandsOnMoonWalkSquareThenOtherSpaceshipsGetSent
 	squares := ZeroBasedArray newEmpty .
 	0 to: 10 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
 	squares at: 6 put: moonWalkEffect.
-	aBoard := Board with: squares  parsecs: 1 wormholeBeginsAt: 0 andEndsAt: 1.
+	aBoard := Board with: squares  length: 1 wormholeBeginsAt: 0 andEndsAt: 1.
 
 	aDie := LoadedDie arrayOf: (OrderedCollection with: 3 with: 6).
 	aGame := Game
@@ -281,7 +272,7 @@ BoardTest >> test059WhenSpaceshipLandsOnMoonwalkSquareThenItDoesntMove [
 	squares := ZeroBasedArray newEmpty .
 	0 to: 10 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
 	squares at: 6 put: moonWalkEffect.
-	aBoard := Board with: squares  parsecs: 1 wormholeBeginsAt: 0 andEndsAt: 1.
+	aBoard := Board with: squares  length: 1 wormholeBeginsAt: 0 andEndsAt: 1.
 
 	aDie := LoadedDie arrayOf: (OrderedCollection with: 3 with: 6).
 	aGame := Game
@@ -305,7 +296,7 @@ BoardTest >> test060WhenSpaceshipLandsOnAtomicBombSquareThenGetsSentBackToBeginn
 	squares := ZeroBasedArray newEmpty .
 	0 to: 9 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
 	squares at: 6 put: atomicBombEffect .
-	aBoard := Board with: squares  parsecs: 1 wormholeBeginsAt: 0 andEndsAt: 1.
+	aBoard := Board with: squares  length: 1 wormholeBeginsAt: 0 andEndsAt: 1.
 
 	aGame := Game
 		         playedBy: spaceshipsData
@@ -328,7 +319,7 @@ BoardTest >> test061WhenSpaceshipLandsOnAtomicBombEffectThenEveryoneGetsSentToSq
 	squares := ZeroBasedArray newEmpty .
 	0 to: 10 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
 	squares at: 6 put: atomicBombEffect .
-	aBoard := Board with: squares  parsecs: 1 wormholeBeginsAt: 0 andEndsAt: 1.
+	aBoard := Board with: squares  length: 1 wormholeBeginsAt: 0 andEndsAt: 1.
 
 	aDie := LoadedDie arrayOf: (OrderedCollection with: 3 with: 6).
 	aGame := Game
@@ -354,7 +345,7 @@ BoardTest >> test062WhenSpaceshipLandsOnAtomicBombAllShieldsGetReducedByOne [
 	squares := ZeroBasedArray newEmpty .
 	0 to: 10 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
 	squares at: 6 put: atomicBombEffect .
-	aBoard := Board with: squares  parsecs: 1 wormholeBeginsAt: 0 andEndsAt: 1.
+	aBoard := Board with: squares  length: 1 wormholeBeginsAt: 0 andEndsAt: 1.
 
 	aDie := LoadedDie arrayOf: (OrderedCollection with: 3 with: 6).
 	aGame := Game
@@ -380,7 +371,7 @@ BoardTest >> test063WhenSpaceshipLandsOnAtomicBombAllShieldsGoDownByOne [
 	squares := ZeroBasedArray newEmpty .
 	0 to: 10 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
 	squares at: 6 put: atomicBombEffect .
-	aBoard := Board with: squares  parsecs: 1 wormholeBeginsAt:  8 andEndsAt: 9.
+	aBoard := Board with: squares  length: 1 wormholeBeginsAt:  8 andEndsAt: 9.
 	aDie := LoadedDie arrayOf: (OrderedCollection with: 3 with: 6).
 	aGame := Game
 		         playedBy: spaceshipsData 
@@ -406,7 +397,7 @@ BoardTest >> test064WhenTwoSpaceshipOnAnEffectSquareThenTheEffectsHappensBeforeB
 	squares := ZeroBasedArray newEmpty .
 	0 to: 10 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
 	squares at: 6 put: moonwalk  .
-	aBoard := Board with: squares  parsecs: 1 wormholeBeginsAt: 0 andEndsAt: 1.
+	aBoard := Board with: squares  length: 1 wormholeBeginsAt: 0 andEndsAt: 1.
 
 	aDie := LoadedDie arrayOf:
 		        (OrderedCollection with: 3 with: 5 with: 5).
@@ -432,7 +423,7 @@ BoardTest >> test065WhenSpaceshipLandsOnSquareWithEffectAndGetsMovedToASquareWit
 	squares := ZeroBasedArray newEmpty .
 	0 to: 10 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
 	squares at: 6 put: blackholeEffect   .
-	aBoard := Board with: squares  parsecs: 1 wormholeBeginsAt: 0 andEndsAt: 1.
+	aBoard := Board with: squares  length: 1 wormholeBeginsAt: 0 andEndsAt: 1.
 
 	aDie := LoadedDie arrayOf:
 		        (OrderedCollection with: 2 with: 6 with: 5).
@@ -464,7 +455,7 @@ BoardTest >> test068WhenSpaceshipLandsOnHyperJumpSquareGetsMovedOneParsecAhead [
 	squares at: 6 put: hyperJumpEffect.
 	aBoard := Board
 		          with: squares
-		          parsecs: (ParsecDistance of: 11)
+		          length: (ParsecDistance of: 11)
 		          wormholeBeginsAt: 0
 		          andEndsAt: 1.
 
@@ -506,7 +497,7 @@ BoardTest >> test070HyperJumpStoresAnArrayOfParsecsAndLoopsThroughThem [
 	squares at: 6 put: hyperJumpEffect.
 	aBoard := Board
 		          with: squares
-		          parsecs: (ParsecDistance of: 11)
+		          length: (ParsecDistance of: 11)
 		          wormholeBeginsAt: 0
 		          andEndsAt: 1.
 
@@ -543,7 +534,7 @@ BoardTest >> test071WhenSpaceshipLandsOnHyperJumpSquareGetsMovedOneParsecAndFour
 	squares at: 6 put: hyperJumpEffect.
 	aBoard := Board
 		          with: squares
-		          parsecs: (ParsecDistance of: 5)
+		          length: (ParsecDistance of: 5)
 		          wormholeBeginsAt: 0
 		          andEndsAt: 1.
 
@@ -577,7 +568,7 @@ BoardTest >> test072WhenBoardHasMoreParsecsThanSquaresThenSpaceshipMovesTwoParse
 	squares at: 6 put: hyperJumpEffect.
 	aBoard := Board
 		          with: squares
-		          parsecs: (ParsecDistance of: 40)
+		          length: (ParsecDistance of: 40)
 		          wormholeBeginsAt: 0
 		          andEndsAt: 1.
 
@@ -611,7 +602,7 @@ BoardTest >> test073SpaceshipOnlyMovesWhenParsecsToSquaresRatioIsAnEvenNumber [
 	squares at: 6 put: hyperJumpEffect.
 	aBoard := Board
 		          with: squares
-		          parsecs: (ParsecDistance of: 40)
+		          length: (ParsecDistance of: 40)
 		          wormholeBeginsAt: 0
 		          andEndsAt: 1.
 
@@ -637,7 +628,7 @@ BoardTest >> test074SpaceshipLosesALapIfItGetsSentBackPastTheFirstSquare [
 	squares := ZeroBasedArray newEmpty .
 	0 to: 4 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
 	squares at: 2 put: blackholeEffect .
-	aBoard := Board with: squares  parsecs: 20 wormholeBeginsAt: 0 andEndsAt: 1.
+	aBoard := Board with: squares  length: 20 wormholeBeginsAt: 0 andEndsAt: 1.
 
 	aDie := LoadedDie of: 7.
 	aGame := Game
@@ -653,14 +644,11 @@ BoardTest >> test074SpaceshipLosesALapIfItGetsSentBackPastTheFirstSquare [
 { #category : #tests }
 BoardTest >> test075SpaceshipCantGoBackFurtherThanTheFirstSquareOnTheFirstLap [
 
-	| aGame aSpaceship aBoard aDie blackholeEffect squares spaceshipsData |
+	| aGame aSpaceship aBoard aDie spaceshipsData |
 	aSpaceship := Spaceship launch: 'One'.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship).
-	blackholeEffect :=Square with:( BlackholeEffect isIn: 3).
-	squares := ZeroBasedArray newEmpty .
-	0 to: 4 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
-	squares at: 3 put: blackholeEffect .
-	aBoard := Board with: squares  parsecs: 20 wormholeBeginsAt: 0 andEndsAt: 1.
+
+	aBoard := self createBoardOf: 5 distance: (ParsecDistance of: 5) withEffects: { HyperJumpEffect isIn: 4 movesDistance: (OrderedCollection with: (ParsecDistance of: -5)) }  wormholeBeginsAt: 1 andEndsAt: 2.
 
 	aDie := LoadedDie of: 3.
 	aGame := Game
@@ -704,7 +692,7 @@ BoardTest >> test077WhenSpaceshipGoesBackMultipleLapsWithMoonwalkEffectThenLoses
 	squares := ZeroBasedArray newEmpty .
 	0 to: 4 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
 	squares at: 4 put: moonwalkEffect .
-	aBoard := Board with: squares  parsecs: 5 wormholeBeginsAt: 1 andEndsAt: 2.
+	aBoard := Board with: squares  length: 5 wormholeBeginsAt: 1 andEndsAt: 2.
 
 	aDie := LoadedDie arrayOf: (OrderedCollection with: 11 with: 4).
 	aGame := Game
@@ -734,7 +722,7 @@ BoardTest >> test081HyperJumpEffectCanJumpLightyears [
 	squares at: 4 put: hyperJumpEffect.
 	aBoard := Board
 		          with: squares
-		          parsecs: (ParsecDistance of: 5)
+		          length: (ParsecDistance of: 5)
 		          wormholeBeginsAt: 1
 		          andEndsAt: 2.
 
@@ -769,7 +757,7 @@ BoardTest >> test082HyperJumpEffectStoresParsecAndLightYearArray [
 	squares at: 4 put: hyperJumpEffect.
 	aBoard := Board
 		          with: squares
-		          parsecs: (ParsecDistance of: 5)
+		          length: (ParsecDistance of: 5)
 		          wormholeBeginsAt: 1
 		          andEndsAt: 2.
 
@@ -805,7 +793,7 @@ BoardTest >> test121WhenSpaceshipUsesRepeatCardAndMovesFurtherThanTheLastSquareT
 		          createBoardOf: 6
 		          distance: (ParsecDistance of: 6)
 		          withEffects: { (HyperJumpEffect
-				           isIn: 3
+				           isIn: 4
 				           movesDistance:
 				           (OrderedCollection with: (ParsecDistance of: 7))) }
 		          wormholeBeginsAt: 0

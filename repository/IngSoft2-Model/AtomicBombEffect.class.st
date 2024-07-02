@@ -39,7 +39,7 @@ AtomicBombEffect class >> isIn: aPosition [
 AtomicBombEffect >> applyIn: aGame for: aSpaceship [ 
 	aGame detonateAtomicBomb .
 	
-	^0.
+
 ]
 
 { #category : #initialization }

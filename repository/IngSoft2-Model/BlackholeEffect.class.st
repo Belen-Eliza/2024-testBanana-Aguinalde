@@ -40,8 +40,8 @@ BlackholeEffect class >> isIn: aPosition [
 
 { #category : #action }
 BlackholeEffect >> applyIn: aGame for: aSpaceship [
-	aGame move: aSpaceship to: myPosition -4. 
-	^ -4.
+	aGame make: aSpaceship  move: -4.
+
 ]
 
 { #category : #initialization }

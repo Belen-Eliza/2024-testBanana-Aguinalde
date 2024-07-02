@@ -8,15 +8,15 @@ Class {
 CardTest >> createBoardOf: length distance: aDistance withEffects: someEffects wormholeBeginsAt: startPoint andEndsAt: endPoint [
 
 	| squares |
-	squares := ZeroBasedArray newEmpty.
-	0 to: length - 1 do: [ :i |
+	squares := OrderedCollection new.
+	1 to: length  do: [ :i |
 	squares add: (Square with: (NullEffect isIn: i)) ].
 
 	someEffects do: [ :effect |
 		squares at: effect position put: (Square with: effect) ].
 	^ Board
 		  with: squares
-		  parsecs: aDistance
+		  length: aDistance
 		  wormholeBeginsAt: startPoint
 		  andEndsAt: endPoint
 ]
@@ -44,7 +44,7 @@ CardTest >> test083SpeedCardWorksWithOnlyOneSpaceship [
 	0 to: 15 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 13
 		          andEndsAt: 14.
 
@@ -72,7 +72,7 @@ CardTest >> test084SpeedCardWorksWithMultipleSpaceships [
 	0 to: 15 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 13
 		          andEndsAt: 14.
 
@@ -102,7 +102,7 @@ CardTest >> test085AccelerationCardWorksWithOneSpaceship [
 	0 to: 15 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 13
 		          andEndsAt: 14.
 
@@ -140,7 +140,7 @@ CardTest >> test086AccelerationCardWorksForAllSpaceShips [
 	0 to: 15 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 13
 		          andEndsAt: 14.
 
@@ -173,7 +173,7 @@ CardTest >> test087MercenaryCardCanRecruitOneMercenaryThatHelpsInBattles [
 	0 to: 7 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 6
 		          andEndsAt: 7.
 
@@ -207,7 +207,7 @@ CardTest >> test088IfSpaceshipAndOneMercenaryLoseTheBattleBothLoseShields [
 	0 to: 7 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 6
 		          andEndsAt: 7.
 
@@ -242,7 +242,7 @@ CardTest >> test089ASpaceshipCanRecruitMultipleMercenariesThetHelpInBattle [
 	0 to: 7 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 6
 		          andEndsAt: 7.
 
@@ -290,7 +290,7 @@ CardTest >> test090IfSpaceshipAndMultipleMercenariesLoseTheBattleTheyAllLoseShie
 	0 to: 7 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 6
 		          andEndsAt: 7.
 
@@ -334,7 +334,7 @@ CardTest >> test091MultipleSpeedCardsCanBeActiveAtTheSameTime [
 	0 to: 15 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 13
 		          andEndsAt: 14.
 
@@ -373,7 +373,7 @@ CardTest >> test092MultipleAccelerationCardsCanBeActiveAtTheSameTime [
 	0 to: 15 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 13
 		          andEndsAt: 14.
 
@@ -411,7 +411,7 @@ CardTest >> test093MultipleSpaceshipsCannotHaveTheSameMercenary [
 	0 to: 7 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 6
 		          andEndsAt: 7.
 
@@ -450,7 +450,7 @@ CardTest >> test094ASpaceshipDoesNotBattleWithItsMercenary [
 	0 to: 7 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 6
 		          andEndsAt: 7.
 
@@ -479,7 +479,7 @@ CardTest >> test095CancellationCardCanRemoveActiveMercenaryCards [
 	0 to: 7 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 6
 		          andEndsAt: 7.
 
@@ -510,7 +510,7 @@ CardTest >> test096CancellationCardCanRemoveActiveSpeedCards [
 	0 to: 15 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 13
 		          andEndsAt: 14.
 
@@ -538,7 +538,7 @@ CardTest >> test097CancellationCardCanNotBePlayedOnACardThatIsNotActive [
 	0 to: 15 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 13
 		          andEndsAt: 14.
 
@@ -573,7 +573,7 @@ CardTest >> test098PermanentCardCannotBePlayedOutOfTurn [
 	0 to: 15 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 13
 		          andEndsAt: 14.
 
@@ -604,7 +604,7 @@ CardTest >> test099InstantaneousCardCanBePlayedOutOfTurn [
 	0 to: 7 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 6
 		          andEndsAt: 7.
 
@@ -634,7 +634,7 @@ CardTest >> test100CardsCannotBePlayedAfterGameIsOver [
 	0 to: 7 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 6
 		          andEndsAt: 7.
 
@@ -696,7 +696,7 @@ CardTest >> test102RedoCardCanCopyAnotherRedoCard [
 	0 to: 15 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 13
 		          andEndsAt: 14.
 
@@ -737,7 +737,7 @@ CardTest >> test103RedoCardCannotBePlayedFirst [
 	0 to: 15 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 13
 		          andEndsAt: 14.
 
@@ -991,7 +991,7 @@ CardTest >> test110RepeatCardDoesNothingIfLastSquareHadNoEffect [
 	0 to: 9 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 8
 		          andEndsAt: 9.
 
@@ -1021,7 +1021,7 @@ CardTest >> test111IfNoSpaceshipHasPlayedYetRepeatCardHasNoEffect [
 	0 to: 9 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 8
 		          andEndsAt: 9.
 
@@ -1073,7 +1073,7 @@ CardTest >> test114ASpaceshipCannotPlayACardThatIsNotInItsHand [
 	0 to: 15 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 13
 		          andEndsAt: 14.
 
@@ -1098,7 +1098,7 @@ CardTest >> test115IfASpaceshipPlaysACardItIsRemovedFromItsHand [
 	0 to: 15 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 13
 		          andEndsAt: 14.
 
@@ -1127,7 +1127,7 @@ CardTest >> test116MysteryCardEffectAddsACardToASpaceshipThatLandsInIt [
 	squares at: 4 put: mysteryCardEffect .
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 8
 		          andEndsAt: 9.
 
@@ -1155,7 +1155,7 @@ CardTest >> test117MysteryCardEffectAddsValidCardTypesToSpaceships [
 	squares at: 4 put: mysteryCardEffect.
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 8
 		          andEndsAt: 9.
 
@@ -1190,7 +1190,7 @@ CardTest >> test118MercenarySpaceshipDoesNotRecieveHelpFromItsAlly [
 	0 to: 7 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 6
 		          andEndsAt: 7.
 
@@ -1224,7 +1224,7 @@ CardTest >> test119RepeatCardWorksWithMysteryCardEffect [
 	squares at: 4 put: mysteryCardEffect .
 	aBoard := Board
 		          with: squares
-		          parsecs: 5
+		          length: 5
 		          wormholeBeginsAt: 8
 		          andEndsAt: 9.
 

@@ -41,8 +41,8 @@ HyperSpaceJumpEffect class >> isIn: aPosition [
 { #category : #action }
 HyperSpaceJumpEffect >> applyIn: aGame for: aSpaceship [ 
 
-	aGame applyHyperSpaceJumpFor: aSpaceship in: myPosition + 4. 
-	^4
+	aGame applyHyperSpaceJumpFor: aSpaceship .
+
 ]
 
 { #category : #initialization }

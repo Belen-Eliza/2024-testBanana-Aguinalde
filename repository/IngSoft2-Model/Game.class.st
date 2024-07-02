@@ -35,17 +35,17 @@ Game >> addRandomCardFor: aSpaceship [
 ]
 
 { #category : #action }
-Game >> applyHyperSpaceJumpFor: aSpaceship in: aPosition [
+Game >> applyHyperSpaceJumpFor: aSpaceship [ 
 
 	self  decreaseShieldByOneOf: aSpaceship.
-	self  move: aSpaceship to: aPosition 
+	(self dataFor: aSpaceship ) move: 4.
 	
 ]
 
 { #category : #action }
-Game >> applyMoonwalkFor: aSpaceship  in: aPosition movingOthersBack: someSquares [
+Game >> applyMoonwalkFor: aSpaceship  movingOthersBack: someSquares [
 	self moveAllBut: aSpaceship back: someSquares.
-	self move: aSpaceship  to:  aPosition .
+
 ]
 
 { #category : #action }
@@ -78,30 +78,21 @@ Game >> battleIn: position [
 { #category : #action }
 Game >> calculateFinalPositionFor: aSpaceship [
 
-	| diceResult squaresMovedByEffect newPosition originalPosition cardModifier|
+	| diceResult newPosition cardModifier |
 	diceResult := self throwDice.
+
 	cardModifier := 0.
-	activeCards do: [ :card | cardModifier := (card playOn: aSpaceship) + cardModifier ].
+	activeCards do: [ :card |
+		cardModifier := (card playOn: aSpaceship) + cardModifier ].
 	diceResult := diceResult + cardModifier.
-	originalPosition := self positionOf: aSpaceship.
-	newPosition := diceResult + originalPosition.
-	squaresMovedByEffect := board
-		                        finalSquareFor: aSpaceship
-		                        afterMovingTo: newPosition
-		                        whenPlaying: self.
 
-	self
-		calculateLapsFor: aSpaceship
-		in: originalPosition + diceResult + squaresMovedByEffect
-]
+	(self dataFor: aSpaceship) move: diceResult.
+	newPosition := self positionOf: aSpaceship.
 
-{ #category : #action }
-Game >> calculateLapsFor: aSpaceship in: totalPosition [
-
-	totalPosition >= board length ifTrue: [
-		(self dataFor: aSpaceship )updateLapsBy: totalPosition // board length ].
-	totalPosition < 0 ifTrue: [
-		(self dataFor: aSpaceship ) updateLapsBy: totalPosition // board length - 1 ]
+	board
+		applyEffectFor: aSpaceship
+		afterMovingTo: newPosition
+		whenPlaying: self
 ]
 
 { #category : #action }
@@ -163,10 +154,11 @@ Game >> end [
 { #category : #initialization }
 Game >> initializePlayedBy: someSpaceships on: aBoard throwing: someDice wonAfter: aNumberOfLaps [ 
 
-spaceshipsData := someSpaceships.
+spaceshipsData := OrderedCollection withAll:  someSpaceships.
+board := aBoard.
 self initializeSpaceships.
 state := GameOngoingState new.
-board := aBoard.
+
 dice := someDice.
 laps := aNumberOfLaps .
 activeCards:= OrderedCollection new.
@@ -180,7 +172,9 @@ Game >> initializeSpaceships [
 	numberOfPlayers := spaceshipsData size.
 
 	spaceships := OrderedCollection new.
-	spaceships := spaceshipsData collect: [ :dataForASpaceship | dataForASpaceship spaceship ]
+	spaceships := spaceshipsData collect: [ :dataForASpaceship | dataForASpaceship spaceship ].
+	
+	spaceshipsData do: [ :dataForASpaceship | dataForASpaceship changePositionTo: (PositionTracker beginIn: board) ]
 ]
 
 { #category : #action }
@@ -215,13 +209,16 @@ Game >> leaderBoard [
 ]
 
 { #category : #action }
-Game >> move: aSpaceship to: aPosition [
+Game >> make: aSpaceship move: someSquares [
 
-	| currentLaps finalPosition |
-	finalPosition := board adjustBounds: aPosition.
-	currentLaps := (self dataFor: aSpaceship) laps .
-	(currentLaps = 0 and: aPosition < 0) ifTrue: [ finalPosition := 0 ].
-	(self dataFor: aSpaceship) moveTo: finalPosition .
+	(self dataFor: aSpaceship) move:  someSquares 
+
+]
+
+{ #category : #action }
+Game >> move: aSpaceship to: aPosition [ 
+
+	(self dataFor: aSpaceship) moveTo: aPosition  .
 
 ]
 
@@ -234,17 +231,11 @@ Game >> moveAllBackToBeginning [
 { #category : #action }
 Game >> moveAllBut: aSpaceship back: someSquares [
 
-	| currentPosition finalPosition movesTo currentLaps selectedSpaceships |
+	| selectedSpaceships |
 	selectedSpaceships:= spaceships select:[ :spaceship | spaceship ~= aSpaceship .].
 	selectedSpaceships do: [ :spaceship |
-		currentPosition := (self dataFor: spaceship) position.
-		movesTo := currentPosition - someSquares.
-		finalPosition := board adjustBounds: movesTo.
-		currentLaps := (self dataFor: spaceship) laps.
-		(currentLaps = 0 and: movesTo < 0) ifTrue: [ finalPosition := 0 ].
-		
-		self calculateLapsFor: spaceship  in: movesTo .
-		(self dataFor: spaceship) moveTo: finalPosition ]
+		(self dataFor: spaceship) move:  someSquares negated 
+		 ]
 ]
 
 { #category : #accessing }
@@ -288,7 +279,7 @@ Game >> players [
 { #category : #accessing }
 Game >> positionOf: aSpaceship [ 
 
-	^(self dataFor: aSpaceship )  position 
+	^(self dataFor: aSpaceship )  position
 ]
 
 { #category : #adding }
@@ -324,15 +315,7 @@ Game >> removeActiveCard: aCard [
 { #category : #action }
 Game >> repeatLastEffectFor: aSpaceship [ 
 
-	|squaresMovedByEffect originalPosition|
-	originalPosition := (self positionOf: aSpaceship).
-	lastEffectTriggered setPosition: originalPosition .
-	
-	squaresMovedByEffect := lastEffectTriggered applyIn: self for: aSpaceship.
-	self
-		calculateLapsFor: aSpaceship
-		in: originalPosition +  squaresMovedByEffect.
-		
+	lastEffectTriggered applyIn: self for: aSpaceship.	
 	lastTypeOfCardPlayed := RepeatCard .
 	
 	

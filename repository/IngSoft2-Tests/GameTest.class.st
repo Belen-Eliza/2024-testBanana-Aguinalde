@@ -8,15 +8,15 @@ Class {
 GameTest >> createBoardOf: length distance: aDistance withEffects: someEffects wormholeBeginsAt: startPoint andEndsAt: endPoint [
 
 	| squares |
-	squares := ZeroBasedArray newEmpty.
-	0 to: length - 1 do: [ :i |
+	squares := OrderedCollection new.
+	1 to: length  do: [ :i |
 	squares add: (Square with: (NullEffect isIn: i)) ].
 
 	someEffects do: [ :effect |
 		squares at: effect position put: (Square with: effect) ].
 	^ Board
 		  with: squares
-		  parsecs: aDistance
+		  length: aDistance
 		  wormholeBeginsAt: startPoint
 		  andEndsAt: endPoint
 ]
@@ -35,12 +35,13 @@ self
 GameTest >> test001WhenGameStartedThenIsOngoing [
 	"Let the games begin"
 
-	| aGame aSpaceship spaceshipsData|
+	| aGame aSpaceship spaceshipsData aBoard |
 	aSpaceship := Spaceship launch: ''.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship) .
+	aBoard := self createBoardOf: 4 distance: (ParsecDistance of: 2)  withEffects: {  }  wormholeBeginsAt: 2 andEndsAt: 3.
 	aGame := Game
 		         playedBy: spaceshipsData
-		         on: nil
+		         on: aBoard
 		         throwing: nil
 		         wonAfter: 1.
 	^ self assert: aGame isOngoing
@@ -49,12 +50,13 @@ GameTest >> test001WhenGameStartedThenIsOngoing [
 { #category : #tests }
 GameTest >> test002WhenGameEndsThenIsOver [
 
-	| aGame aSpaceship spaceshipsData |
+	| aGame aSpaceship spaceshipsData aBoard |
 	aSpaceship := Spaceship launch: ''.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship) .
+	aBoard := self createBoardOf: 4 distance: (ParsecDistance of: 2)  withEffects: {  }  wormholeBeginsAt: 2 andEndsAt: 3.
 	aGame := Game
 		         playedBy: spaceshipsData 
-		         on: nil
+		         on: aBoard 
 		         throwing: nil
 		         wonAfter: 1.
 	aGame end.
@@ -65,12 +67,13 @@ GameTest >> test002WhenGameEndsThenIsOver [
 { #category : #tests }
 GameTest >> test003GameBeginsWithAPlayer [
 
-	| aGame aSpaceship spaceshipsData |
+	| aGame aSpaceship spaceshipsData aBoard |
 	aSpaceship := Spaceship launch: ''.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship) .
+	aBoard := self createBoardOf: 4 distance: (ParsecDistance of: 2)  withEffects: {  }  wormholeBeginsAt: 2 andEndsAt: 3.
 	aGame := Game
 		         playedBy: spaceshipsData
-		         on: nil
+		         on: aBoard 
 		         throwing: nil
 		         wonAfter: 1.
 	self
@@ -97,12 +100,13 @@ GameTest >> test004SpaceshipChangedPositionByOneWhenMoved [
 { #category : #tests }
 GameTest >> test005SpaceshipIsCreatedAtStartPoint [
 
-	| aSpaceship aGame spaceshipsData |
+	| aSpaceship aGame spaceshipsData aBoard |
 	aSpaceship := Spaceship launch: ''.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship) .
+	aBoard := self createBoardOf: 4 distance: (ParsecDistance of: 2)  withEffects: {  }  wormholeBeginsAt: 2 andEndsAt: 3.
 	aGame := Game
 		         playedBy: spaceshipsData
-		         on: nil
+		         on: aBoard 
 		         throwing: nil
 		         wonAfter: 1.
 
@@ -116,7 +120,7 @@ GameTest >> test006WhenGameHasOnlyOnePlayerThenThatPlayerWins [
 	aSpaceship := Spaceship launch: ''.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship) .
 	aBoard := Board of: 6 wormholeBeginsAt: 3 andEndsAt: 4.
-	aDie := LoadedDie of: 6.
+	aDie := LoadedDie of: 8.
 	aGame := Game
 		         playedBy: spaceshipsData
 		         on: aBoard
@@ -133,6 +137,7 @@ GameTest >> test008WhenGameIsOngoingThereIsNoWinner [
 	aBoard := Board new.
 	aSpaceship := Spaceship launch: ''.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship) .
+	aBoard := self createBoardOf: 4 distance: (ParsecDistance of: 2)  withEffects: {  }  wormholeBeginsAt: 2 andEndsAt: 3.
 	aGame := Game
 		         playedBy: spaceshipsData
 		         on: aBoard
@@ -203,12 +208,13 @@ GameTest >> test012ASpaceshipMovesSevenSquaresWhenLoadedDieIsThrown [
 { #category : #tests }
 GameTest >> test016GameIndicatesTurnWithOnePlayer [
 
-	| aGame aSpaceship  spaceshipsData |
+	| aGame aSpaceship  spaceshipsData aBoard |
 	aSpaceship := Spaceship launch: ''.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship) .
+	aBoard := self createBoardOf: 4 distance: (ParsecDistance of: 2)  withEffects: {  }  wormholeBeginsAt: 2 andEndsAt: 3.
 	aGame := Game
 		         playedBy: spaceshipsData 
-		         on: nil
+		         on: aBoard 
 		         throwing: nil
 		         wonAfter: 1.
 	self assert: aGame nextSpaceshipToPlay equals: aSpaceship
@@ -217,13 +223,14 @@ GameTest >> test016GameIndicatesTurnWithOnePlayer [
 { #category : #tests }
 GameTest >> test017GameIndicatesFirstTurnWithTwoPlayers [
 
-	| aGame aSpaceship anotherSpaceship  spaceshipsData |
+	| aGame aSpaceship anotherSpaceship  spaceshipsData aBoard |
 	aSpaceship := Spaceship launch: ''.
 	anotherSpaceship := Spaceship launch: ''.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship) with: (SpaceshipLog randomCardsfor: anotherSpaceship) .
+	aBoard := self createBoardOf: 4 distance: (ParsecDistance of: 2)  withEffects: {  }  wormholeBeginsAt: 2 andEndsAt: 3.
 	aGame := Game
 		         playedBy: spaceshipsData 
-		         on: nil
+		         on: aBoard 
 		         throwing: nil
 		         wonAfter: 1.
 	self assert: aGame nextSpaceshipToPlay equals: aSpaceship
@@ -232,13 +239,14 @@ GameTest >> test017GameIndicatesFirstTurnWithTwoPlayers [
 { #category : #tests }
 GameTest >> test018GameIndicatesSecondTurnWithTwoPlayers [
 
-	| aGame aSpaceship anotherSpaceship spaceshipsData |
+	| aGame aSpaceship anotherSpaceship spaceshipsData aBoard |
 	aSpaceship := Spaceship launch: ''.
 	anotherSpaceship := Spaceship launch: ''.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship) with: (SpaceshipLog randomCardsfor: anotherSpaceship) .
+	aBoard := self createBoardOf: 4 distance: (ParsecDistance of: 2)  withEffects: {  }  wormholeBeginsAt: 2 andEndsAt: 3.
 	aGame := Game
 		         playedBy: spaceshipsData
-		         on: nil
+		         on: aBoard 
 		         throwing: nil
 		         wonAfter: 1.
 	aGame nextTurn.
@@ -248,13 +256,14 @@ GameTest >> test018GameIndicatesSecondTurnWithTwoPlayers [
 { #category : #tests }
 GameTest >> test019GameResetsTurnsForNextRound [
 
-	| aGame aSpaceship anotherSpaceship spaceshipsData |
+	| aGame aSpaceship anotherSpaceship spaceshipsData aBoard |
 	aSpaceship := Spaceship launch: ''.
 	anotherSpaceship := Spaceship launch: ''.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship) with: (SpaceshipLog randomCardsfor: anotherSpaceship) .
+	aBoard := self createBoardOf: 4 distance: (ParsecDistance of: 2)  withEffects: {  }  wormholeBeginsAt: 2 andEndsAt: 3.
 	aGame := Game
 		         playedBy: spaceshipsData
-		         on: nil
+		         on: aBoard 
 		         throwing: nil
 		         wonAfter: 1.
 	aGame
@@ -270,7 +279,7 @@ GameTest >> test020GameWithMultiplePlayersKnowsTheWinner [
 	aSpaceship := Spaceship launch: 'One'.
 	anotherSpaceship := Spaceship launch: 'Two'.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship) with: (SpaceshipLog randomCardsfor: anotherSpaceship) .
-	aLoadedDie := LoadedDie of: 10.
+	aLoadedDie := LoadedDie of: 12.
 	someDice := OrderedCollection with: aLoadedDie.
 	aBoard := Board of: 10 wormholeBeginsAt: 2 andEndsAt: 3.
 	aGame := Game
@@ -736,7 +745,7 @@ GameTest >> test66GameIsWonAfterOneLap [
 	squares := ZeroBasedArray newEmpty .
 	0 to: 2 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
 	
-	aBoard := Board with: squares  parsecs: 1 wormholeBeginsAt: 1 andEndsAt: 2.
+	aBoard := Board with: squares  length: 1 wormholeBeginsAt: 1 andEndsAt: 2.
 	
 	aDie := LoadedDie of: 3.
 	aNumberOfLaps := 1.
@@ -760,7 +769,7 @@ GameTest >> test67GameIsWonAfterANumberOfLaps [
 	squares := ZeroBasedArray newEmpty .
 	0 to: 2 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
 	
-	aBoard := Board with: squares  parsecs: 1 wormholeBeginsAt: 1 andEndsAt: 2.
+	aBoard := Board with: squares  length: 1 wormholeBeginsAt: 1 andEndsAt: 2.
 	aDie := LoadedDie of: 3.
 	aNumberOfLaps := 10.
 	aGame := Game
