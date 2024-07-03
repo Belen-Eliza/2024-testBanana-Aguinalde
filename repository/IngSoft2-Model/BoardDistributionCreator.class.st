@@ -48,9 +48,9 @@ BoardDistributionCreator >> createHyperJumpIn: aSquare withParsecRatio: aRatio m
 BoardDistributionCreator >> createOf: length with: someProbabilities withParsecs: anAmountOfParsecs maximumHyperJumpValues: anAmount [
 
 	| squares specialEffect random lowerLimit |
-	squares := ZeroBasedArray newEmpty.
+	squares := OrderedCollection new.
 	lowerLimit := 0.
-	0 to: length - 1 do: [ :position |
+	1 to: length do: [ :position |
 		random := 100 atRandom.
 		specialEffect := NullEffect isIn: position.
 		someProbabilities keysAndValuesDo: [ :effect :probability |
