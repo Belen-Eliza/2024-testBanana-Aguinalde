@@ -34,7 +34,7 @@ self
 ]
 
 { #category : #tests }
-CardTest >> test083SpeedCardWorksWithOnlyOneSpaceship [
+CardTest >> test083WhenASpaceshipPlaysASpeedCardThenDiceThrowIncreasesByOne [
 
 	| aGame aSpaceship aBoard aDie aCard spaceshipsData |
 	aSpaceship := Spaceship launch: 'One'.
@@ -60,7 +60,7 @@ CardTest >> test083SpeedCardWorksWithOnlyOneSpaceship [
 ]
 
 { #category : #tests }
-CardTest >> test084SpeedCardWorksWithMultipleSpaceships [
+CardTest >> test084SpeedCardOnlyIncreasesDiceThrowOfTheSpaceshipThatPlaysIt [
 
 	| aGame aSpaceship aBoard aDie anotherSpaceship aCard yetAnotherSpaceship spaceshipsData |
 	aSpaceship := Spaceship launch: 'One'.
@@ -93,7 +93,7 @@ CardTest >> test084SpeedCardWorksWithMultipleSpaceships [
 ]
 
 { #category : #tests }
-CardTest >> test085AccelerationCardWorksWithOneSpaceship [
+CardTest >> test085WhenASpaceshipPlaysAnAccelerationCardThenDiceThrowIncreasesByOne [
 
 	| aGame aSpaceship aBoard aDie aCard spaceshipsData |
 	aSpaceship := Spaceship launch: 'One'.
@@ -119,7 +119,7 @@ CardTest >> test085AccelerationCardWorksWithOneSpaceship [
 ]
 
 { #category : #tests }
-CardTest >> test086AccelerationCardWorksForAllSpaceShips [
+CardTest >> test086AccelerationCardIncreasesDiceThrowForAllSpaceships [
 
 	| aGame aSpaceship aBoard aDie anotherSpaceship aCard yetAnotherSpaceship spaceshipsData |
 	aSpaceship := Spaceship launch: 'One'.
@@ -1192,7 +1192,7 @@ CardTest >> test118MercenarySpaceshipDoesNotRecieveHelpFromItsAlly [
 ]
 
 { #category : #tests }
-CardTest >> test119RepeatCardWorksWithMysteryCardEffect [
+CardTest >> test119WhenRepeatCardIsPlayedAfterMysteryCardEffectThenTargetSpaceshipGainsACard [
 
 	| aGame aSpaceship aBoard aDie anotherSpaceship aCard mysteryCardEffect spaceshipsData |
 	aSpaceship := Spaceship launch: 'One'.
