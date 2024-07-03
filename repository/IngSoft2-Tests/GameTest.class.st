@@ -110,7 +110,7 @@ GameTest >> test005SpaceshipIsCreatedAtStartPoint [
 		         throwing: nil
 		         wonAfter: 1.
 
-	self assert: (aGame positionOf: aSpaceship) equals: 0
+	self assert: (aGame positionOf: aSpaceship) equals: 1
 ]
 
 { #category : #tests }
@@ -156,7 +156,7 @@ GameTest >> test009SpaceshipDoesNotWinUntilItLandsOnTheLastSquare [
 	| aGame aSpaceship aBoard spaceshipsData |
 	aSpaceship := Spaceship launch: ''.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship) .
-	aBoard := Board of: 2 wormholeBeginsAt: 0 andEndsAt: 1.
+	aBoard := Board of: 2 wormholeBeginsAt: 1 andEndsAt: 2.
 	aGame := Game
 		         playedBy: spaceshipsData
 		         on: aBoard
@@ -183,7 +183,7 @@ GameTest >> test011ASpaceshipMovesFiveSquaresWhenLoadedDieIsThrown [
 		         throwing: someDice
 		         wonAfter: 1.
 	aGame playTurn.
-	self assert: (aGame positionOf: aSpaceship) equals: 5
+	self assert: (aGame positionOf: aSpaceship) equals: 6
 ]
 
 { #category : #tests }
@@ -202,7 +202,7 @@ GameTest >> test012ASpaceshipMovesSevenSquaresWhenLoadedDieIsThrown [
 		         throwing: someDice
 		         wonAfter: 1.
 	aGame playTurn.
-	self assert: (aGame positionOf: aSpaceship) equals: 7
+	self assert: (aGame positionOf: aSpaceship) equals: 8
 ]
 
 { #category : #tests }
@@ -377,7 +377,7 @@ GameTest >> test024GameStoresADie [
 		         throwing: someDice
 		         wonAfter: 1.
 	aGame playTurn.
-	self assert: (aGame positionOf: aSpaceship) equals: 6
+	self assert: (aGame positionOf: aSpaceship) equals: 7
 ]
 
 { #category : #tests }
@@ -396,7 +396,7 @@ GameTest >> test025GameCanUseMultipleDice [
 		         throwing: someDice
 		         wonAfter: 1.
 	aGame playTurn.
-	self assert: (aGame positionOf: aSpaceship) equals: 10
+	self assert: (aGame positionOf: aSpaceship) equals: 11
 ]
 
 { #category : #tests }
@@ -569,7 +569,7 @@ GameTest >> test46AfterLosingBattleSpaceshipGetsSentToBeginning [
 	aGame playTurn.
 	aGame battleBetween: aSpaceship and: anotherSpaceship.
 
-	self assert: (aGame positionOf: aSpaceship) equals: 0
+	self assert: (aGame positionOf: aSpaceship) equals: 1
 ]
 
 { #category : #tests }
@@ -590,7 +590,7 @@ GameTest >> test47WhenTwoSpaceshipsLandOnTheSameSquareTheyBattle [
 	aGame playTurn.
 	aGame playTurn.
 
-	self assert: (aGame positionOf: anotherSpaceship) equals: 0
+	self assert: (aGame positionOf: anotherSpaceship) equals: 1
 ]
 
 { #category : #tests }
@@ -609,8 +609,8 @@ GameTest >> test48IfBattleEndsOnADrawThenLastSpaceshipToArriveLoses [
 		         wonAfter: 1.
 	aGame playTurn.
 	aGame playTurn.
-	self assert: ((aGame positionOf: anotherSpaceship) = 0 and:
-			 (aGame positionOf: aSpaceship) = 3)
+	self assert: ((aGame positionOf: anotherSpaceship) = 1 and:
+			 (aGame positionOf: aSpaceship) = 4)
 ]
 
 { #category : #tests }
@@ -688,7 +688,7 @@ GameTest >> test52IfSpaceshipLosesAllShieldsThenTheirTurnGetsSkipped [
 	3 timesRepeat: [
 		aGame battleBetween: aSpaceship and: anotherSpaceship ].
 	aGame playTurn.
-	self assert: (aGame positionOf: aSpaceship) equals: 0
+	self assert: (aGame positionOf: aSpaceship) equals: 1
 ]
 
 { #category : #tests }
@@ -711,7 +711,7 @@ GameTest >> test53AfterLosingAllShieldsSpaceshipCannotPlayForTwoTurns [
 	aGame playTurn.
 	aGame playTurn.
 
-	self assert: (aGame positionOf: aSpaceship) equals: 0
+	self assert: (aGame positionOf: aSpaceship) equals: 1
 ]
 
 { #category : #tests }
@@ -732,7 +732,7 @@ GameTest >> test54AfterLosingTwoTurnsSpaceshipCanPlayAgain [
 		aGame battleBetween: aSpaceship and: anotherSpaceship ].
 	5 timesRepeat: [ aGame playTurn ].
 
-	self assert: (aGame positionOf: aSpaceship) equals: 2
+	self assert: (aGame positionOf: aSpaceship) equals: 3
 ]
 
 { #category : #tests }
@@ -789,7 +789,7 @@ GameTest >> test78FirstSquareIsASafeZone [
 	aSpaceship := Spaceship launch: 'One'.
 	anotherSpaceship := Spaceship launch: 'Two'.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship) with: (SpaceshipLog randomCardsfor: anotherSpaceship).
-	aBoard := Board of: 10 wormholeBeginsAt: 0 andEndsAt: 3.
+	aBoard := Board of: 10 wormholeBeginsAt: 1 andEndsAt: 3.
 	aDie := LoadedDie of: 3.
 
 	aGame := Game

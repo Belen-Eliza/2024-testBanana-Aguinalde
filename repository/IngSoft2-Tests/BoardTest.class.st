@@ -763,8 +763,8 @@ BoardTest >> test121WhenSpaceshipUsesRepeatCardAndMovesFurtherThanTheLastSquareT
 				           isIn: 4
 				           movesDistance:
 				           (OrderedCollection with: (ParsecDistance of: 7))) }
-		          wormholeBeginsAt: 0
-		          andEndsAt: 1.
+		          wormholeBeginsAt: 1
+		          andEndsAt: 2.
 	aDie := LoadedDie of: 3.
 	aGame := Game
 		         playedBy: spaceshipsData
