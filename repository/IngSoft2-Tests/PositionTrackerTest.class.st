@@ -8,8 +8,8 @@ Class {
 PositionTrackerTest >> createBoardOf: length distance: aDistance withEffects: someEffects wormholeBeginsAt: startPoint andEndsAt: endPoint [
 
 	| squares |
-	squares := ZeroBasedArray newEmpty.
-	0 to: length - 1 do: [ :i |
+	squares := OrderedCollection new.
+	1 to: length  do: [ :i |
 	squares add: (Square with: (NullEffect isIn: i)) ].
 
 	someEffects do: [ :effect |
@@ -50,7 +50,7 @@ PositionTrackerTest >> test139NewPositionTrackerStartsAtZeroLaps [
 ]
 
 { #category : #tests }
-PositionTrackerTest >> test140 [
+PositionTrackerTest >> test140PositionTrackerKeepsTrackOfLaps [
 
 	| position aBoard |
 	aBoard := self createBoardOf: 10 distance: (ParsecDistance of: 3) withEffects: {  } wormholeBeginsAt: 1 andEndsAt: 2.
@@ -60,7 +60,7 @@ PositionTrackerTest >> test140 [
 ]
 
 { #category : #tests }
-PositionTrackerTest >> test141 [
+PositionTrackerTest >> test141PositionTrackerChecksWhenYouFinishALapReturnsToFirstPosition [
 
 	| position aBoard |
 	aBoard := self createBoardOf: 10 distance: (ParsecDistance of: 3) withEffects: {  } wormholeBeginsAt: 1 andEndsAt: 2.
@@ -70,7 +70,7 @@ PositionTrackerTest >> test141 [
 ]
 
 { #category : #tests }
-PositionTrackerTest >> test142 [
+PositionTrackerTest >> test142PositionTrackerKeepsTrackOfLapsAfterMoving [
 
 
 	| position aBoard |
@@ -82,7 +82,7 @@ PositionTrackerTest >> test142 [
 ]
 
 { #category : #tests }
-PositionTrackerTest >> test143 [
+PositionTrackerTest >> test143PositionTrackerCanMoveToASpecificSquare [
 
 	| position aBoard |
 	aBoard := self createBoardOf: 10 distance: (ParsecDistance of: 3) withEffects: {  } wormholeBeginsAt: 1 andEndsAt: 2.

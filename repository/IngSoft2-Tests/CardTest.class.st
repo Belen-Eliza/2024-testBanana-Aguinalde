@@ -36,11 +36,10 @@ self
 { #category : #tests }
 CardTest >> test083SpeedCardWorksWithOnlyOneSpaceship [
 
-	| aGame aSpaceship aBoard aDie squares aCard spaceshipsData |
+	| aGame aSpaceship aBoard aDie aCard spaceshipsData |
 	aSpaceship := Spaceship launch: 'One'.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog for: aSpaceship  withDeck: (OrderedCollection with: SpeedCard with: SpeedCard)  ).
-	squares := ZeroBasedArray newEmpty.
-	0 to: 15 do: [ :i | squares add: (Square with: (NullEffect isIn: i)) ].
+	
 	aBoard := self
 		          createBoardOf: 16
 		          distance: (ParsecDistance of: 1)
@@ -198,12 +197,11 @@ CardTest >> test087MercenaryCardCanRecruitOneMercenaryThatHelpsInBattles [
 { #category : #tests }
 CardTest >> test088IfSpaceshipAndOneMercenaryLoseTheBattleBothLoseShields [
 
-	| aGame aSpaceship aBoard aDie anotherSpaceship squares aCard yetAnotherSpaceship spaceshipsData |
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard yetAnotherSpaceship spaceshipsData |
 	aSpaceship := Spaceship launch: 'One'.
 	anotherSpaceship := Spaceship launch: 'Two'.
 	yetAnotherSpaceship := Spaceship launch: 'Three'.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog for: aSpaceship  withDeck: (OrderedCollection with: MercenaryCard  with: AccelerationCard )  ) with: (SpaceshipLog randomCardsfor: anotherSpaceship ) with: (SpaceshipLog randomCardsfor: yetAnotherSpaceship  ).
-	squares := ZeroBasedArray newEmpty.
 		aBoard := self
 		          createBoardOf: 8
 		          distance: (ParsecDistance of: 1)

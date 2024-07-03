@@ -342,16 +342,19 @@ BoardTest >> test062WhenSpaceshipLandsOnAtomicBombAllShieldsGetReducedByOne [
 { #category : #tests }
 BoardTest >> test063WhenSpaceshipLandsOnAtomicBombAllShieldsGoDownByOne [
 
-	| aGame aSpaceship anotherSpaceship aBoard aDie squares atomicBombEffect spaceshipsData |
+	| aGame aSpaceship anotherSpaceship aBoard aDie atomicBombEffect spaceshipsData |
 	aSpaceship := Spaceship launch: 'One'.
 	anotherSpaceship := Spaceship launch: 'Two'.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship) with: (SpaceshipLog randomCardsfor: anotherSpaceship).
-	atomicBombEffect := Square with: (AtomicBombEffect isIn: 6).
-	squares := ZeroBasedArray newEmpty .
-	0 to: 10 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
-	squares at: 6 put: atomicBombEffect .
-	aBoard := Board with: squares  length: 1 wormholeBeginsAt:  8 andEndsAt: 9.
-	aDie := LoadedDie arrayOf: (OrderedCollection with: 3 with: 6).
+	atomicBombEffect := (AtomicBombEffect isIn: 6).
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 1)
+		          withEffects: (OrderedCollection with: atomicBombEffect)
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 3 with: 5).
+	
 	aGame := Game
 		         playedBy: spaceshipsData 
 		         on: aBoard
@@ -655,17 +658,19 @@ BoardTest >> test076IfSpaceshipCompletesALapAndGoesBackBeyondTheFirstSquareThenI
 { #category : #tests }
 BoardTest >> test077WhenSpaceshipGoesBackMultipleLapsWithMoonwalkEffectThenLosesThoseLaps [
 
-	| aGame aSpaceship anotherSpaceship aBoard aDie moonwalkEffect squares spaceshipsData |
+	| aGame aSpaceship anotherSpaceship aBoard aDie moonwalkEffect spaceshipsData |
 	aSpaceship := Spaceship launch: 'One'.
 	anotherSpaceship := Spaceship launch: 'Two'.
 	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship) with: (SpaceshipLog randomCardsfor: anotherSpaceship).
-	moonwalkEffect :=Square with:( MoonWalkEffect isIn: 4 moves: 10).
-	squares := ZeroBasedArray newEmpty .
-	0 to: 4 do: [: i| squares add: (Square with: (NullEffect isIn: i)) ].
-	squares at: 4 put: moonwalkEffect .
-	aBoard := Board with: squares  length: 5 wormholeBeginsAt: 1 andEndsAt: 2.
+	moonwalkEffect :=( MoonWalkEffect isIn: 4 moves: 10).
+	aBoard := self
+		          createBoardOf: 5
+		          distance: (ParsecDistance of: 1)
+		          withEffects: (OrderedCollection with: moonwalkEffect)
+		          wormholeBeginsAt: 2
+		          andEndsAt: 3.
 
-	aDie := LoadedDie arrayOf: (OrderedCollection with: 11 with: 4).
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 10 with: 3).
 	aGame := Game
 		         playedBy: spaceshipsData
 		         on: aBoard
