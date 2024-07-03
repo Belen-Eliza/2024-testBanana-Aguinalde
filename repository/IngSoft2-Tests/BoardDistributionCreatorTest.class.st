@@ -34,7 +34,7 @@ BoardDistributionCreatorTest >> test080WhenProbabilityIs100ThenEffectIsCreated [
 				  createOf: 1
 				  with: probabilites
 				  withParsecs: 1
-				  maximumHyperJumpValues: 1) at: 0) effect class
+				  maximumHyperJumpValues: 1) at: 1) effect class
 		equals: MysteryCardEffect 
 ]
 

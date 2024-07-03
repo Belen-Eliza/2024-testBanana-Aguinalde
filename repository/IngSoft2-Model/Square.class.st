@@ -55,9 +55,3 @@ Square >> land: aSpaceship in:aGame [
 	aGame saveLastEffectTriggeredTo: effect .
 	^ effect applyIn: aGame for: aSpaceship 
 ]
-
-{ #category : #accessing }
-Square >> position [ 
-
-^effect position
-]

@@ -26,9 +26,10 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : #HyperJumpEffect,
-	#superclass : #NullEffect,
+	#superclass : #Object,
 	#instVars : [
-		'toMove'
+		'toMove',
+		'myPosition'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -44,10 +45,10 @@ HyperJumpEffect >> applyIn: aGame for: aSpaceship [
 	| currentDistance squaresToMove |
 	currentDistance := toMove removeFirst.
 	toMove addLast: currentDistance.
-	squaresToMove := currentDistance squaresToMove.
-	aGame move: aSpaceship to: myPosition + squaresToMove.
+	squaresToMove := aGame convertToSquares:  (currentDistance inParsecs) .
+	aGame make: aSpaceship  move: squaresToMove .
 	
-	^ squaresToMove
+
 ]
 
 { #category : #initialization }
@@ -55,4 +56,15 @@ HyperJumpEffect >> initializeIsIn: aSquare movesDistance: someDistance [
 
 	myPosition := aSquare.
 	toMove  := someDistance .
+]
+
+{ #category : #accessing }
+HyperJumpEffect >> position [
+
+^myPosition 
+]
+
+{ #category : #initialization }
+HyperJumpEffect >> setPosition: aPosition [
+myPosition := aPosition.
 ]

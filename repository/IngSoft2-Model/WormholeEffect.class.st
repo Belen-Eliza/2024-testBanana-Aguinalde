@@ -25,9 +25,10 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : #WormholeEffect,
-	#superclass : #NullEffect,
+	#superclass : #Object,
 	#instVars : [
-		'otherSide'
+		'otherSide',
+		'myPosition'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -41,7 +42,7 @@ WormholeEffect class >> isIn: aPosition goesTo: anotherPosition [
 { #category : #action }
 WormholeEffect >> applyIn: aGame for: aSpaceship [ 
 	aGame move: aSpaceship to: otherSide .
-^(otherSide  - myPosition ).
+
 
 
 
@@ -52,4 +53,15 @@ WormholeEffect >> initializeIsIn: aPosition goesTo: anotherPosition [
 
 otherSide := anotherPosition.
 myPosition:= aPosition .
+]
+
+{ #category : #accessing }
+WormholeEffect >> position [
+
+^myPosition 
+]
+
+{ #category : #initialization }
+WormholeEffect >> setPosition: aPosition [
+myPosition := aPosition.
 ]

@@ -27,11 +27,10 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #SpaceshipData,
+	#name : #SpaceshipLog,
 	#superclass : #Object,
 	#instVars : [
 		'spaceship',
-		'laps',
 		'shields',
 		'position',
 		'state',
@@ -41,39 +40,43 @@ Class {
 }
 
 { #category : #'instance creation' }
-SpaceshipData class >> for: aSpaceship withDeck: someCards [
+SpaceshipLog class >> for: aSpaceship withDeck: someCards [
 
 	^self new initializeFor: aSpaceship withDeck: someCards
 ]
 
 { #category : #'instance creation' }
-SpaceshipData class >> randomCardsfor: aSpaceship [
+SpaceshipLog class >> randomCardsfor: aSpaceship [
 
 	^self new initializeRandomCardsFor: aSpaceship
 ]
 
 { #category : #comparing }
-SpaceshipData >> = anotherSpaceship [
+SpaceshipLog >> = anotherSpaceship [
 
-	^laps = anotherSpaceship laps and:  position = anotherSpaceship position 
+	
+	^position = anotherSpaceship position 
 ]
 
 { #category : #comparing }
-SpaceshipData >> >= anotherSpaceship [
+SpaceshipLog >> >= anotherSpaceship [
 
-	laps = anotherSpaceship laps
-		ifFalse: [ ^ laps >= anotherSpaceship laps ]
-		ifTrue: [ ^ position >= anotherSpaceship position ]
+	self laps = anotherSpaceship laps
+		ifFalse: [ ^ self laps >= anotherSpaceship laps ]
+		ifTrue: [ ^ self position >= anotherSpaceship position ]
+		
+
+		
 ]
 
 { #category : #adding }
-SpaceshipData >> addCard: aCard [
+SpaceshipLog >> addCard: aCard [
 
 cards add: aCard .
 ]
 
 { #category : #adding }
-SpaceshipData >> addRandomCard [
+SpaceshipLog >> addRandomCard [
 
 	| cardTypes randomCard |
 	cardTypes := OrderedCollection
@@ -87,45 +90,47 @@ SpaceshipData >> addRandomCard [
 ]
 
 { #category : #accessing }
-SpaceshipData >> cards [
+SpaceshipLog >> cards [
 ^cards 
 ]
 
 { #category : #accessing }
-SpaceshipData >> changeStateTo: aState [ 
+SpaceshipLog >> changePositionTo: newPosition [
+
+position := newPosition .
+]
+
+{ #category : #accessing }
+SpaceshipLog >> changeStateTo: aState [ 
 
 state := aState 
 ]
 
 { #category : #adding }
-SpaceshipData >> decreaseShieldsByOne [ 
+SpaceshipLog >> decreaseShieldsByOne [ 
 	shields := shields -1 max: 0.
 	shields = 0 ifTrue: [ state := Turn1RechargeState new  ].
 ]
 
 { #category : #comparing }
-SpaceshipData >> hash [ 
+SpaceshipLog >> hash [ 
 
-^laps hash + shields hash + position hash + spaceship hash 
+^shields hash + position hash + spaceship hash 
 ]
 
 { #category : #initialization }
-SpaceshipData >> initializeFor: aSpaceship withDeck: someCards [
+SpaceshipLog >> initializeFor: aSpaceship withDeck: someCards [
 
 	spaceship := aSpaceship .
-	position := 0.
-	laps := 0.
 	state := NoPenaltyState new.
 	shields := 3.
 	cards:= OrderedCollection withAll:  someCards.
 ]
 
 { #category : #initialization }
-SpaceshipData >> initializeRandomCardsFor: aSpaceship [
+SpaceshipLog >> initializeRandomCardsFor: aSpaceship [
 
 	spaceship := aSpaceship .
-	position := 0.
-	laps := 0.
 	state := NoPenaltyState new.
 	shields := 3.
 	cards:= OrderedCollection new.
@@ -133,66 +138,62 @@ SpaceshipData >> initializeRandomCardsFor: aSpaceship [
 ]
 
 { #category : #accessing }
-SpaceshipData >> laps [
-^laps 
+SpaceshipLog >> laps [
+^position laps  
 ]
 
 { #category : #accessing }
-SpaceshipData >> moveTo: aPosition [
+SpaceshipLog >> move: someSquares [
 
-	position := aPosition 
+position move: someSquares 
+]
+
+{ #category : #accessing }
+SpaceshipLog >> moveTo: aPosition [
+
+	position moveTo:  aPosition 
 ]
 
 { #category : #action }
-SpaceshipData >> playIn: aGame [
+SpaceshipLog >> playIn: aGame [
 
 	state playIn: aGame 
 ]
 
 { #category : #accessing }
-SpaceshipData >> position [
-^position 
+SpaceshipLog >> position [
+^position square
 ]
 
 { #category : #adding }
-SpaceshipData >> rechargeShields [
+SpaceshipLog >> rechargeShields [
 
 	shields := 3
 ]
 
 { #category : #removing }
-SpaceshipData >> removeCardFromHand: aCard [
+SpaceshipLog >> removeCardFromHand: aCard [
 
  cards remove: (aCard class)
 ]
 
 { #category : #accessing }
-SpaceshipData >> shields [
+SpaceshipLog >> shields [
 ^shields 
 ]
 
 { #category : #accessing }
-SpaceshipData >> spaceship [
+SpaceshipLog >> spaceship [
 ^spaceship 
 ]
 
 { #category : #accessing }
-SpaceshipData >> state [ 
+SpaceshipLog >> state [ 
 ^state 
 ]
 
-{ #category : #adding }
-SpaceshipData >> updateLapsBy: amountOfLaps [
-
-	| currentLaps  totalLaps |
-
-	currentLaps := laps .
-	totalLaps := (currentLaps + amountOfLaps) max: 0 .
-	laps:= totalLaps
-]
-
 { #category : #validation }
-SpaceshipData >> validateThatSpaceshipHasCard: aCard [
+SpaceshipLog >> validateThatSpaceshipHasCard: aCard [
 	
 	(cards includes: aCard class) ifFalse: [
 		Error signal:

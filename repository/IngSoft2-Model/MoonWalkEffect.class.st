@@ -26,33 +26,43 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : #MoonWalkEffect,
-	#superclass : #NullEffect,
+	#superclass : #Object,
 	#instVars : [
-		'someSquares'
+		'someSquares',
+		'myPosition'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #'instance creation' }
 MoonWalkEffect class >> isIn: aPosition [
-	^self new initializeIsIn: aPosition  moves: (aPosition atRandom )
+
+	^ self new initializeIsIn: aPosition  moves: aPosition atRandom
 ]
 
 { #category : #testing }
-MoonWalkEffect class >> isIn: aPosition moves: aNumberOfSquares [ 
-	^self new initializeIsIn: aPosition moves: aNumberOfSquares 
+MoonWalkEffect class >> isIn: aPosition moves: aNumberOfSquares [
+
+	^ self new initializeIsIn: aPosition moves: aNumberOfSquares
 ]
 
 { #category : #action }
 MoonWalkEffect >> applyIn: aGame for: aSpaceship [ 
 	
-	aGame moveAllBut: aSpaceship back: someSquares.
-	aGame move: aSpaceship  to:  myPosition .
-	^0
+	aGame applyMoonwalkFor: aSpaceship movingOthersBack: someSquares  .
+	
+
 ]
 
 { #category : #initialization }
-MoonWalkEffect >> initializeIsIn: aPosition moves: aNumberOfSquares [ 
-	myPosition := aPosition .
-	someSquares  := aNumberOfSquares 
+MoonWalkEffect >> initializeIsIn: aSquare moves: aNumberOfSquares [ 
+	someSquares  := aNumberOfSquares .
+	myPosition := aSquare 
+]
+
+{ #category : #accessing }
+MoonWalkEffect >> position [
+
+^myPosition 
+
 ]

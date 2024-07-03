@@ -34,15 +34,15 @@ Class {
 Board class >> of: aNumberOfSquares wormholeBeginsAt: startingPoint andEndsAt: endPoint [
 
 	| boardOfSquares |
-	boardOfSquares := ZeroBasedArray newEmpty.
-	0 to: aNumberOfSquares - 1 do: [ :square |
+	boardOfSquares := OrderedCollection new.
+	1 to: aNumberOfSquares do: [ :square |
 		boardOfSquares add: (Square with: (NullEffect isIn: square)) ].
 
 	self validate: aNumberOfSquares and: endPoint and: startingPoint.
 
 	^ self new
 		  initializeWith: boardOfSquares
-		  parsecs: 1
+		  length: 1
 		  wormholeBeginsAt: startingPoint
 		  andEndsAt: endPoint
 ]
@@ -74,55 +74,80 @@ Board class >> validateSizeOf: aNumberOfSquares [
 { #category : #'argument validation' }
 Board class >> validateWormholeEndpointsOf: startingPoint and: endPoint areWithin: aNumberOfSquares [
 
-	(startingPoint >= 0 and: (endPoint >= 0 and:
+	(startingPoint > 0 and: (endPoint > 0 and:
 			  (startingPoint < aNumberOfSquares and:
 				   endPoint <= aNumberOfSquares))) ifFalse: [
 		Error signal: 'Wormhole out of bounds' ].
 	
 ]
 
-{ #category : #accessing }
-Board class >> with: theSquares parsecs: someParsecs wormholeBeginsAt: startPoint andEndsAt: endpoint [
+{ #category : #'instance creation' }
+Board class >> with: theSquares length: aDistance wormholeBeginsAt: startPoint andEndsAt: endpoint [
 
-	^self new initializeWith: theSquares parsecs: someParsecs wormholeBeginsAt: startPoint andEndsAt: endpoint
-]
-
-{ #category : #analyze }
-Board >> adjustBounds: aSquare [
-
-	aSquare >= self length ifTrue: [ ^ aSquare % self length ].
-	aSquare < 0 ifTrue: [ ^0 ].
-
-	^ aSquare
+	^ self new
+		  initializeWith: theSquares
+		  length: aDistance
+		  wormholeBeginsAt: startPoint
+		  andEndsAt: endpoint
 ]
 
 { #category : #accessing }
-Board >> finalSquareFor: aSpaceship afterMovingTo: aSquare whenPlaying: aGame [
+Board >> applyEffectFor: aSpaceship afterMovingTo: aSquare whenPlaying: aGame [
 
-	| squaresMovedByEffect squareToLand |
-	squareToLand := boardOfSquares at:
-		                (self adjustBounds: aSquare).
-	squaresMovedByEffect := squareToLand land: aSpaceship in: aGame.
+	| squareToLand |
+	squareToLand := boardOfSquares at: aSquare  .
+	 squareToLand land: aSpaceship in: aGame.
 
-	^ squaresMovedByEffect
+
+]
+
+{ #category : #converting }
+Board >> convertToSquares: aParsecDistance [
+
+^ aParsecDistance * self lengthInSquares // (parsecs inParsecs) 
 ]
 
 { #category : #initialization }
-Board >> initializeWith: theSquares parsecs: someParsecs wormholeBeginsAt: startingPoint andEndsAt: endPoint [
+Board >> initializeWith: theSquares length: aDistance wormholeBeginsAt: startingPoint andEndsAt: endPoint [
 
-	boardOfSquares := ZeroBasedArray withAll: theSquares.
-	parsecs := someParsecs.
+	boardOfSquares := OrderedCollection  withAll: theSquares.
+	parsecs := aDistance.
 
-	boardOfSquares at: startingPoint put: (Square with: (WormholeEffect isIn: startingPoint  goesTo: endPoint)).
-	boardOfSquares at: endPoint put: (Square with: (WormholeEffect isIn: endPoint  goesTo: startingPoint)).
+	boardOfSquares
+		at: startingPoint
+		put:
+		(Square with: (WormholeEffect isIn: startingPoint goesTo: endPoint)).
+	boardOfSquares
+		at: endPoint
+		put:
+		(Square with: (WormholeEffect isIn: endPoint goesTo: startingPoint))
+]
 
+{ #category : #converting }
+Board >> lapsAfterMoving: totalSquaresMoved [
 
-
+	^totalSquaresMoved // self lengthInSquares 
 ]
 
 { #category : #accessing }
-Board >> length [ 
+Board >> lengthInLightYears [
+	^ parsecs inParsecs * 3.
+]
+
+{ #category : #accessing }
+Board >> lengthInParsecs [
+	^ parsecs inParsecs.
+]
+
+{ #category : #accessing }
+Board >> lengthInSquares [ 
 
 
 ^ boardOfSquares size.
+]
+
+{ #category : #converting }
+Board >> squareNumberAfterMoving: anAmountOfSquares [
+
+	^anAmountOfSquares % self lengthInSquares +1
 ]

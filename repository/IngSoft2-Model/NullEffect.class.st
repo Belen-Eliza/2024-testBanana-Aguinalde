@@ -41,8 +41,6 @@ NullEffect class >> isIn: aPosition [
 { #category : #action }
 NullEffect >> applyIn: aGame for: aSpaceship [
 
-	aGame move: aSpaceship to: myPosition.
-	^ 0
 ]
 
 { #category : #initialization }
