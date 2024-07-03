@@ -34,8 +34,8 @@ Class {
 Board class >> of: aNumberOfSquares wormholeBeginsAt: startingPoint andEndsAt: endPoint [
 
 	| boardOfSquares |
-	boardOfSquares := ZeroBasedArray newEmpty.
-	0 to: aNumberOfSquares - 1 do: [ :square |
+	boardOfSquares := OrderedCollection new.
+	1 to: aNumberOfSquares do: [ :square |
 		boardOfSquares add: (Square with: (NullEffect isIn: square)) ].
 
 	self validate: aNumberOfSquares and: endPoint and: startingPoint.
@@ -74,7 +74,7 @@ Board class >> validateSizeOf: aNumberOfSquares [
 { #category : #'argument validation' }
 Board class >> validateWormholeEndpointsOf: startingPoint and: endPoint areWithin: aNumberOfSquares [
 
-	(startingPoint >= 0 and: (endPoint >= 0 and:
+	(startingPoint > 0 and: (endPoint > 0 and:
 			  (startingPoint < aNumberOfSquares and:
 				   endPoint <= aNumberOfSquares))) ifFalse: [
 		Error signal: 'Wormhole out of bounds' ].
