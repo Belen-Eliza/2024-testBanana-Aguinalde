@@ -56,8 +56,3 @@ HyperSpaceJumpEffect >> position [
 
 ^myPosition 
 ]
-
-{ #category : #initialization }
-HyperSpaceJumpEffect >> setPosition: aPosition [
-myPosition := aPosition.
-]

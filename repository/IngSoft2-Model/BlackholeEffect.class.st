@@ -55,9 +55,3 @@ BlackholeEffect >> position [
 
 ^myPosition 
 ]
-
-{ #category : #initialization }
-BlackholeEffect >> setPosition: aPosition [
-myPosition := aPosition.
-
-]

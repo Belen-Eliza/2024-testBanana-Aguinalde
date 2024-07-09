@@ -60,8 +60,3 @@ WormholeEffect >> position [
 
 ^myPosition 
 ]
-
-{ #category : #initialization }
-WormholeEffect >> setPosition: aPosition [
-myPosition := aPosition.
-]

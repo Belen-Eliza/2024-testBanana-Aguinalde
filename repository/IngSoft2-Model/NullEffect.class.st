@@ -54,8 +54,3 @@ NullEffect >> position [
 
 ^myPosition 
 ]
-
-{ #category : #initialization }
-NullEffect >> setPosition: aPosition [
-myPosition := aPosition.
-]

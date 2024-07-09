@@ -54,8 +54,3 @@ AtomicBombEffect >> position [
 ^myPosition 
 
 ]
-
-{ #category : #initialization }
-AtomicBombEffect >> setPosition: aPosition [
-myPosition := aPosition.
-]

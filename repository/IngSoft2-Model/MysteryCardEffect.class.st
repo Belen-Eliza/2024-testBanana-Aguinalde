@@ -53,8 +53,3 @@ MysteryCardEffect >> position [
 
 ^myPosition 
 ]
-
-{ #category : #initialization }
-MysteryCardEffect >> setPosition: aPosition [
-myPosition := aPosition.
-]
