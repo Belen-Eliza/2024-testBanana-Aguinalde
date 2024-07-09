@@ -1,13 +1,13 @@
 # Ingenieria del Software II - Template
 
-![GHA Status](https://github.com/uca-argentina/2024-testBanana/actions/workflows/GHA.yml/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/github/uca-argentina/2024-testBanana/badge.svg)](https://coveralls.io/github/uca-argentina/2024-testBanana)
+![GHA Status](https://github.com/Belen-Eliza/2024-testBanana-Aguinalde/actions/workflows/GHA.yml/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/Belen-Eliza/2024-testBanana-Aguinalde/badge.svg)](https://coveralls.io/github/Belen-Eliza/2024-testBanana-Aguinalde)
 
 ## Metacello
 
 ```smalltalk
 Metacello new
    baseline: 'IngSoft2';
-   githubUser: 'uca-argentina' project: '2024-testBanana' commitish: 'master' path: 'repository';
+   githubUser: 'Belen-Eliza' project: '2024-testBanana-Aguinalde' commitish: 'master' path: 'repository';
    load: 'development'.
 ```
