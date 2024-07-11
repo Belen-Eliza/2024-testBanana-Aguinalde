@@ -47,9 +47,10 @@ Game >> battleBetween: aSpaceship and: aSpaceship2 [
 
 	| loser resultForFirstPlayer resultForSecondPlayer |
 	resultForFirstPlayer := diceBeaker throwDice.
-	activeCards  do: [ :card | resultForFirstPlayer := (card reinforce: aSpaceship using: diceBeaker ) + resultForFirstPlayer. ].
+	resultForFirstPlayer := resultForFirstPlayer + (activeCards inject: 0 into: [ :accumulator :card | accumulator + (card reinforce: aSpaceship  using: diceBeaker )]).
+
 	resultForSecondPlayer := diceBeaker throwDice.
-	activeCards  do: [ :card | resultForSecondPlayer := (card reinforce: aSpaceship2 using: diceBeaker ) + resultForSecondPlayer. ].
+	resultForSecondPlayer := resultForSecondPlayer + (activeCards inject: 0 into: [ :accumulator :card | accumulator + (card reinforce: aSpaceship2 using: diceBeaker )]).
 
 	loser := resultForFirstPlayer > resultForSecondPlayer
 		         ifTrue: [ aSpaceship2 ]
@@ -75,9 +76,7 @@ Game >> calculateFinalPositionFor: aSpaceship [
 	| diceResult newPosition cardModifier |
 	diceResult := diceBeaker throwDice.
 
-	cardModifier := 0.
-	activeCards do: [ :card |
-		cardModifier := (card playOn: aSpaceship) + cardModifier ].
+	cardModifier := activeCards inject: 0  into: [:accumulator :card | accumulator + (card playOn: aSpaceship) ].
 	diceResult := diceResult + cardModifier.
 
 	(self dataFor: aSpaceship) move: diceResult.
@@ -99,8 +98,8 @@ Game >> changeStateOf: aSpaceship to: aState [
 Game >> checkForWinner [ 
 
 	|currentSpaceship|
-	currentSpaceship := self nextSpaceshipToPlay .
-	((self lapsOf: currentSpaceship  ) >= laps) ifTrue: [ self end  ]
+	currentSpaceship :=  self dataFor: (self nextSpaceshipToPlay) .
+	(( currentSpaceship laps ) >= laps) ifTrue: [ self end  ]
 ]
 
 { #category : #converting }
@@ -183,11 +182,6 @@ Game >> is: spaceship notAnAllyOf: aSpaceship [
 Game >> isOngoing [
 
 ^ state isOngoing.
-]
-
-{ #category : #accessing }
-Game >> lapsOf: aSpaceship [ 
- ^ (self dataFor:  aSpaceship) laps
 ]
 
 { #category : #accessing }

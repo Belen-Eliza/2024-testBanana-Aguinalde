@@ -52,7 +52,6 @@ SpaceshipLog class >> randomCardsfor: aSpaceship [
 ]
 
 { #category : #comparing }
-
 SpaceshipLog >> >= anotherSpaceship [
 
 	self laps = anotherSpaceship laps

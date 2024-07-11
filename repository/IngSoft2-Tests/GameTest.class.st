@@ -456,7 +456,7 @@ GameTest >> test39AfterSpaceshipPassesLastSquareForTheFirstTimeThenNumberOfLapsI
 		         wonAfter: 1.
 
 	aGame playTurn.
-	self assert: (aGame lapsOf: aSpaceship) equals: 1
+	self assert: ( (spaceshipsData at:1) laps ) equals: 1
 ]
 
 { #category : #tests }
@@ -474,7 +474,7 @@ GameTest >> test40AfterSpaceshipCrossesTheFinishLineTwiceThenHasTwoLaps [
 		         wonAfter: 1.
 
 	aGame playTurn.
-	self assert: (aGame lapsOf: aSpaceship) equals: 2
+	self assert: ((spaceshipsData at: 1) laps ) equals: 2
 ]
 
 { #category : #tests }

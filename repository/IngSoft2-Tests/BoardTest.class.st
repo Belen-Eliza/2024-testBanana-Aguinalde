@@ -591,9 +591,10 @@ BoardTest >> test073SpaceshipOnlyMovesWhenParsecsToSquaresRatioIsAnEvenNumber [
 { #category : #tests }
 BoardTest >> test074SpaceshipLosesALapIfItGetsSentBackPastTheFirstSquare [
 
-	| aGame aSpaceship aBoard aDie spaceshipsData |
+	| aGame aSpaceship aSpaceshipLog aBoard aDie spaceshipsData |
 	aSpaceship := Spaceship launch: 'One'.
-	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship).
+	aSpaceshipLog := SpaceshipLog randomCardsfor: aSpaceship.
+	spaceshipsData:= OrderedCollection with: (aSpaceshipLog ).
 	
 	aBoard := self
 		          createBoardOf: 20
@@ -612,7 +613,7 @@ BoardTest >> test074SpaceshipLosesALapIfItGetsSentBackPastTheFirstSquare [
 		         wonAfter: 1.
 	aGame playTurn.
 
-	self assert: (aGame lapsOf: aSpaceship) equals: 0
+	self assert: (aSpaceshipLog laps ) equals: 0
 ]
 
 { #category : #tests }
@@ -652,7 +653,7 @@ BoardTest >> test076IfSpaceshipCompletesALapAndGoesBackBeyondTheFirstSquareThenI
 		         wonAfter: 2.
 	aGame playTurn.
 	aGame playTurn.
-	self assert: (aGame lapsOf: aSpaceship) equals: 0
+	self assert: ((spaceshipsData at: 1) laps ) equals: 0
 ]
 
 { #category : #tests }
@@ -678,7 +679,7 @@ BoardTest >> test077WhenSpaceshipGoesBackMultipleLapsWithMoonwalkEffectThenLoses
 		         wonAfter: 3.
 	aGame playTurn.
 	aGame playTurn.
-	self assert: (aGame lapsOf: aSpaceship) equals: 0
+	self assert: ((spaceshipsData at: 1) laps ) equals: 0
 ]
 
 { #category : #tests }
@@ -783,7 +784,7 @@ BoardTest >> test121WhenSpaceshipUsesRepeatCardAndMovesFurtherThanTheLastSquareT
 		from: yetAnotherSpaceship
 		targeting: yetAnotherSpaceship.
 
-	self assert: (aGame lapsOf: yetAnotherSpaceship) equals: 1
+	self assert: ((spaceshipsData at: 3) laps ) equals: 1
 ]
 
 { #category : #tests }
