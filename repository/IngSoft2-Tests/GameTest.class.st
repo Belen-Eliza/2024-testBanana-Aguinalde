@@ -42,7 +42,7 @@ GameTest >> test001WhenGameStartedThenIsOngoing [
 	aGame := Game
 		         playedBy: spaceshipsData
 		         on: aBoard
-		         throwing: nil
+		         throwing: (OrderedCollection new)
 		         wonAfter: 1.
 	^ self assert: aGame isOngoing
 ]
@@ -57,7 +57,7 @@ GameTest >> test002WhenGameEndsThenIsOver [
 	aGame := Game
 		         playedBy: spaceshipsData 
 		         on: aBoard 
-		         throwing: nil
+		         throwing: (OrderedCollection new)
 		         wonAfter: 1.
 	aGame end.
 
@@ -74,7 +74,7 @@ GameTest >> test003GameBeginsWithAPlayer [
 	aGame := Game
 		         playedBy: spaceshipsData
 		         on: aBoard 
-		         throwing: nil
+		         throwing: (OrderedCollection new)
 		         wonAfter: 1.
 	self
 		assert: aGame players
@@ -91,7 +91,7 @@ GameTest >> test004SpaceshipChangedPositionByOneWhenMoved [
 	aGame := Game
 		         playedBy: spaceshipsData
 		         on: aBoard 
-		         throwing: nil
+		         throwing: (OrderedCollection new)
 		         wonAfter: 1.
 	aGame move: aSpaceship to: 1.
 	self assert: (aGame positionOf: aSpaceship) equals: 1
@@ -107,7 +107,7 @@ GameTest >> test005SpaceshipIsCreatedAtStartPoint [
 	aGame := Game
 		         playedBy: spaceshipsData
 		         on: aBoard 
-		         throwing: nil
+		         throwing: (OrderedCollection new)
 		         wonAfter: 1.
 
 	self assert: (aGame positionOf: aSpaceship) equals: 1
@@ -141,7 +141,7 @@ GameTest >> test008WhenGameIsOngoingThereIsNoWinner [
 	aGame := Game
 		         playedBy: spaceshipsData
 		         on: aBoard
-		         throwing: nil
+		         throwing: (OrderedCollection new)
 		         wonAfter: 1.
 
 	self
@@ -160,7 +160,7 @@ GameTest >> test009SpaceshipDoesNotWinUntilItLandsOnTheLastSquare [
 	aGame := Game
 		         playedBy: spaceshipsData
 		         on: aBoard
-		         throwing: nil
+		         throwing: (OrderedCollection new)
 		         wonAfter: 1.
 
 	aGame end.
@@ -215,7 +215,7 @@ GameTest >> test016GameIndicatesTurnWithOnePlayer [
 	aGame := Game
 		         playedBy: spaceshipsData 
 		         on: aBoard 
-		         throwing: nil
+		         throwing: (OrderedCollection new)
 		         wonAfter: 1.
 	self assert: aGame nextSpaceshipToPlay equals: aSpaceship
 ]
@@ -231,7 +231,7 @@ GameTest >> test017GameIndicatesFirstTurnWithTwoPlayers [
 	aGame := Game
 		         playedBy: spaceshipsData 
 		         on: aBoard 
-		         throwing: nil
+		         throwing: (OrderedCollection new)
 		         wonAfter: 1.
 	self assert: aGame nextSpaceshipToPlay equals: aSpaceship
 ]
@@ -247,7 +247,7 @@ GameTest >> test018GameIndicatesSecondTurnWithTwoPlayers [
 	aGame := Game
 		         playedBy: spaceshipsData
 		         on: aBoard 
-		         throwing: nil
+		         throwing: (OrderedCollection new)
 		         wonAfter: 1.
 	aGame nextTurn.
 	self assert: aGame nextSpaceshipToPlay equals: anotherSpaceship
@@ -264,7 +264,7 @@ GameTest >> test019GameResetsTurnsForNextRound [
 	aGame := Game
 		         playedBy: spaceshipsData
 		         on: aBoard 
-		         throwing: nil
+		         throwing: (OrderedCollection new)
 		         wonAfter: 1.
 	aGame
 		nextTurn;

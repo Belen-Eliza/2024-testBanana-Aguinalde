@@ -53,9 +53,9 @@ Game >> battleBetween: aSpaceship and: aSpaceship2 [
 
 	| loser resultForFirstPlayer resultForSecondPlayer |
 	resultForFirstPlayer := diceBeaker throwDice.
-	activeCards  do: [ :card | resultForFirstPlayer := (card reinforce: aSpaceship in: self) + resultForFirstPlayer. ].
+	activeCards  do: [ :card | resultForFirstPlayer := (card reinforce: aSpaceship using: diceBeaker ) + resultForFirstPlayer. ].
 	resultForSecondPlayer := diceBeaker throwDice.
-	activeCards  do: [ :card | resultForSecondPlayer := (card reinforce: aSpaceship2 in: self) + resultForSecondPlayer. ].
+	activeCards  do: [ :card | resultForSecondPlayer := (card reinforce: aSpaceship2 using: diceBeaker ) + resultForSecondPlayer. ].
 
 	loser := resultForFirstPlayer > resultForSecondPlayer
 		         ifTrue: [ aSpaceship2 ]
