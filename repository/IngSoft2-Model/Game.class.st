@@ -95,11 +95,10 @@ Game >> changeStateOf: aSpaceship to: aState [
 ]
 
 { #category : #action }
-Game >> checkForWinner [ 
+Game >> checkForWinner [
 
-	|currentSpaceship|
-	currentSpaceship :=  self dataFor: (self nextSpaceshipToPlay) .
-	(( currentSpaceship laps ) >= laps) ifTrue: [ self end  ]
+	(spaceshipsData anySatisfy: [ :dataForASpaceship |
+		 dataForASpaceship laps >= laps ]) ifTrue: [ self end ]
 ]
 
 { #category : #converting }
@@ -240,7 +239,7 @@ Game >> play: aCard from: aSpaceship targeting: anotherSpaceship [
 	|card|
 	self validateIf: aCard  canBePlayedBy: aSpaceship .
 	card := aCard from: aSpaceship withTarget: anotherSpaceship useIn: self.
-	(self dataFor: aSpaceship) removeCardFromHand: aCard. 
+	(self dataFor: aSpaceship) removeFromHand: aCard. 
 	^card 
 	
 ]
@@ -341,7 +340,7 @@ Game >> validateIf: aCard canBePlayedBy: aSpaceship [
 	state validateStateForCards.
 	
 	spaceshipData := self dataFor: aSpaceship.
-	spaceshipData validateThatSpaceshipHasCard: aCard .
+	spaceshipData validateThatSpaceshipHas: aCard .
 ]
 
 { #category : #validation }

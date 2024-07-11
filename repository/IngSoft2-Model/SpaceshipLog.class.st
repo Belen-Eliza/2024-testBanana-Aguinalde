@@ -165,7 +165,7 @@ SpaceshipLog >> rechargeShields [
 ]
 
 { #category : #removing }
-SpaceshipLog >> removeCardFromHand: aCard [
+SpaceshipLog >> removeFromHand: aCard [
 
  cards remove: (aCard class)
 ]
@@ -181,7 +181,7 @@ SpaceshipLog >> spaceship [
 ]
 
 { #category : #validation }
-SpaceshipLog >> validateThatSpaceshipHasCard: aCard [
+SpaceshipLog >> validateThatSpaceshipHas: aCard [
 	
 	(cards includes: aCard class) ifFalse: [
 		Error signal:
