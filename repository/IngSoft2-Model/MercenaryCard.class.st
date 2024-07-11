@@ -42,9 +42,10 @@ MercenaryCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
 	mercenary:=anotherSpaceship.
 	ally := aSpaceship.
 	aGame addActiveCard: self.
+	^self
 ]
 
-{ #category : #testing }
+{ #category : #accessing }
 MercenaryCard >> is: aSpaceship anAllyOf: anotherSpaceship [
 
 ^((aSpaceship = ally) and: anotherSpaceship = mercenary) or: ((aSpaceship = mercenary ) and: anotherSpaceship = ally)
@@ -55,12 +56,6 @@ MercenaryCard >> mercenary [
 ^mercenary
 ]
 
-{ #category : #playing }
-MercenaryCard >> playOn: aSpaceship [
-
-^0.
-]
-
 { #category : #action }
 MercenaryCard >> reduceShieldsOfAllyOf: aSpaceship in: aGame [
 
@@ -68,11 +63,10 @@ aSpaceship =ally ifTrue: [ aGame decreaseShieldByOneOf:  mercenary. ].
 ]
 
 { #category : #action }
-MercenaryCard >> reinforce: aSpaceship in: aGame [
+MercenaryCard >> reinforce: aSpaceship using: aDiceBeaker [
 
-
-aSpaceship = ally ifTrue: [ ^aGame throwDice ].
-^0.
+	aSpaceship = ally ifTrue: [ ^ aDiceBeaker throwDice ].
+	^ 0
 ]
 
 { #category : #validation }

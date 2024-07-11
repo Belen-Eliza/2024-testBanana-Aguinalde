@@ -1,7 +1,7 @@
 "
 Please comment me using the following template inspired by Class Responsibility Collaborator (CRC) design:
 
-For the Class part:  When played, applies the effect of the last card played
+For the Class part:  A small, clinidrical container for throwing dice
 
 For the Responsibility part: Three sentences about my main responsibilities - what I do, what I know.
 
@@ -17,16 +17,37 @@ Public API and Key Messages
 
 Internal Representation and Key Implementation Points.
 
+    Instance Variables
+	dice:		<Object>
+
 
     Implementation Points
 "
 Class {
-	#name : #RedoCard,
+	#name : #DiceBeaker,
 	#superclass : #Object,
+	#instVars : [
+		'dice'
+	],
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #building }
+DiceBeaker class >> fillWith: someDice [
+	^self new initializeFillWith: someDice 
+]
+
+{ #category : #initialization }
+DiceBeaker >> initializeFillWith: someDice [ 
+
+	dice := OrderedCollection withAll: someDice 
+]
+
 { #category : #action }
-RedoCard >> from: aSpaceship withTarget: aTarget useIn: aGame [
-	^aGame redoLastCardPlayedFor: aSpaceship targeting: aTarget
+DiceBeaker >> throwDice [
+
+	|result|
+	result :=0.
+	dice do: [ :aDie | result := result + aDie throw ].
+ 	^ result 
 ]

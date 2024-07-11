@@ -1436,3 +1436,176 @@ CardTest >> test130CancellationCardCanRemoveActiveAccelerationCards [
 	aGame playTurn.
 	self assert: (((aGame positionOf: aSpaceship) = 4) and: ((aGame positionOf: anotherSpaceship) = 5) )
 ]
+
+{ #category : #tests }
+CardTest >> test145ActiveMovementCardsDoNotIncrementDiceThrowForBattles [
+
+	| aGame aSpaceship aBoard aDie  aCard anotherCard spaceshipsData anotherSpaceship |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData:= OrderedCollection with: (SpaceshipLog for: aSpaceship  withDeck: (OrderedCollection with: AccelerationCard with: SpeedCard)) with: (SpaceshipLog randomCardsfor: anotherSpaceship ).
+	
+	aBoard := self createBoardOf: 16 distance: 5 withEffects: {  } wormholeBeginsAt: 13 andEndsAt: 14.
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 5 with: 4 with: 1 with: 1).
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := AccelerationCard  new.
+	anotherCard := SpeedCard new.
+	aGame play: aCard from: aSpaceship targeting: aSpaceship.
+	aGame play: anotherCard from: aSpaceship targeting: anotherSpaceship .
+	aGame playTurn.
+	aGame playTurn.
+	self assert: (((aGame positionOf: aSpaceship) = 7) and: ((aGame positionOf: anotherSpaceship) = 1) )
+]
+
+{ #category : #tests }
+CardTest >> test146CancellationCardCanRemoveActiveAccelerationCardsPlayedWithRedo [
+
+	| aGame aSpaceship aBoard aDie  anAccelerationCard  aRedoCardCard aCancellationCard spaceshipsData anotherSpaceship |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData:= OrderedCollection with: (SpaceshipLog for: aSpaceship  withDeck: (OrderedCollection with: AccelerationCard with: CancellationCard )  ) with: (SpaceshipLog for: anotherSpaceship withDeck: (OrderedCollection with: AccelerationCard with: RedoCard)).
+	
+	aBoard := self createBoardOf: 16 distance: 5 withEffects: {  } wormholeBeginsAt: 13 andEndsAt: 14.
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 3 with: 4).
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	anAccelerationCard := AccelerationCard  new.
+	aCancellationCard  := CancellationCard new.
+	aRedoCardCard := RedoCard new.
+	aGame play: anAccelerationCard from: aSpaceship targeting: aSpaceship.
+	
+	aGame playTurn.
+	
+	aGame play: aRedoCardCard from: anotherSpaceship  targeting: anotherSpaceship.
+	aGame play: aCancellationCard  from: aSpaceship  targeting: anAccelerationCard .
+
+	aGame playTurn.
+	self assert: (((aGame positionOf: aSpaceship) = 5) and: ((aGame positionOf: anotherSpaceship) = 6) )
+]
+
+{ #category : #tests }
+CardTest >> test147CancellationCardCanRemoveActiveSpeedCardsPlayedWithRedo [
+
+	| aGame aSpaceship aBoard aDie  aSpeedCard anotherSpeedCard aRedoCard aCancellationCard spaceshipsData anotherSpaceship |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData:= OrderedCollection with: (SpaceshipLog for: aSpaceship  withDeck: (OrderedCollection with: SpeedCard  with: CancellationCard )  ) with: (SpaceshipLog for: anotherSpaceship withDeck: (OrderedCollection with: AccelerationCard with: RedoCard)).
+	
+	aBoard := self createBoardOf: 16 distance: 5 withEffects: {  } wormholeBeginsAt: 13 andEndsAt: 14.
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 3 with: 5).
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aSpeedCard  := SpeedCard new.
+	aCancellationCard  := CancellationCard new.
+	aRedoCard := RedoCard new.
+	aGame play: aSpeedCard from: aSpaceship targeting: aSpaceship.
+	
+	aGame playTurn.
+	
+	anotherSpeedCard := aGame play: aRedoCard from: anotherSpaceship  targeting: anotherSpaceship .
+	aGame play: aCancellationCard  from: aSpaceship  targeting: anotherSpeedCard.
+
+	aGame playTurn.
+	self assert: (((aGame positionOf: aSpaceship) = 5) and: ((aGame positionOf: anotherSpaceship) = 6) )
+]
+
+{ #category : #tests }
+CardTest >> test148CancellationCardOnlyRemovesSpecifiedCard [
+
+	| aGame aSpaceship aBoard aDie  aSpeedCard  anotherSpeedCard aCancellationCard spaceshipsData anotherSpaceship |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData:= OrderedCollection with: (SpaceshipLog for: aSpaceship  withDeck: (OrderedCollection with: SpeedCard  with: CancellationCard )  ) with: (SpaceshipLog for: anotherSpaceship withDeck: (OrderedCollection with: SpeedCard with: RedoCard)).
+	
+	aBoard := self createBoardOf: 16 distance: 5 withEffects: {  } wormholeBeginsAt: 13 andEndsAt: 14.
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 3 with: 5).
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aSpeedCard  := SpeedCard new.
+	aCancellationCard  := CancellationCard new.
+	anotherSpeedCard  := SpeedCard  new.
+	aGame play: aSpeedCard from: aSpaceship targeting: aSpaceship.
+	
+	aGame playTurn.
+	
+	aGame play: anotherSpeedCard from: anotherSpaceship  targeting: anotherSpaceship.
+	aGame play: aCancellationCard  from: aSpaceship  targeting: anotherSpeedCard.
+
+	aGame playTurn.
+	aGame playTurn.
+	self assert: (((aGame positionOf: aSpaceship) = 9) and: ((aGame positionOf: anotherSpaceship) = 6) )
+]
+
+{ #category : #tests }
+CardTest >> test149CancellationCardCanRemoveActiveAccelerationCardsPlayedWithRedo [
+
+	| aGame aSpaceship aBoard aDie  anAccelerationCard  aRedoCard aCancellationCard spaceshipsData anotherSpaceship |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData:= OrderedCollection with: (SpaceshipLog for: aSpaceship  withDeck: (OrderedCollection with: SpeedCard  with: CancellationCard )  ) with: (SpaceshipLog for: anotherSpaceship withDeck: (OrderedCollection with: AccelerationCard with: RedoCard)).
+	
+	aBoard := self createBoardOf: 16 distance: 5 withEffects: {  } wormholeBeginsAt: 13 andEndsAt: 14.
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 3 with: 5).
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	anAccelerationCard := AccelerationCard new.
+	aCancellationCard  := CancellationCard new.
+	aRedoCard := RedoCard new.
+	
+	aGame playTurn.
+	
+	aGame play: anAccelerationCard from: anotherSpaceship  targeting: anotherSpaceship.
+	aGame play: aRedoCard  from: anotherSpaceship  targeting: anAccelerationCard .
+	aGame play: aCancellationCard  from: aSpaceship  targeting: anAccelerationCard .
+
+	aGame playTurn.
+	aGame playTurn.
+	self assert: (((aGame positionOf: aSpaceship) = 8) and: ((aGame positionOf: anotherSpaceship) = 7) )
+]
+
+{ #category : #tests }
+CardTest >> test150CancellationCardCanRemoveActiveMercenaryCardsPlayedWithRedo [
+
+	| aGame aSpaceship aBoard aDie  aMercenaryCard anotherMercenaryCard aRedoCard aCancellationCard spaceshipsData anotherSpaceship yetAnotherSpaceship|
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	yetAnotherSpaceship := Spaceship launch: 'Three'.
+	spaceshipsData:= OrderedCollection with: (SpaceshipLog for: aSpaceship  withDeck: (OrderedCollection with: MercenaryCard with: CancellationCard )  ) with: (SpaceshipLog for: anotherSpaceship withDeck: (OrderedCollection with: AccelerationCard with: RedoCard)) with: (SpaceshipLog randomCardsfor: yetAnotherSpaceship ).
+	
+	aBoard := self createBoardOf: 16 distance: 5 withEffects: {  } wormholeBeginsAt: 13 andEndsAt: 14.
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 3 with: 5 with: 5 with: 4 with: 3).
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aMercenaryCard  := MercenaryCard new.
+	aCancellationCard  := CancellationCard new.
+	aRedoCard := RedoCard new.
+	
+	aGame play: aMercenaryCard  from: aSpaceship targeting: anotherSpaceship.
+	aGame playTurn.
+	
+	anotherMercenaryCard := aGame play: aRedoCard  from: anotherSpaceship  targeting: aSpaceship.
+	aGame play: aCancellationCard  from: aSpaceship  targeting: anotherMercenaryCard.
+
+	aGame playTurn.
+	aGame playTurn.
+	self assert: (((aGame positionOf: anotherSpaceship) = 1) and: ((aGame positionOf: yetAnotherSpaceship) = 6) )
+]

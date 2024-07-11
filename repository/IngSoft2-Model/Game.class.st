@@ -5,12 +5,12 @@ Class {
 		'spaceships',
 		'board',
 		'state',
-		'dice',
 		'spaceshipsData',
 		'laps',
 		'activeCards',
 		'lastTypeOfCardPlayed',
-		'lastEffectTriggered'
+		'lastEffectTriggered',
+		'diceBeaker'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -46,10 +46,10 @@ Game >> applyHyperSpaceJumpFor: aSpaceship [
 Game >> battleBetween: aSpaceship and: aSpaceship2 [
 
 	| loser resultForFirstPlayer resultForSecondPlayer |
-	resultForFirstPlayer := self throwDice.
-	activeCards  do: [ :card | resultForFirstPlayer := (card reinforce: aSpaceship in: self) + resultForFirstPlayer. ].
-	resultForSecondPlayer := self throwDice.
-	activeCards  do: [ :card | resultForSecondPlayer := (card reinforce: aSpaceship2 in: self) + resultForSecondPlayer. ].
+	resultForFirstPlayer := diceBeaker throwDice.
+	activeCards  do: [ :card | resultForFirstPlayer := (card reinforce: aSpaceship using: diceBeaker ) + resultForFirstPlayer. ].
+	resultForSecondPlayer := diceBeaker throwDice.
+	activeCards  do: [ :card | resultForSecondPlayer := (card reinforce: aSpaceship2 using: diceBeaker ) + resultForSecondPlayer. ].
 
 	loser := resultForFirstPlayer > resultForSecondPlayer
 		         ifTrue: [ aSpaceship2 ]
@@ -73,7 +73,7 @@ Game >> battleIn: position [
 Game >> calculateFinalPositionFor: aSpaceship [
 
 	| diceResult newPosition cardModifier |
-	diceResult := self throwDice.
+	diceResult := diceBeaker throwDice.
 
 	cardModifier := 0.
 	activeCards do: [ :card |
@@ -135,11 +135,6 @@ Game >> detonateAtomicBomb [
 	self decreaseAllShieldsByOne .
 ]
 
-{ #category : #accessing }
-Game >> dice [
-^ dice.
-]
-
 { #category : #adding }
 Game >> end [
 	state := GameFinishedState new.
@@ -153,7 +148,7 @@ board := aBoard.
 self initializeSpaceships.
 state := GameOngoingState new.
 
-dice := someDice.
+diceBeaker := DiceBeaker fillWith: someDice.
 laps := aNumberOfLaps .
 activeCards:= OrderedCollection new.
 lastEffectTriggered:= NullEffect new.
@@ -248,9 +243,11 @@ Game >> nextTurn [
 
 { #category : #action }
 Game >> play: aCard from: aSpaceship targeting: anotherSpaceship [
+	|card|
 	self validateIf: aCard  canBePlayedBy: aSpaceship .
-	aCard from: aSpaceship withTarget: anotherSpaceship useIn: self.
+	card := aCard from: aSpaceship withTarget: anotherSpaceship useIn: self.
 	(self dataFor: aSpaceship) removeCardFromHand: aCard. 
+	^card 
 	
 ]
 
@@ -282,12 +279,13 @@ Game >> rechargeShieldsOf: aSpaceship [
 ]
 
 { #category : #action }
-Game >> redoLastCardPlayedFor: aSpaceship withTarget: aTarget [
+Game >> redoLastCardPlayedFor: aSpaceship targeting: aTarget [
 	| aCard |
 	self validateLastCardPlayed.
-	(self dataFor: aSpaceship) addToDeck: lastTypeOfCardPlayed. 
+	state validateStateForCards.
+
 	aCard:= lastTypeOfCardPlayed new.
-	self play: aCard from: aSpaceship  targeting: aTarget
+	^ aCard from: aSpaceship withTarget: aTarget  useIn: self.
 ]
 
 { #category : #action }
@@ -335,15 +333,6 @@ Game >> skipTurn [
 	self rechargeShieldsOf: aSpaceship.
 	self nextTurn.
 	
-]
-
-{ #category : #action }
-Game >> throwDice [
-
-	|result|
-	result :=0.
-	dice do: [ :aDie | result := result + aDie throw ].
- 	^ result 
 ]
 
 { #category : #action }

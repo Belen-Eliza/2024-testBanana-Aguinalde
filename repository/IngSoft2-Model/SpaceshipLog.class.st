@@ -52,13 +52,7 @@ SpaceshipLog class >> randomCardsfor: aSpaceship [
 ]
 
 { #category : #comparing }
-SpaceshipLog >> = anotherSpaceship [
 
-	
-	^positionTracker = anotherSpaceship position 
-]
-
-{ #category : #comparing }
 SpaceshipLog >> >= anotherSpaceship [
 
 	self laps = anotherSpaceship laps

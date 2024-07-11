@@ -31,8 +31,9 @@ PermanentCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
 	self subclassResponsibility 
 ]
 
-{ #category : #testing }
-PermanentCard >> is: aSpaceship anAllyOf: anotherSpaceship [
+
+{ #category : #accessing }
+PermanentCard >> is: aSpaceship anAllyOf: anotherSpaceship [ 
 
 ^false.
 ]
@@ -43,19 +44,26 @@ PermanentCard >> mercenary [
 ]
 
 { #category : #action }
-PermanentCard >> reduceShieldsOfAllyOf: aSpaceship in: aGame [
 
+PermanentCard >> playOn: aSpaceship [
+^0.
+]
+
+{ #category : #action }
+PermanentCard >> reduceShieldsOfAllyOf: aSpaceship in: aGame [ 
 
 ]
 
 { #category : #action }
-PermanentCard >> reinforce: aSpaceship in: aGame [
 
-^0.
+PermanentCard >> reinforce: aSpaceship using: aDiceBeaker [
+
+	^ 0
 ]
 
 { #category : #validation }
-PermanentCard >> validateAllianceBetween: aSpaceship and: anotherSpaceship [
+PermanentCard >> validateAllianceBetween: aSpaceship and: anotherSpaceship [ 
+
 ]
 
 { #category : #validation }
