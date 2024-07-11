@@ -224,8 +224,8 @@ CardTest >> test088IfSpaceshipAndOneMercenaryLoseTheBattleBothLoseShields [
 		targeting: yetAnotherSpaceship.
 	aGame playTurn.
 	aGame playTurn.
-	self assert: ((aGame shieldsOf: aSpaceship) = 2 and:
-			 (aGame shieldsOf: yetAnotherSpaceship) = 2)
+	self assert: ((spaceshipsData first shields ) = 2 and:
+			 (spaceshipsData last shields ) = 2)
 ]
 
 { #category : #tests }
@@ -266,24 +266,21 @@ CardTest >> test089ASpaceshipCanRecruitMultipleMercenariesThetHelpInBattle [
 { #category : #tests }
 CardTest >> test090IfSpaceshipAndMultipleMercenariesLoseTheBattleTheyAllLoseShields [
 
-	| aGame aSpaceship aBoard aDie anotherSpaceship aCard yetAnotherSpaceship fourthSpaceship anotherCard spaceshipsData |
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard yetAnotherSpaceship fourthSpaceship anotherCard  aSpaceshipLog anotherSpaceshipLog yetAnotherSpaceshipLog fourthSpaceshipLog |
 	aSpaceship := Spaceship launch: 'One'.
-	anotherSpaceship := Spaceship launch: 'Two'.
-	yetAnotherSpaceship := Spaceship launch: 'Three'.
-	fourthSpaceship := Spaceship launch: 'Four'.
-	spaceshipsData := OrderedCollection
-		                  with: (SpaceshipLog
+	aSpaceshipLog :=  SpaceshipLog
 				                   for: aSpaceship
 				                   withDeck:
 				                   (OrderedCollection
 					                    with: MercenaryCard
-					                    with: MercenaryCard))
-		                  with:
-		                  (SpaceshipLog randomCardsfor: anotherSpaceship)
-		                  with:
-		                  (SpaceshipLog randomCardsfor: yetAnotherSpaceship)
-		                  with:
-		                  (SpaceshipLog randomCardsfor: fourthSpaceship).
+					                    with: MercenaryCard).
+	anotherSpaceship := Spaceship launch: 'Two'.
+	anotherSpaceshipLog:=  SpaceshipLog randomCardsfor: anotherSpaceship.
+	yetAnotherSpaceship := Spaceship launch: 'Three'.
+	yetAnotherSpaceshipLog := SpaceshipLog randomCardsfor: yetAnotherSpaceship.
+	fourthSpaceship := Spaceship launch: 'Four'.
+	fourthSpaceshipLog :=  SpaceshipLog randomCardsfor: fourthSpaceship.
+	
 			aBoard := self
 		          createBoardOf: 8
 		          distance: (ParsecDistance of: 1)
@@ -293,7 +290,7 @@ CardTest >> test090IfSpaceshipAndMultipleMercenariesLoseTheBattleTheyAllLoseShie
 
 	aDie := LoadedDie arrayOf: (OrderedCollection with: 3 with: 3 with: 12 with: 3).
 	aGame := Game
-		         playedBy: spaceshipsData
+		         playedBy: (OrderedCollection with: aSpaceshipLog  with: anotherSpaceshipLog  with: yetAnotherSpaceshipLog  with: fourthSpaceshipLog )
 		         on: aBoard
 		         throwing: (OrderedCollection with: aDie)
 		         wonAfter: 3.
@@ -310,9 +307,9 @@ CardTest >> test090IfSpaceshipAndMultipleMercenariesLoseTheBattleTheyAllLoseShie
 	aGame playTurn.
 	aGame playTurn.
 
-	self assert: ((aGame shieldsOf: aSpaceship) = 2 and:
-			 ((aGame shieldsOf: yetAnotherSpaceship) = 2 and:
-				  (aGame shieldsOf: fourthSpaceship) = 2))
+	self assert: ((aSpaceshipLog shields ) = 2 and:
+			 ((yetAnotherSpaceshipLog shields ) = 2 and:
+				  (fourthSpaceshipLog shields ) = 2))
 ]
 
 { #category : #tests }
@@ -926,32 +923,40 @@ CardTest >> test108WhenRepeatCardIsPlayedAfterHyperSpaceJumpEffectThenTargetSpac
 	aGame play: aCard from: aSpaceship targeting: aSpaceship.
 
 	self assert: ((aGame positionOf: aSpaceship) = 9 and:
-			 (aGame shieldsOf: aSpaceship) = 2)
+			 (spaceshipsData first shields ) = 2)
 ]
 
 { #category : #tests }
 CardTest >> test109WhenRepeatCardIsPlayedAfterAtomicBombEffectThenAllShieldsGetDecreasedTwice [
 
-	| aGame aSpaceship aBoard aDie anotherSpaceship  aCard yetAnotherSpaceship spaceshipsData |
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard yetAnotherSpaceship aSpaceshipLog anotherSpaceshipLog yetAnotherSpaceshipLog |
 	aSpaceship := Spaceship launch: 'One'.
+	aSpaceshipLog := SpaceshipLog
+		                 for: aSpaceship
+		                 withDeck:
+		                 (OrderedCollection
+			                  with: RepeatCard
+			                  with: AccelerationCard).
 	anotherSpaceship := Spaceship launch: 'Two'.
+	anotherSpaceshipLog := SpaceshipLog randomCardsfor: anotherSpaceship.
 	yetAnotherSpaceship := Spaceship launch: 'Three'.
-	spaceshipsData := OrderedCollection
-		                  with: (SpaceshipLog
-				                   for: aSpaceship
-				                   withDeck:
-				                   (OrderedCollection
-					                    with: RepeatCard
-					                    with: AccelerationCard))
-		                  with: (SpaceshipLog randomCardsfor: anotherSpaceship )
-		                  with:
-		                  (SpaceshipLog randomCardsfor: yetAnotherSpaceship).
-	
-	aBoard := self createBoardOf: 10 distance: 5 withEffects: (OrderedCollection with: (AtomicBombEffect isIn: 4) ) wormholeBeginsAt: 8 andEndsAt: 	9.
+	yetAnotherSpaceshipLog := SpaceshipLog randomCardsfor:
+		                          yetAnotherSpaceship.
+
+	aBoard := self
+		          createBoardOf: 10
+		          distance: 5
+		          withEffects:
+		          (OrderedCollection with: (AtomicBombEffect isIn: 4))
+		          wormholeBeginsAt: 8
+		          andEndsAt: 9.
 
 	aDie := LoadedDie arrayOf: (OrderedCollection with: 5 with: 3).
 	aGame := Game
-		         playedBy: spaceshipsData
+		         playedBy: (OrderedCollection
+				          with: aSpaceshipLog
+				          with: anotherSpaceshipLog
+				          with: yetAnotherSpaceshipLog)
 		         on: aBoard
 		         throwing: (OrderedCollection with: aDie)
 		         wonAfter: 3.
@@ -959,9 +964,9 @@ CardTest >> test109WhenRepeatCardIsPlayedAfterAtomicBombEffectThenAllShieldsGetD
 	aGame playTurn.
 	aGame playTurn.
 	aGame play: aCard from: aSpaceship targeting: aSpaceship.
-	self assert: ((aGame shieldsOf: aSpaceship) = 1 and:
-			 ((aGame shieldsOf: anotherSpaceship) = 1 and:
-				  (aGame shieldsOf: yetAnotherSpaceship) = 1))
+	self assert: (aSpaceshipLog shields = 1 and:
+			 (anotherSpaceshipLog shields = 1 and:
+				  anotherSpaceshipLog shields = 1))
 ]
 
 { #category : #tests }
@@ -990,7 +995,7 @@ CardTest >> test110RepeatCardDoesNothingIfLastSquareHadNoEffect [
 	aGame playTurn.
 	aGame play: aCard from: aSpaceship targeting: anotherSpaceship  .
 	
-	self assert: (((aGame shieldsOf: anotherSpaceship )  = 3) and: ((aGame positionOf: anotherSpaceship ) = 4)) .
+	self assert: ((((spaceshipsData at:2) shields  )  = 3) and: ((aGame positionOf: anotherSpaceship ) = 4)) .
 ]
 
 { #category : #tests }
@@ -1017,7 +1022,7 @@ CardTest >> test111IfNoSpaceshipHasPlayedYetRepeatCardHasNoEffect [
 	aCard := RepeatCard new.
 	aGame play: aCard from: aSpaceship targeting: anotherSpaceship  .
 	
-	self assert: (((aGame shieldsOf: anotherSpaceship )  = 3) and: ((aGame positionOf: anotherSpaceship ) = 1)) .
+	self assert: ((((spaceshipsData at: 2) shields )  = 3) and: ((aGame positionOf: anotherSpaceship ) = 1)) .
 ]
 
 { #category : #tests }

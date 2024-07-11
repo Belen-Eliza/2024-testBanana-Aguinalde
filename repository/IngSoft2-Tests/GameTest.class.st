@@ -490,7 +490,7 @@ GameTest >> test42ASpaceshipStartsWithThreeShields [
 		         on: aBoard
 		         throwing: (OrderedCollection with: aDie)
 		         wonAfter: 1.
-	self assert: (aGame shieldsOf: aSpaceship) equals: 3
+	self assert: (spaceshipsData first shields ) equals: 3
 ]
 
 { #category : #tests }
@@ -509,7 +509,7 @@ GameTest >> test43AfterLosingABattleSpaceshipLosesAShield [
 		         wonAfter: 1.
 	aGame battleBetween: aSpaceship and: anotherSpaceship.
 
-	self assert: (aGame shieldsOf: aSpaceship) equals: 2
+	self assert: (spaceshipsData first shields) equals: 2
 ]
 
 { #category : #tests }
@@ -528,7 +528,7 @@ GameTest >> test44IfSpaceshipWinsBattleDoesntLoseShields [
 		         wonAfter: 1.
 	aGame battleBetween: aSpaceship and: anotherSpaceship.
 
-	self assert: (aGame shieldsOf: aSpaceship) equals: 3
+	self assert: (spaceshipsData first shields ) equals: 3
 ]
 
 { #category : #tests }
@@ -548,7 +548,7 @@ GameTest >> test45SpaceshipLosesTwoBattlesAndLosesTwoShields [
 	aGame battleBetween: aSpaceship and: anotherSpaceship.
 	aGame battleBetween: aSpaceship and: anotherSpaceship.
 
-	self assert: (aGame shieldsOf: aSpaceship) equals: 1
+	self assert: (spaceshipsData first shields ) equals: 1
 ]
 
 { #category : #tests }
@@ -649,7 +649,7 @@ GameTest >> test50SkippingATurnRechargesShields [
 	aGame battleBetween: aSpaceship and: anotherSpaceship.
 	aGame skipTurn.
 
-	self assert: (aGame shieldsOf: aSpaceship) equals: 3
+	self assert: (spaceshipsData first shields ) equals: 3
 ]
 
 { #category : #tests }
@@ -668,7 +668,7 @@ GameTest >> test51FirstSquareIsASafeZone [
 		         wonAfter: 2.
 	aGame playTurn.
 	aGame playTurn.
-	self assert: (aGame shieldsOf: anotherSpaceship) equals: 3
+	self assert: (spaceshipsData first shields ) equals: 3
 ]
 
 { #category : #tests }
@@ -803,5 +803,5 @@ GameTest >> test78FirstSquareIsASafeZone [
 		         wonAfter: 1.
 	
 
-	self assert: (aGame shieldsOf: aSpaceship ) equals: 3
+	self assert: (spaceshipsData first shields  ) equals: 3
 ]

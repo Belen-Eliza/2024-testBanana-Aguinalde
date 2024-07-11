@@ -220,9 +220,10 @@ BoardTest >> test056IfSpaceshipLandsOnHyperSpaceJumpSquareThenAdvancesFourSquare
 { #category : #tests }
 BoardTest >> test057IfSpaceshipLandsOnHyperSpaceJumpSquareThenLosesAShield [
 
-	| aGame aSpaceship aBoard aDie spaceshipsData |
+	| aGame aSpaceship aSpaceshipLog aBoard aDie spaceshipsData |
 	aSpaceship := Spaceship launch: 'One'.
-	spaceshipsData:= OrderedCollection with: (SpaceshipLog randomCardsfor: aSpaceship).
+	aSpaceshipLog := SpaceshipLog randomCardsfor: aSpaceship.
+	spaceshipsData:= OrderedCollection with: (aSpaceshipLog ).
 	
 	aBoard := self createBoardOf: 11 distance: (ParsecDistance of: 1) withEffects: { ( HyperSpaceJumpEffect isIn: 6) } wormholeBeginsAt: 1 andEndsAt: 3.
 
@@ -234,7 +235,7 @@ BoardTest >> test057IfSpaceshipLandsOnHyperSpaceJumpSquareThenLosesAShield [
 		         throwing: (OrderedCollection with: aDie)
 		         wonAfter: 1.
 	aGame playTurn.
-	self assert: (aGame shieldsOf: aSpaceship) equals: 2
+	self assert: (aSpaceshipLog shields) equals: 2
 ]
 
 { #category : #tests }
@@ -335,8 +336,8 @@ BoardTest >> test062WhenSpaceshipLandsOnAtomicBombAllShieldsGetReducedByOne [
 	aGame playTurn.
 	aGame playTurn.
 
-	self assert: ((aGame shieldsOf: anotherSpaceship) = 2 and:
-			 (aGame shieldsOf: aSpaceship) = 2)
+	self assert: ((spaceshipsData first shields ) = 2 and:
+			 (spaceshipsData last shields) = 2)
 ]
 
 { #category : #tests }
@@ -364,8 +365,8 @@ BoardTest >> test063WhenSpaceshipLandsOnAtomicBombAllShieldsGoDownByOne [
 	aGame decreaseShieldByOneOf: anotherSpaceship .
 	aGame playTurn.
 
-	self assert: ((aGame shieldsOf: anotherSpaceship) = 1 and:
-			 (aGame shieldsOf: aSpaceship) = 2)
+	self assert: ((spaceshipsData last shields ) = 1 and:
+			 (spaceshipsData first shields ) = 2)
 ]
 
 { #category : #tests }
@@ -387,7 +388,7 @@ BoardTest >> test064WhenTwoSpaceshipOnAnEffectSquareThenTheEffectsHappensBeforeB
 	3 timesRepeat: [ aGame playTurn ].
 
 
-	self assert: (aGame shieldsOf: aSpaceship) equals: 3
+	self assert: (spaceshipsData first shields ) equals: 3
 ]
 
 { #category : #tests }
@@ -408,7 +409,7 @@ BoardTest >> test065WhenSpaceshipLandsOnSquareWithEffectAndGetsMovedToASquareWit
 		         wonAfter: 1.
 	2 timesRepeat: [ aGame playTurn ].
 
-	self assert: (aGame shieldsOf: aSpaceship) equals: 2
+	self assert: (spaceshipsData first shields ) equals: 2
 ]
 
 { #category : #tests }

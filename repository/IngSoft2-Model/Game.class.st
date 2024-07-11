@@ -314,12 +314,6 @@ Game >> saveLastEffectTriggeredTo: anEffect [
 lastEffectTriggered := anEffect deepCopy .
 ]
 
-{ #category : #accessing }
-Game >> shieldsOf: aSpaceship [ 
-
-	^(self dataFor: aSpaceship) shields 
-]
-
 { #category : #action }
 Game >> skipTurn [
 	|aSpaceship|
