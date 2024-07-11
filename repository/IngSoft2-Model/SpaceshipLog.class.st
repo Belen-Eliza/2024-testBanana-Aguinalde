@@ -52,13 +52,6 @@ SpaceshipLog class >> randomCardsfor: aSpaceship [
 ]
 
 { #category : #comparing }
-SpaceshipLog >> = anotherSpaceship [
-
-	
-	^position = anotherSpaceship position 
-]
-
-{ #category : #comparing }
 SpaceshipLog >> >= anotherSpaceship [
 
 	self laps = anotherSpaceship laps
@@ -67,12 +60,6 @@ SpaceshipLog >> >= anotherSpaceship [
 		
 
 		
-]
-
-{ #category : #adding }
-SpaceshipLog >> addCard: aCard [
-
-cards add: aCard .
 ]
 
 { #category : #adding }

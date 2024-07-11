@@ -8,6 +8,7 @@ Class {
 AccelerationCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
 	self validateIfCardCanBePlayedBy: aSpaceship in: aGame.
 	aGame addActiveCard: self.
+	^self
 ]
 
 { #category : #testing }

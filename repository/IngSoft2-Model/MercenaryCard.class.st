@@ -16,6 +16,7 @@ MercenaryCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
 	mercenary:=anotherSpaceship.
 	ally := aSpaceship.
 	aGame addActiveCard: self.
+	^self
 ]
 
 { #category : #testing }

@@ -28,3 +28,12 @@ SpaceshipTest >> test120SpaceshipsShieldsCannotBeLessThanZero [
 	6 timesRepeat: [ aSpaceship decreaseShieldsByOne ].
 	self assert: aSpaceship shields  equals: 0
 ]
+
+{ #category : #tests }
+SpaceshipTest >> test144SpaceshipLogCanCalculateHash [
+
+	| aSpaceship hash |
+	aSpaceship :=SpaceshipLog randomCardsfor: ( Spaceship launch: 'Death Star').
+	hash := aSpaceship hash.
+	self assert: hash class  equals: SmallInteger 
+]
