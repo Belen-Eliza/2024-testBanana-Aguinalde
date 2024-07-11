@@ -31,8 +31,10 @@ PermanentCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
 	self subclassResponsibility 
 ]
 
+
 { #category : #accessing }
 PermanentCard >> is: aSpaceship anAllyOf: anotherSpaceship [ 
+
 ^false.
 ]
 
@@ -42,8 +44,8 @@ PermanentCard >> mercenary [
 ]
 
 { #category : #action }
-PermanentCard >> playOn: aSpaceship [
 
+PermanentCard >> playOn: aSpaceship [
 ^0.
 ]
 
@@ -53,6 +55,7 @@ PermanentCard >> reduceShieldsOfAllyOf: aSpaceship in: aGame [
 ]
 
 { #category : #action }
+
 PermanentCard >> reinforce: aSpaceship using: aDiceBeaker [
 
 	^ 0

@@ -27,7 +27,7 @@ BoardDistributionCreatorTest >> test080WhenProbabilityIs100ThenEffectIsCreated [
 	| aBoardDistributionCreator probabilites |
 	aBoardDistributionCreator := BoardDistributionCreator new.
 	probabilites := Dictionary
-		                newFromKeys: { MysteryCardEffect  }
+		                newFromKeys: { HyperJumpEffect   }
 		                andValues: { 100 }.
 	self
 		assert: ((aBoardDistributionCreator
@@ -35,7 +35,7 @@ BoardDistributionCreatorTest >> test080WhenProbabilityIs100ThenEffectIsCreated [
 				  with: probabilites
 				  withParsecs: 1
 				  maximumHyperJumpValues: 1) at: 1) effect class
-		equals: MysteryCardEffect 
+		equals: HyperJumpEffect  
 ]
 
 { #category : #tests }

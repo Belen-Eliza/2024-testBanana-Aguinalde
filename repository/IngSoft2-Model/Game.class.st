@@ -43,12 +43,6 @@ Game >> applyHyperSpaceJumpFor: aSpaceship [
 ]
 
 { #category : #action }
-Game >> applyMoonwalkFor: aSpaceship  movingOthersBack: someSquares [
-	self moveAllBut: aSpaceship back: someSquares.
-
-]
-
-{ #category : #action }
 Game >> battleBetween: aSpaceship and: aSpaceship2 [
 
 	| loser resultForFirstPlayer resultForSecondPlayer |
@@ -169,7 +163,7 @@ Game >> initializeSpaceships [
 	spaceships := OrderedCollection new.
 	spaceships := spaceshipsData collect: [ :dataForASpaceship | dataForASpaceship spaceship ].
 	
-	spaceshipsData do: [ :dataForASpaceship | dataForASpaceship changePositionTo: (PositionTracker beginIn: board) ]
+	spaceshipsData do: [ :dataForASpaceship | dataForASpaceship keepTrackOfPositionWith: (PositionTracker beginIn: board) ]
 ]
 
 { #category : #action }
@@ -289,6 +283,7 @@ Game >> redoLastCardPlayedFor: aSpaceship targeting: aTarget [
 	| aCard |
 	self validateLastCardPlayed.
 	state validateStateForCards.
+
 	aCard:= lastTypeOfCardPlayed new.
 	^ aCard from: aSpaceship withTarget: aTarget  useIn: self.
 ]

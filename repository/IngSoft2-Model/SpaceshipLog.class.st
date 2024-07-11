@@ -32,9 +32,9 @@ Class {
 	#instVars : [
 		'spaceship',
 		'shields',
-		'position',
 		'state',
-		'cards'
+		'cards',
+		'positionTracker'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -52,6 +52,7 @@ SpaceshipLog class >> randomCardsfor: aSpaceship [
 ]
 
 { #category : #comparing }
+
 SpaceshipLog >> >= anotherSpaceship [
 
 	self laps = anotherSpaceship laps
@@ -76,15 +77,15 @@ SpaceshipLog >> addRandomCard [
 		cards add: randomCard new.
 ]
 
-{ #category : #accessing }
-SpaceshipLog >> cards [
-^cards 
+{ #category : #adding }
+SpaceshipLog >> addToDeck: aCard [
+
+cards add: aCard .
 ]
 
 { #category : #accessing }
-SpaceshipLog >> changePositionTo: newPosition [
-
-position := newPosition .
+SpaceshipLog >> cards [
+^cards 
 ]
 
 { #category : #accessing }
@@ -102,7 +103,7 @@ SpaceshipLog >> decreaseShieldsByOne [
 { #category : #comparing }
 SpaceshipLog >> hash [ 
 
-^shields hash + position hash + spaceship hash 
+^shields hash + positionTracker hash + spaceship hash 
 ]
 
 { #category : #initialization }
@@ -125,20 +126,26 @@ SpaceshipLog >> initializeRandomCardsFor: aSpaceship [
 ]
 
 { #category : #accessing }
+SpaceshipLog >> keepTrackOfPositionWith: newPositionTracker [
+
+	positionTracker := newPositionTracker
+]
+
+{ #category : #accessing }
 SpaceshipLog >> laps [
-^position laps  
+^positionTracker laps  
 ]
 
 { #category : #accessing }
 SpaceshipLog >> move: someSquares [
 
-position move: someSquares 
+positionTracker move: someSquares 
 ]
 
 { #category : #accessing }
 SpaceshipLog >> moveTo: aPosition [
 
-	position moveTo:  aPosition 
+	positionTracker moveTo:  aPosition 
 ]
 
 { #category : #action }
@@ -149,7 +156,7 @@ SpaceshipLog >> playIn: aGame [
 
 { #category : #accessing }
 SpaceshipLog >> position [
-^position square
+^positionTracker square
 ]
 
 { #category : #adding }
@@ -172,11 +179,6 @@ SpaceshipLog >> shields [
 { #category : #accessing }
 SpaceshipLog >> spaceship [
 ^spaceship 
-]
-
-{ #category : #accessing }
-SpaceshipLog >> state [ 
-^state 
 ]
 
 { #category : #validation }
