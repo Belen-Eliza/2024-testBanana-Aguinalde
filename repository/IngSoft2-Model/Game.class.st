@@ -5,12 +5,12 @@ Class {
 		'spaceships',
 		'board',
 		'state',
-		'dice',
 		'spaceshipsData',
 		'laps',
 		'activeCards',
 		'lastTypeOfCardPlayed',
-		'lastEffectTriggered'
+		'lastEffectTriggered',
+		'diceBeaker'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -52,9 +52,9 @@ Game >> applyMoonwalkFor: aSpaceship  movingOthersBack: someSquares [
 Game >> battleBetween: aSpaceship and: aSpaceship2 [
 
 	| loser resultForFirstPlayer resultForSecondPlayer |
-	resultForFirstPlayer := self throwDice.
+	resultForFirstPlayer := diceBeaker throwDice.
 	activeCards  do: [ :card | resultForFirstPlayer := (card reinforce: aSpaceship in: self) + resultForFirstPlayer. ].
-	resultForSecondPlayer := self throwDice.
+	resultForSecondPlayer := diceBeaker throwDice.
 	activeCards  do: [ :card | resultForSecondPlayer := (card reinforce: aSpaceship2 in: self) + resultForSecondPlayer. ].
 
 	loser := resultForFirstPlayer > resultForSecondPlayer
@@ -79,7 +79,7 @@ Game >> battleIn: position [
 Game >> calculateFinalPositionFor: aSpaceship [
 
 	| diceResult newPosition cardModifier |
-	diceResult := self throwDice.
+	diceResult := diceBeaker throwDice.
 
 	cardModifier := 0.
 	activeCards do: [ :card |
@@ -141,11 +141,6 @@ Game >> detonateAtomicBomb [
 	self decreaseAllShieldsByOne .
 ]
 
-{ #category : #accessing }
-Game >> dice [
-^ dice.
-]
-
 { #category : #adding }
 Game >> end [
 	state := GameFinishedState new.
@@ -159,7 +154,7 @@ board := aBoard.
 self initializeSpaceships.
 state := GameOngoingState new.
 
-dice := someDice.
+diceBeaker := DiceBeaker fillWith: someDice.
 laps := aNumberOfLaps .
 activeCards:= OrderedCollection new.
 lastEffectTriggered:= NullEffect new.
@@ -343,15 +338,6 @@ Game >> skipTurn [
 	self rechargeShieldsOf: aSpaceship.
 	self nextTurn.
 	
-]
-
-{ #category : #action }
-Game >> throwDice [
-
-	|result|
-	result :=0.
-	dice do: [ :aDie | result := result + aDie throw ].
- 	^ result 
 ]
 
 { #category : #action }
