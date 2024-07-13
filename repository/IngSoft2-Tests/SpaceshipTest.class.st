@@ -37,3 +37,13 @@ SpaceshipTest >> test144SpaceshipLogCanCalculateHash [
 	hash := aSpaceship hash.
 	self assert: hash class  equals: SmallInteger 
 ]
+
+{ #category : #tests }
+SpaceshipTest >> test158 [
+
+	| aSpaceship  |
+	aSpaceship :=Spaceship launch: 'A test' with: { MercenaryCard . AccelerationCard  }.
+
+	aSpaceship keepARecordWith: (SpaceshipLog for: aSpaceship  with: (aSpaceship starterDeck ) trackingPositionWith: (PositionTracker beginIn: nil)).
+	self assert: aSpaceship  cards  equals: (OrderedCollection with: MercenaryCard with: AccelerationCard) 
+]

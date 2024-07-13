@@ -80,7 +80,7 @@ Game >> calculateFinalPositionFor: aSpaceship [
 	diceResult := diceResult + cardModifier.
 
 	(self dataFor: aSpaceship) move: diceResult.
-	newPosition := self positionOf: aSpaceship.
+	newPosition := aSpaceship position .
 
 	board
 		applyEffectFor: aSpaceship
@@ -110,8 +110,11 @@ Game >> convertToSquares: aParsecDistance [
 { #category : #accessing }
 Game >> dataFor: aSpaceship [
 
-^spaceshipsData detect: [:dataForASpaceship | dataForASpaceship spaceship = aSpaceship   ] ifNone: [ Error signal: 'That spaceship is not a player in this game' ].
-
+	^ spaceshipsData
+		  detect: [ :dataForASpaceship |
+		  dataForASpaceship spaceship = aSpaceship ]
+		  ifNone: [
+		  Error signal: 'That spaceship is not a player in this game' ]
 ]
 
 { #category : #adding }
@@ -141,7 +144,7 @@ Game >> end [
 { #category : #initialization }
 Game >> initializePlayedBy: someSpaceships on: aBoard throwing: someDice wonAfter: aNumberOfLaps [ 
 
-spaceshipsData := OrderedCollection withAll:  someSpaceships.
+spaceships := OrderedCollection withAll:  someSpaceships.
 board := aBoard.
 self initializeSpaceships.
 state := GameOngoingState new.
@@ -155,19 +158,23 @@ lastEffectTriggered:= NullEffect new.
 { #category : #initialization }
 Game >> initializeSpaceships [
 
-	| numberOfPlayers |
-	numberOfPlayers := spaceshipsData size.
+	| numberOfPlayers dataForASpaceship|
+	numberOfPlayers := spaceships size.
 
-	spaceships := OrderedCollection new.
-	spaceships := spaceshipsData collect: [ :dataForASpaceship | dataForASpaceship spaceship ].
-	
-	spaceshipsData do: [ :dataForASpaceship | dataForASpaceship keepTrackOfPositionWith: (PositionTracker beginIn: board) ]
+	spaceshipsData := OrderedCollection new.
+	spaceships do: [ :aSpaceship |
+		dataForASpaceship :=SpaceshipLog
+				 for: aSpaceship
+				 with: aSpaceship starterDeck
+				 trackingPositionWith: (PositionTracker beginIn: board).
+		spaceshipsData add: dataForASpaceship .
+		aSpaceship keepARecordWith: (dataForASpaceship ) ]
 ]
 
 { #category : #action }
 Game >> is: spaceship in: position [
 
-	^ (self positionOf: spaceship) = position
+	^  spaceship position  = position
 ]
 
 { #category : #action }
@@ -263,7 +270,7 @@ Game >> players [
 { #category : #accessing }
 Game >> positionOf: aSpaceship [ 
 
-	^(self dataFor: aSpaceship )  position
+	^ aSpaceship position
 ]
 
 { #category : #adding }
@@ -328,7 +335,7 @@ Game >> turn [
 	| aSpaceship position |
 	aSpaceship := self nextSpaceshipToPlay .
 	self calculateFinalPositionFor: aSpaceship.
-	position := self positionOf: aSpaceship.
+	position := aSpaceship position .
 	position = 1 ifFalse: [ self battleIn: position ]. 
 	self checkForWinner.
 ]

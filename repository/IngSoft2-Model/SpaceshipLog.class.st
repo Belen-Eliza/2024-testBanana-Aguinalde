@@ -33,11 +33,17 @@ Class {
 		'spaceship',
 		'shields',
 		'state',
-		'cards',
-		'positionTracker'
+		'positionTracker',
+		'deck'
 	],
 	#category : #'IngSoft2-Model'
 }
+
+{ #category : #'instance creation' }
+SpaceshipLog class >> for: aSpaceship with: aDeck trackingPositionWith: aPositionTracker [
+
+	^self new initializeFor: aSpaceship  with: aDeck  trackingPositionWith: aPositionTracker 
+]
 
 { #category : #'instance creation' }
 SpaceshipLog class >> for: aSpaceship withDeck: someCards [
@@ -73,12 +79,12 @@ SpaceshipLog >> addRandomCard [
 		             with: RedoCard
 		             with: RepeatCard.
 		randomCard := cardTypes atRandom.
-		cards add: randomCard new.
+		deck add: randomCard new.
 ]
 
 { #category : #accessing }
 SpaceshipLog >> cards [
-^cards 
+^deck cards 
 ]
 
 { #category : #accessing }
@@ -100,12 +106,22 @@ SpaceshipLog >> hash [
 ]
 
 { #category : #initialization }
+SpaceshipLog >> initializeFor: aSpaceship with: aDeck trackingPositionWith: aPositionTracker [
+
+	spaceship := aSpaceship .
+	state := NoPenaltyState new.
+	shields := 3.
+	deck:= aDeck .
+	positionTracker := aPositionTracker 
+]
+
+{ #category : #initialization }
 SpaceshipLog >> initializeFor: aSpaceship withDeck: someCards [
 
 	spaceship := aSpaceship .
 	state := NoPenaltyState new.
 	shields := 3.
-	cards:= OrderedCollection withAll:  someCards.
+	deck:= OrderedCollection withAll:  someCards.
 ]
 
 { #category : #initialization }
@@ -114,7 +130,7 @@ SpaceshipLog >> initializeRandomCardsFor: aSpaceship [
 	spaceship := aSpaceship .
 	state := NoPenaltyState new.
 	shields := 3.
-	cards:= OrderedCollection new.
+	deck:= OrderedCollection new.
 	2 timesRepeat: [ self addRandomCard].
 ]
 
@@ -161,7 +177,7 @@ SpaceshipLog >> rechargeShields [
 { #category : #removing }
 SpaceshipLog >> removeFromHand: aCard [
 
- cards remove: (aCard class)
+ deck remove: (aCard class)
 ]
 
 { #category : #accessing }
@@ -177,7 +193,7 @@ SpaceshipLog >> spaceship [
 { #category : #validation }
 SpaceshipLog >> validateThatSpaceshipHas: aCard [
 	
-	(cards includes: aCard class) ifFalse: [
+	(deck includes: aCard class) ifFalse: [
 		Error signal:
 			'A Spaceship cannot play a card that is not in its hand' ]
 ]
