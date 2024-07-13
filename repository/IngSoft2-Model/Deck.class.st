@@ -63,7 +63,7 @@ Deck >> cards [
 
 { #category : #initialization }
 Deck >> initializeCreateWith: someCards [ 
-	cards:= someCards 
+	cards:= OrderedCollection withAll:  someCards 
 ]
 
 { #category : #initialization }
@@ -71,4 +71,9 @@ Deck >> initializeCreateWithRandomCards [
 	
 	cards:= OrderedCollection new.
 	2 timesRepeat: [ self addRandomCard].
+]
+
+{ #category : #removing }
+Deck >> remove: aCard [ 
+	cards remove:  aCard 
 ]
