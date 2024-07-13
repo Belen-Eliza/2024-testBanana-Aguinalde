@@ -70,16 +70,7 @@ SpaceshipLog >> >= anotherSpaceship [
 
 { #category : #adding }
 SpaceshipLog >> addRandomCard [
-
-	| cardTypes randomCard |
-	cardTypes := OrderedCollection
-		             with: AccelerationCard
-		             with: SpeedCard
-		             with: MercenaryCard
-		             with: RedoCard
-		             with: RepeatCard.
-		randomCard := cardTypes atRandom.
-		deck add: randomCard new.
+	deck addRandomCard 
 ]
 
 { #category : #accessing }

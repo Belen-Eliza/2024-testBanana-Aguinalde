@@ -39,7 +39,7 @@ SpaceshipTest >> test144SpaceshipLogCanCalculateHash [
 ]
 
 { #category : #tests }
-SpaceshipTest >> test158 [
+SpaceshipTest >> test158SpaceshipBeginsWithAStarterDeck [
 
 	| aSpaceship  |
 	aSpaceship :=Spaceship launch: 'A test' with: { MercenaryCard . AccelerationCard  }.
