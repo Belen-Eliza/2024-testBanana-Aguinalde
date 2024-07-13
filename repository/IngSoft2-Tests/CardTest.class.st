@@ -12,7 +12,7 @@ CardTest >> createBoardOf: length distance: aDistance withEffects: someEffects w
 	1 to: length  do: [ :i |
 	squares add: (Square with: (NullEffect isIn: i)) ].
 	someEffects ifNotNil: [someEffects do: [ :effect |
-		squares at: effect position put: (Square with: effect) ]. ]. 
+		squares at: effect squareNumber  put: (Square with: effect) ]. ]. 
 	^ Board
 		  with: squares
 		  length: aDistance

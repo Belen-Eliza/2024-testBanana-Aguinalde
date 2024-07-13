@@ -27,7 +27,7 @@ Class {
 	#name : #BlackholeEffect,
 	#superclass : #Object,
 	#instVars : [
-		'myPosition'
+		'squareNumber'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -47,11 +47,11 @@ BlackholeEffect >> applyIn: aGame for: aSpaceship [
 { #category : #initialization }
 BlackholeEffect >> initializeIsIn: aPosition [ 
 
-myPosition := aPosition.
+squareNumber := aPosition.
 ]
 
 { #category : #accessing }
-BlackholeEffect >> position [
+BlackholeEffect >> squareNumber [ 
 
-^myPosition 
+^squareNumber 
 ]

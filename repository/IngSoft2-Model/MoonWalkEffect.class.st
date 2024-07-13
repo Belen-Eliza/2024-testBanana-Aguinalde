@@ -29,7 +29,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'someSquares',
-		'myPosition'
+		'squareNumber'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -57,12 +57,11 @@ MoonWalkEffect >> applyIn: aGame for: aSpaceship [
 { #category : #initialization }
 MoonWalkEffect >> initializeIsIn: aSquare moves: aNumberOfSquares [ 
 	someSquares  := aNumberOfSquares .
-	myPosition := aSquare 
+	squareNumber := aSquare 
 ]
 
 { #category : #accessing }
-MoonWalkEffect >> position [
+MoonWalkEffect >> squareNumber [ 
 
-^myPosition 
-
+^squareNumber 
 ]

@@ -24,7 +24,7 @@ Class {
 	#name : #AtomicBombEffect,
 	#superclass : #Object,
 	#instVars : [
-		'myPosition'
+		'squareNumber'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -45,12 +45,11 @@ AtomicBombEffect >> applyIn: aGame for: aSpaceship [
 { #category : #initialization }
 AtomicBombEffect >> initializeIsIn: aPosition [ 
 
-myPosition := aPosition.
+squareNumber := aPosition.
 ]
 
 { #category : #accessing }
-AtomicBombEffect >> position [
+AtomicBombEffect >> squareNumber [ 
 
-^myPosition 
-
+^squareNumber 
 ]
