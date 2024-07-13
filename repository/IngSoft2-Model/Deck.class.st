@@ -61,6 +61,11 @@ Deck >> cards [
 	^ cards
 ]
 
+{ #category : #testing }
+Deck >> includes: aCard [ 
+	^cards includes: aCard 
+]
+
 { #category : #initialization }
 Deck >> initializeCreateWith: someCards [ 
 	cards:= OrderedCollection withAll:  someCards 

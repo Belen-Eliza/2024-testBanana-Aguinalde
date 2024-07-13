@@ -74,3 +74,27 @@ DeckTest >> test155ARandomValidCardIsAddedToDeck [
 	self assert: (aDeck cards allSatisfy: [:card | cardTypes includes: (card class) ]) .
 
 ]
+
+{ #category : #tests }
+DeckTest >> test156DeckKnowsWhatCardsItHas [
+
+	| aDeck aCard anotherCard  |
+	aCard := MercenaryCard.
+	anotherCard := SpeedCard .
+
+	aDeck := Deck createWith: { aCard . anotherCard  }.
+
+	self assert: (aDeck includes: aCard  )
+]
+
+{ #category : #tests }
+DeckTest >> test157DeckKnowsWhatCardsItDoesNotHave [
+
+	| aDeck aCard anotherCard  aThirdCard |
+	aCard := MercenaryCard.
+	anotherCard := SpeedCard .
+	aThirdCard := AccelerationCard .
+	aDeck := Deck createWith: { aCard . anotherCard  }.
+
+	self deny: (aDeck includes: aThirdCard  )
+]

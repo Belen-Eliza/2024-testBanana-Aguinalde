@@ -76,12 +76,6 @@ SpaceshipLog >> addRandomCard [
 		cards add: randomCard new.
 ]
 
-{ #category : #adding }
-SpaceshipLog >> addToDeck: aCard [
-
-cards add: aCard .
-]
-
 { #category : #accessing }
 SpaceshipLog >> cards [
 ^cards 
