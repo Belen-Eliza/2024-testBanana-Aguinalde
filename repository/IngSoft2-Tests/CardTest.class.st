@@ -1476,3 +1476,57 @@ CardTest >> test160ReversalCardCannotBePlayedOutOfTurn [
 		raise: Error
 		withMessage: 'Card cannot be played out of turn'
 ]
+
+{ #category : #tests }
+CardTest >> test161ReversalCardDoesNotChangeNullEffect [
+
+	| aGame aSpaceship aBoard aDie aReversalCard anEffect |
+	aSpaceship := Spaceship launch: 'One' with: {
+			              MercenaryCard.
+			              ReversalCard }.
+	anEffect := NullEffect isIn: 5.
+	aBoard := self
+		          createBoardOf: 16
+		          distance: 5
+		          withEffects: { anEffect }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: { aSpaceship }
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aReversalCard := ReversalCard new.
+	aGame play: aReversalCard from: aSpaceship targeting: anEffect .
+	aGame playTurn.
+	
+	self assert: aSpaceship position  equals: 5
+]
+
+{ #category : #tests }
+CardTest >> test162ReversalCardDoesNotChangeAtomicBombEffect [
+
+	| aGame aSpaceship aBoard aDie aReversalCard anEffect |
+	aSpaceship := Spaceship launch: 'One' with: {
+			              MercenaryCard.
+			              ReversalCard }.
+	anEffect := AtomicBombEffect  isIn: 5.
+	aBoard := self
+		          createBoardOf: 16
+		          distance: 5
+		          withEffects: { anEffect }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: { aSpaceship }
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aReversalCard := ReversalCard new.
+	aGame play: aReversalCard from: aSpaceship targeting: anEffect .
+	aGame playTurn.
+	
+	self assert: aSpaceship position  equals: 1
+]
