@@ -1441,3 +1441,38 @@ CardTest >> test150CancellationCardCanRemoveActiveMercenaryCardsPlayedWithRedo [
 	aGame playTurn.
 	self assert: ((( anotherSpaceship position) = 1) and: ((yetAnotherSpaceship position ) = 6) )
 ]
+
+{ #category : #tests }
+CardTest >> test160ReversalCardCannotBePlayedOutOfTurn [
+
+	| aGame aSpaceship aBoard aDie aReversalCard anEffect anotherSpaceship |
+	aSpaceship := Spaceship launch: 'One' with: {
+			              MercenaryCard.
+			              ReversalCard }.
+	anotherSpaceship := Spaceship randomCardsLaunch: ''.
+	anEffect := NullEffect isIn: 5.
+	aBoard := self
+		          createBoardOf: 16
+		          distance: 5
+		          withEffects: { anEffect }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie arrayOf: (OrderedCollection
+			         with: 3
+			         with: 5
+			         with: 5
+			         with: 4
+			         with: 3).
+	aGame := Game
+		         playedBy: { aSpaceship . anotherSpaceship  }
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aGame playTurn.
+	aReversalCard := ReversalCard new.
+	self
+		should: [
+		aGame play: aReversalCard from: aSpaceship targeting: anEffect ]
+		raise: Error
+		withMessage: 'Card cannot be played out of turn'
+]

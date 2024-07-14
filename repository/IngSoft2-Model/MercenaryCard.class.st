@@ -35,7 +35,7 @@ Class {
 }
 
 { #category : #action }
-MercenaryCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
+MercenaryCard >> from: aSpaceship targeting: anotherSpaceship useIn: aGame [
 	self validateIfCardCanBePlayedBy: aSpaceship in: aGame.
 	self validateAllianceBetween: aSpaceship and: anotherSpaceship .
 	aGame validateMercenaryAvailability: anotherSpaceship .

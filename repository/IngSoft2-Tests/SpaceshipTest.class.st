@@ -4,6 +4,16 @@ Class {
 	#category : #'IngSoft2-Tests'
 }
 
+{ #category : #asserting }
+SpaceshipTest >> should: anErrorBlock raise: anError withMessage: errorMessage [
+
+self 
+	should: anErrorBlock 
+	raise: anError 
+	withExceptionDo: [ :error |
+										self assert: error messageText  equals: errorMessage  ].
+]
+
 { #category : #tests }
 SpaceshipTest >> test026SpaceshipCreatedWithAName [
 	
@@ -76,4 +86,27 @@ SpaceshipTest >> test158SpaceshipBeginsWithAStarterDeck [
 
 	aSpaceship keepARecordWith: (SpaceshipLog for: aSpaceship  with: (aSpaceship starterDeck ) trackingPositionWith: (PositionTracker beginIn: nil)).
 	self assert: aSpaceship  cards  equals: (OrderedCollection with: MercenaryCard with: AccelerationCard) 
+]
+
+{ #category : #tests }
+SpaceshipTest >> test159SpaceshipLogCannotBeAssignedTwice [
+
+	| aSpaceship |
+	aSpaceship := Spaceship launch: 'A test' with: {
+			              MercenaryCard.
+			              AccelerationCard }.
+
+	aSpaceship keepARecordWith: (SpaceshipLog
+			 for: aSpaceship
+			 with: aSpaceship starterDeck
+			 trackingPositionWith: (PositionTracker beginIn: nil)).
+	self
+		should: [
+			aSpaceship keepARecordWith: (SpaceshipLog
+					 for: aSpaceship
+					 with: aSpaceship starterDeck
+					 trackingPositionWith: (PositionTracker beginIn: nil)) ]
+		raise: Error
+		withMessage:
+		'Spaceship log cannot be changed in the middle of the game'
 ]

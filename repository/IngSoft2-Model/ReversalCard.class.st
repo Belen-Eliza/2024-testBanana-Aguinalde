@@ -1,7 +1,7 @@
 "
 Please comment me using the following template inspired by Class Responsibility Collaborator (CRC) design:
 
-For the Class part:  When played, applies the effect of the last card played
+For the Class part: Inverts the effect in a given square
 
 For the Responsibility part: Three sentences about my main responsibilities - what I do, what I know.
 
@@ -21,12 +21,12 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #RedoCard,
-	#superclass : #Object,
+	#name : #ReversalCard,
+	#superclass : #PermanentCard,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #action }
-RedoCard >> from: aSpaceship targeting: aTarget useIn: aGame [
-	^aGame redoLastCardPlayedFor: aSpaceship targeting: aTarget
+ReversalCard >> from: aSpaceship targeting: anEffect useIn: aGame [
+	self validateIfCardCanBePlayedBy: aSpaceship  in: aGame 
 ]

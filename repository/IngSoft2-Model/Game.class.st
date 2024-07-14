@@ -245,7 +245,7 @@ Game >> nextTurn [
 Game >> play: aCard from: aSpaceship targeting: anotherSpaceship [
 	|card|
 	self validateIf: aCard  canBePlayedBy: aSpaceship .
-	card := aCard from: aSpaceship withTarget: anotherSpaceship useIn: self.
+	card := aCard from: aSpaceship targeting: anotherSpaceship useIn: self.
 	(self dataFor: aSpaceship) removeFromHand: aCard. 
 	^card 
 	
@@ -279,7 +279,7 @@ Game >> redoLastCardPlayedFor: aSpaceship targeting: aTarget [
 	state validateStateForCards.
 
 	aCard:= lastTypeOfCardPlayed new.
-	^ aCard from: aSpaceship withTarget: aTarget  useIn: self.
+	^ aCard from: aSpaceship targeting: aTarget  useIn: self.
 ]
 
 { #category : #action }

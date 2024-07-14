@@ -27,7 +27,7 @@ Class {
 }
 
 { #category : #action }
-AccelerationCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
+AccelerationCard >> from: aSpaceship targeting: anotherSpaceship useIn: aGame [
 	self validateIfCardCanBePlayedBy: aSpaceship in: aGame.
 	aGame addActiveCard: self.
 	^self
