@@ -43,6 +43,11 @@ NullEffect >> applyIn: aGame for: aSpaceship [
 
 ]
 
+{ #category : #action }
+NullEffect >> applyInvertedIn: aGame for: aSpaceship [ 
+
+]
+
 { #category : #initialization }
 NullEffect >> initializeIsIn: aPosition [ 
 

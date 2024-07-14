@@ -26,6 +26,11 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #accessing }
+PermanentCard >> effect [
+^0
+]
+
 { #category : #action }
 PermanentCard >> from: aSpaceship targeting: anotherSpaceship useIn: aGame [
 	self subclassResponsibility 

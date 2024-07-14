@@ -23,10 +23,21 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : #ReversalCard,
 	#superclass : #PermanentCard,
+	#instVars : [
+		'effect'
+	],
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #accessing }
+ReversalCard >> effect [
+	^ effect
+]
+
 { #category : #action }
 ReversalCard >> from: aSpaceship targeting: anEffect useIn: aGame [
-	self validateIfCardCanBePlayedBy: aSpaceship  in: aGame 
+	self validateIfCardCanBePlayedBy: aSpaceship  in: aGame .
+	aGame addActiveCard: self.
+	effect:= anEffect .
+	^self
 ]

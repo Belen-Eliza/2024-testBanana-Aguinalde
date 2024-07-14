@@ -51,7 +51,10 @@ effect := anEffect.
 ]
 
 { #category : #action }
-Square >> land: aSpaceship in:aGame [
-	aGame saveLastEffectTriggeredTo: effect .
-	^ effect applyIn: aGame for: aSpaceship 
+Square >> land: aSpaceship in: aGame [
+
+	aGame saveLastEffectTriggeredTo: effect.
+	(aGame isInverted: effect)
+		ifTrue: [ ^ effect applyInvertedIn: aGame for: aSpaceship ]
+		ifFalse: [ ^ effect applyIn: aGame for: aSpaceship ]
 ]

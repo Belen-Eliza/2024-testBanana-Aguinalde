@@ -42,6 +42,11 @@ AtomicBombEffect >> applyIn: aGame for: aSpaceship [
 
 ]
 
+{ #category : #action }
+AtomicBombEffect >> applyInvertedIn: aGame for: aSpaceship [ 
+	self applyIn: aGame  for: aSpaceship 
+]
+
 { #category : #initialization }
 AtomicBombEffect >> initializeIsIn: aPosition [ 
 

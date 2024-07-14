@@ -184,6 +184,12 @@ Game >> is: spaceship notAnAllyOf: aSpaceship [
 		  (card is: aSpaceship anAllyOf: spaceship) not ]
 ]
 
+{ #category : #testing }
+Game >> isInverted: anEffect [
+
+	^ activeCards anySatisfy: [ :card | card effect = anEffect ]
+]
+
 { #category : #accessing }
 Game >> isOngoing [
 
