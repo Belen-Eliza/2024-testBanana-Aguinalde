@@ -65,7 +65,7 @@ SpaceshipTest >> test144SpaceshipLogCanCalculateHash [
 	aSpaceshipLog := SpaceshipLog for: aSpaceship  with: aSpaceship starterDeck  trackingPositionWith: (PositionTracker beginIn: nil).
 	aSpaceship keepARecordWith: aSpaceshipLog .
 	hash := aSpaceshipLog  hash.
-	self assert: hash class  equals: SmallInteger 
+	self assert: hash >0
 ]
 
 { #category : #tests }
