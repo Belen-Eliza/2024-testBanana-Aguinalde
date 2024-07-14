@@ -937,32 +937,6 @@ CardTest >> test111IfNoSpaceshipHasPlayedYetRepeatCardHasNoEffect [
 ]
 
 { #category : #tests }
-CardTest >> test112SpaceshipCanBeCreatedWithTwoRandomCards [
-
-	|  aSpaceship |
-	aSpaceship := Spaceship randomCardsLaunch:  'One'.
-	aSpaceship keepARecordWith: (SpaceshipLog for: aSpaceship  with: aSpaceship starterDeck trackingPositionWith: (PositionTracker beginIn: nil)).
-	
-	self assert: (aSpaceship  cards size) equals:2 .
-]
-
-{ #category : #tests }
-CardTest >> test113SpaceshipDataIsCreatedWithRandomValidCards [
-
-	|  aSpaceship cardTypes |
-	aSpaceship := Spaceship randomCardsLaunch:  'One'.
-	aSpaceship keepARecordWith: (SpaceshipLog for: aSpaceship  with: aSpaceship starterDeck trackingPositionWith: (PositionTracker beginIn: nil)).
-	cardTypes := OrderedCollection
-		             with: AccelerationCard
-		             with: SpeedCard
-		             with: MercenaryCard
-		             with: RedoCard
-		             with: RepeatCard.
-	
-	self assert: (aSpaceship cards allSatisfy: [:card | cardTypes includes: (card class) ]) .
-]
-
-{ #category : #tests }
 CardTest >> test114ASpaceshipCannotPlayACardThatIsNotInItsHand [
 
 	| aGame aSpaceship aBoard aDie aCard |

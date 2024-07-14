@@ -21,20 +21,50 @@ SpaceshipTest >> test027SpaceshipCreatedWithAnotherName [
 ]
 
 { #category : #tests }
+SpaceshipTest >> test112SpaceshipCanBeCreatedWithTwoRandomCards [
+
+	|  aSpaceship |
+	aSpaceship := Spaceship randomCardsLaunch:  'One'.
+	aSpaceship keepARecordWith: (SpaceshipLog for: aSpaceship  with: aSpaceship starterDeck trackingPositionWith: (PositionTracker beginIn: nil)).
+	
+	self assert: (aSpaceship  cards size) equals:2 .
+]
+
+{ #category : #tests }
+SpaceshipTest >> test113SpaceshipDataIsCreatedWithRandomValidCards [
+
+	|  aSpaceship cardTypes |
+	aSpaceship := Spaceship randomCardsLaunch:  'One'.
+	aSpaceship keepARecordWith: (SpaceshipLog for: aSpaceship  with: aSpaceship starterDeck trackingPositionWith: (PositionTracker beginIn: nil)).
+	cardTypes := OrderedCollection
+		             with: AccelerationCard
+		             with: SpeedCard
+		             with: MercenaryCard
+		             with: RedoCard
+		             with: RepeatCard.
+	
+	self assert: (aSpaceship cards allSatisfy: [:card | cardTypes includes: (card class) ]) .
+]
+
+{ #category : #tests }
 SpaceshipTest >> test120SpaceshipsShieldsCannotBeLessThanZero [
 
-	| aSpaceship |
-	aSpaceship :=SpaceshipLog randomCardsfor: ( Spaceship launch: 'Death Star').
-	6 timesRepeat: [ aSpaceship decreaseShieldsByOne ].
+	| aSpaceship aSpaceshipLog |
+	aSpaceship :=( Spaceship randomCardsLaunch:  'Death Star').
+	aSpaceshipLog := SpaceshipLog for: aSpaceship  with: aSpaceship starterDeck  trackingPositionWith: (PositionTracker beginIn: nil).
+	aSpaceship keepARecordWith: aSpaceshipLog .
+	6 timesRepeat: [ aSpaceshipLog  decreaseShieldsByOne ].
 	self assert: aSpaceship shields  equals: 0
 ]
 
 { #category : #tests }
 SpaceshipTest >> test144SpaceshipLogCanCalculateHash [
 
-	| aSpaceship hash |
-	aSpaceship :=SpaceshipLog randomCardsfor: ( Spaceship launch: 'Death Star').
-	hash := aSpaceship hash.
+	| aSpaceship hash aSpaceshipLog |
+	aSpaceship :=( Spaceship randomCardsLaunch:  'Death Star').
+	aSpaceshipLog := SpaceshipLog for: aSpaceship  with: aSpaceship starterDeck  trackingPositionWith: (PositionTracker beginIn: nil).
+	aSpaceship keepARecordWith: aSpaceshipLog .
+	hash := aSpaceshipLog  hash.
 	self assert: hash class  equals: SmallInteger 
 ]
 
