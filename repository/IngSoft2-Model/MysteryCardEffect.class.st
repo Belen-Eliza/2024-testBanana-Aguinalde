@@ -24,7 +24,7 @@ Class {
 	#name : #MysteryCardEffect,
 	#superclass : #Object,
 	#instVars : [
-		'myPosition'
+		'squareNumber'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -45,11 +45,11 @@ aGame addRandomCardFor: aSpaceship .
 { #category : #initialization }
 MysteryCardEffect >> initializeIsIn: aPosition [ 
 
-myPosition := aPosition.
+squareNumber := aPosition.
 ]
 
 { #category : #accessing }
-MysteryCardEffect >> position [
+MysteryCardEffect >> squareNumber [ 
 
-^myPosition 
+^squareNumber 
 ]

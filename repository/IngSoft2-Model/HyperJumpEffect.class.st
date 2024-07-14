@@ -29,7 +29,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'toMove',
-		'myPosition'
+		'squareNumber'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -53,12 +53,12 @@ HyperJumpEffect >> applyIn: aGame for: aSpaceship [
 { #category : #initialization }
 HyperJumpEffect >> initializeIsIn: aSquare movesDistance: someDistance [
 
-	myPosition := aSquare.
+	squareNumber := aSquare.
 	toMove  := someDistance .
 ]
 
 { #category : #accessing }
-HyperJumpEffect >> position [
+HyperJumpEffect >> squareNumber [ 
 
-^myPosition 
+^squareNumber 
 ]

@@ -28,7 +28,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'otherSide',
-		'myPosition'
+		'squareNumber'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -52,11 +52,11 @@ WormholeEffect >> applyIn: aGame for: aSpaceship [
 WormholeEffect >> initializeIsIn: aPosition goesTo: anotherPosition [
 
 otherSide := anotherPosition.
-myPosition:= aPosition .
+squareNumber:= aPosition .
 ]
 
 { #category : #accessing }
-WormholeEffect >> position [
+WormholeEffect >> squareNumber [ 
 
-^myPosition 
+^squareNumber 
 ]

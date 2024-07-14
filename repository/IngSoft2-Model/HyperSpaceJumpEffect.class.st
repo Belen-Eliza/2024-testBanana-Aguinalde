@@ -27,7 +27,7 @@ Class {
 	#name : #HyperSpaceJumpEffect,
 	#superclass : #Object,
 	#instVars : [
-		'myPosition'
+		'squareNumber'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -48,11 +48,11 @@ HyperSpaceJumpEffect >> applyIn: aGame for: aSpaceship [
 { #category : #initialization }
 HyperSpaceJumpEffect >> initializeIsIn: aPosition [ 
 
-myPosition := aPosition.
+squareNumber := aPosition.
 ]
 
 { #category : #accessing }
-HyperSpaceJumpEffect >> position [
+HyperSpaceJumpEffect >> squareNumber [ 
 
-^myPosition 
+^squareNumber 
 ]
