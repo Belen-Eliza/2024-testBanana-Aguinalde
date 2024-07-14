@@ -193,7 +193,7 @@ BoardTest >> test055WhenLandingInABlackholeSpaceshipGoesBackFourSquares [
 		         throwing: {aDie }
 		         wonAfter: 1.
 	aGame playTurn.
-	self assert: (aGame positionOf: aSpaceship) equals: 2
+	self assert: (aSpaceship position ) equals: 2
 ]
 
 { #category : #tests }
@@ -210,7 +210,7 @@ BoardTest >> test056IfSpaceshipLandsOnHyperSpaceJumpSquareThenAdvancesFourSquare
 		         throwing: {aDie }
 		         wonAfter: 1.
 	aGame playTurn.
-	self assert: (aGame positionOf: aSpaceship) equals: 10
+	self assert: ( aSpaceship position ) equals: 10
 ]
 
 { #category : #tests }
@@ -655,7 +655,7 @@ BoardTest >> test081HyperJumpEffectCanJumpLightyears [
 		         wonAfter: 3.
 	aGame playTurn.
 
-	self assert: (aGame positionOf: aSpaceship) equals: 1
+	self assert: ( aSpaceship position ) equals: 1
 ]
 
 { #category : #tests }

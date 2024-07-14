@@ -8,7 +8,7 @@ Class {
 SpaceshipTest >> test026SpaceshipCreatedWithAName [
 	
 	| aSpaceship |
-	aSpaceship := Spaceship launch: 'Millenium Falcon'.
+	aSpaceship := Spaceship randomCardsLaunch:  'Millenium Falcon'.
 	self assert: aSpaceship getName equals: 'Millenium Falcon'	
 ]
 
@@ -16,7 +16,7 @@ SpaceshipTest >> test026SpaceshipCreatedWithAName [
 SpaceshipTest >> test027SpaceshipCreatedWithAnotherName [
 
 	| aSpaceship |
-	aSpaceship := Spaceship launch: 'Death Star'.
+	aSpaceship := Spaceship randomCardsLaunch:  'Death Star'.
 	self assert: aSpaceship getName equals: 'Death Star'	
 ]
 

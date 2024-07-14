@@ -182,8 +182,8 @@ CardTest >> test088IfSpaceshipAndOneMercenaryLoseTheBattleBothLoseShields [
 
 	| aGame aSpaceship aBoard aDie anotherSpaceship aCard yetAnotherSpaceship  |
 	aSpaceship := Spaceship launch: 'One' with: {MercenaryCard . AccelerationCard }.
-	anotherSpaceship := Spaceship launch: 'Two'.
-	yetAnotherSpaceship := Spaceship launch: 'Three'.
+	anotherSpaceship := Spaceship randomCardsLaunch:  'Two'.
+	yetAnotherSpaceship := Spaceship randomCardsLaunch:  'Three'.
 		aBoard := self
 		          createBoardOf: 8
 		          distance: (ParsecDistance of: 1)
@@ -213,9 +213,9 @@ CardTest >> test089ASpaceshipCanRecruitMultipleMercenariesThetHelpInBattle [
 
 	| aGame aSpaceship aBoard aDie anotherSpaceship aCard yetAnotherSpaceship fourthSpaceship |
 	aSpaceship := Spaceship launch: 'One' with: {MercenaryCard . MercenaryCard  }.
-	anotherSpaceship := Spaceship launch: 'Two'.
-	yetAnotherSpaceship := Spaceship launch: 'Three'.
-	fourthSpaceship := Spaceship launch: 'Four'.
+	anotherSpaceship := Spaceship randomCardsLaunch:  'Two'.
+	yetAnotherSpaceship := Spaceship randomCardsLaunch:  'Three'.
+	fourthSpaceship := Spaceship randomCardsLaunch:  'Four'.
 		aBoard := self
 		          createBoardOf: 8
 		          distance: (ParsecDistance of: 1)
@@ -247,9 +247,9 @@ CardTest >> test090IfSpaceshipAndMultipleMercenariesLoseTheBattleTheyAllLoseShie
 
 	| aGame aSpaceship aBoard aDie anotherSpaceship aCard yetAnotherSpaceship fourthSpaceship anotherCard |
 	aSpaceship := Spaceship launch: 'One' with: {MercenaryCard . MercenaryCard  }.
-	anotherSpaceship := Spaceship launch: 'Two'.
-	yetAnotherSpaceship := Spaceship launch: 'Three'.
-	fourthSpaceship := Spaceship launch: 'Four'.
+	anotherSpaceship := Spaceship randomCardsLaunch:  'Two'.
+	yetAnotherSpaceship := Spaceship randomCardsLaunch:  'Three'.
+	fourthSpaceship := Spaceship randomCardsLaunch:  'Four'.
 	
 			aBoard := self
 		          createBoardOf: 8

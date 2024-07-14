@@ -45,18 +45,6 @@ SpaceshipLog class >> for: aSpaceship with: aDeck trackingPositionWith: aPositio
 	^self new initializeFor: aSpaceship  with: aDeck  trackingPositionWith: aPositionTracker 
 ]
 
-{ #category : #'instance creation' }
-SpaceshipLog class >> for: aSpaceship withDeck: someCards [
-
-	^self new initializeFor: aSpaceship withDeck: someCards
-]
-
-{ #category : #'instance creation' }
-SpaceshipLog class >> randomCardsfor: aSpaceship [
-
-	^self new initializeRandomCardsFor: aSpaceship
-]
-
 { #category : #comparing }
 SpaceshipLog >> >= anotherSpaceship [
 
@@ -104,25 +92,6 @@ SpaceshipLog >> initializeFor: aSpaceship with: aDeck trackingPositionWith: aPos
 	shields := 3.
 	deck:= aDeck .
 	positionTracker := aPositionTracker 
-]
-
-{ #category : #initialization }
-SpaceshipLog >> initializeFor: aSpaceship withDeck: someCards [
-
-	spaceship := aSpaceship .
-	state := NoPenaltyState new.
-	shields := 3.
-	deck:= OrderedCollection withAll:  someCards.
-]
-
-{ #category : #initialization }
-SpaceshipLog >> initializeRandomCardsFor: aSpaceship [
-
-	spaceship := aSpaceship .
-	state := NoPenaltyState new.
-	shields := 3.
-	deck:= OrderedCollection new.
-	2 timesRepeat: [ self addRandomCard].
 ]
 
 { #category : #accessing }

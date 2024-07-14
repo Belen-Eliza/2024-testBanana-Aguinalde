@@ -267,12 +267,6 @@ Game >> players [
 ^ spaceships.
 ]
 
-{ #category : #accessing }
-Game >> positionOf: aSpaceship [ 
-
-	^ aSpaceship position
-]
-
 { #category : #adding }
 Game >> rechargeShieldsOf: aSpaceship [
 	(self dataFor: aSpaceship ) rechargeShields

@@ -9,12 +9,6 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #initialize }
-Spaceship class >> launch: aName [
-
-	^ self new initializeLaunch: aName
-]
-
 { #category : #'instance creation' }
 Spaceship class >> launch: aName with: someCards [
 
@@ -35,12 +29,6 @@ Spaceship >> cards [
 { #category : #accessing }
 Spaceship >> getName [
 ^ myName.
-]
-
-{ #category : #initialize }
-Spaceship >> initializeLaunch: aName [ 
-
-myName := aName.
 ]
 
 { #category : #initialization }
