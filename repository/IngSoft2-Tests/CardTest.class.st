@@ -1637,3 +1637,57 @@ CardTest >> test166WhenReversalCardIsPlayedOnHyperjumpEffectThenSpaceshipMovesSa
 	
 	self assert: aSpaceship position equals: 3
 ]
+
+{ #category : #tests }
+CardTest >> test167WhenReversalCardIsPlayedOnHyperjumpEffectThatMovesBackwardsThenSpaceshipMovesSameAmountOfSquaresForward [
+
+	| aGame aSpaceship aBoard aDie aReversalCard anEffect |
+	aSpaceship := Spaceship launch: 'One' with: { ReversalCard }.
+	
+	anEffect := HyperJumpEffect isIn: 5 movesDistance: {ParsecDistance of: -2}.
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { anEffect }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: { aSpaceship}
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aReversalCard := ReversalCard new.
+	aGame play: aReversalCard from: aSpaceship targeting: anEffect .
+	aGame playTurn.
+	
+	self assert: aSpaceship position equals: 7
+]
+
+{ #category : #tests }
+CardTest >> test168WhenReversalCardIsPlayedOnHyperjumpEffectThenAllValuesGetInverted [
+
+	| aGame aSpaceship aBoard aDie aReversalCard anEffect anotherSpaceship yetAnotherSpaceship |
+	aSpaceship := Spaceship launch: 'One' with: { ReversalCard }.
+	anotherSpaceship := Spaceship randomCardsLaunch:  'Two' .
+	yetAnotherSpaceship := Spaceship randomCardsLaunch:  'Three'.
+	
+	anEffect := HyperJumpEffect isIn: 5 movesDistance: {ParsecDistance of: -2 . ParsecDistance of: 1 . ParsecDistance of: 3}.
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { anEffect }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: { aSpaceship . anotherSpaceship . yetAnotherSpaceship }
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aReversalCard := ReversalCard new.
+	aGame play: aReversalCard from: aSpaceship targeting: anEffect .
+	3 timesRepeat: 	[aGame playTurn].
+	
+	self assert: (aSpaceship position = 7 and: (anotherSpaceship position = 4 and: yetAnotherSpaceship position = 2 ))
+]

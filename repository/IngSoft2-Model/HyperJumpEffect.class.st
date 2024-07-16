@@ -52,7 +52,10 @@ HyperJumpEffect >> applyIn: aGame for: aSpaceship [
 
 { #category : #action }
 HyperJumpEffect >> applyInvertedIn: aGame for: aSpaceship [ 
-	aGame make: aSpaceship  move: -2
+	| currentDistance |
+	currentDistance := toMove removeFirst.
+	toMove addLast: currentDistance.
+	aGame make: aSpaceship  move: ((aGame convertToSquares:  (currentDistance inParsecs)) negated ).
 ]
 
 { #category : #initialization }
