@@ -2014,3 +2014,30 @@ CardTest >> test182WhenReversalCardIsPlayedThriceThenEffectIsInverted [
 	
 	self assert: aSpaceship position  equals: 10
 ]
+
+{ #category : #tests }
+CardTest >> test183ReversalCardAffectsBothSidesOfTheWormhole [
+
+	| aGame aSpaceship aBoard aDie aReversalCard anEffect otherSide |
+	aSpaceship := Spaceship launch: 'One' with: { ReversalCard }.
+	
+	anEffect := WormholeEffect isIn: 5 goesTo: 10.
+	otherSide := WormholeEffect isIn: 10 goesTo: 5.
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { anEffect . otherSide  }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: { aSpaceship}
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aReversalCard := ReversalCard new.
+	aGame play: aReversalCard from: aSpaceship targeting: otherSide  .
+	aGame playTurn.
+	
+	self assert: (aSpaceship position = 1 and: (aSpaceship laps = 0) )
+]

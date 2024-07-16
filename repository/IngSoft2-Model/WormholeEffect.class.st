@@ -39,6 +39,12 @@ WormholeEffect class >> isIn: aPosition goesTo: anotherPosition [
 ^self new initializeIsIn: aPosition goesTo: anotherPosition.
 ]
 
+{ #category : #comparing }
+WormholeEffect >> = anEffect [
+
+	^anEffect class = (self class) and: (squareNumber = anEffect squareNumber or: (otherSide = anEffect squareNumber ))
+]
+
 { #category : #action }
 WormholeEffect >> applyIn: aGame for: aSpaceship [ 
 	aGame move: aSpaceship to: otherSide .
@@ -52,6 +58,11 @@ WormholeEffect >> applyIn: aGame for: aSpaceship [
 WormholeEffect >> applyInvertedIn: aGame for: aSpaceship [
 
 	aGame applyInvertedWormholeFor: aSpaceship goingFrom: squareNumber to: otherSide
+]
+
+{ #category : #comparing }
+WormholeEffect >> hash [ 
+	^squareNumber hash + otherSide hash 
 ]
 
 { #category : #initialization }
