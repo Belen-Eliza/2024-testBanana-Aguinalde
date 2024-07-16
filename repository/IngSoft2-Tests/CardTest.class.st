@@ -1584,3 +1584,56 @@ CardTest >> test164ReversalCardStoresTheEffectItAppliesOn [
 	
 	self assert: aReversalCard effect  equals: anEffect 
 ]
+
+{ #category : #tests }
+CardTest >> test165WhenReversalCardIsPlayedOnMoonwalkEffectThenAllOtherSpaceshipsMoveForward [
+
+	| aGame aSpaceship anotherSpaceship yetAnotherSpaceship aBoard aDie aReversalCard anEffect |
+	aSpaceship := Spaceship launch: 'One' with: { ReversalCard }.
+	anotherSpaceship := Spaceship randomCardsLaunch:  'Two' .
+	yetAnotherSpaceship := Spaceship randomCardsLaunch:  'Three'.
+	anEffect := MoonWalkEffect isIn: 5 moves: 1.
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of:  5)
+		          withEffects: { anEffect }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: { aSpaceship . anotherSpaceship . yetAnotherSpaceship }
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aReversalCard := ReversalCard new.
+	aGame play: aReversalCard from: aSpaceship targeting: anEffect .
+	aGame playTurn.
+	
+	self assert: (anotherSpaceship position = 2 and: (yetAnotherSpaceship position = 2 and: (aSpaceship position = 5) ) )
+]
+
+{ #category : #tests }
+CardTest >> test166WhenReversalCardIsPlayedOnHyperjumpEffectThenSpaceshipMovesSameAmountOfSquaresInTheOppositeDirection [
+
+	| aGame aSpaceship aBoard aDie aReversalCard anEffect |
+	aSpaceship := Spaceship launch: 'One' with: { ReversalCard }.
+	
+	anEffect := HyperJumpEffect isIn: 5 movesDistance: {ParsecDistance of: 2}.
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { anEffect }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: { aSpaceship}
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aReversalCard := ReversalCard new.
+	aGame play: aReversalCard from: aSpaceship targeting: anEffect .
+	aGame playTurn.
+	
+	self assert: aSpaceship position equals: 3
+]

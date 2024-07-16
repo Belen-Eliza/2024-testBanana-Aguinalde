@@ -50,11 +50,16 @@ HyperJumpEffect >> applyIn: aGame for: aSpaceship [
 
 ]
 
+{ #category : #action }
+HyperJumpEffect >> applyInvertedIn: aGame for: aSpaceship [ 
+	aGame make: aSpaceship  move: -2
+]
+
 { #category : #initialization }
 HyperJumpEffect >> initializeIsIn: aSquare movesDistance: someDistance [
 
 	squareNumber := aSquare.
-	toMove  := someDistance .
+	toMove  := OrderedCollection withAll:  someDistance .
 ]
 
 { #category : #accessing }

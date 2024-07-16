@@ -54,6 +54,11 @@ MoonWalkEffect >> applyIn: aGame for: aSpaceship [
 
 ]
 
+{ #category : #action }
+MoonWalkEffect >> applyInvertedIn: aGame for: aSpaceship [ 
+	aGame moveAllBut: aSpaceship  back: someSquares negated 
+]
+
 { #category : #initialization }
 MoonWalkEffect >> initializeIsIn: aSquare moves: aNumberOfSquares [ 
 	someSquares  := aNumberOfSquares .
