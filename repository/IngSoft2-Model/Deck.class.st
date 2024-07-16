@@ -63,7 +63,9 @@ Deck >> cards [
 
 { #category : #removing }
 Deck >> discardRandomCard [
-	cards remove:  (cards atRandom)
+	cards ifNotEmpty: [ cards remove:  (cards atRandom)  ]
+	
+
 ]
 
 { #category : #testing }

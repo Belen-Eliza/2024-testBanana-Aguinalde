@@ -144,6 +144,11 @@ Game >> detonateAtomicBomb [
 	self decreaseAllShieldsByOne .
 ]
 
+{ #category : #action }
+Game >> discardACardFor: aSpaceship [ 
+	(self dataFor: aSpaceship ) discardACard 
+]
+
 { #category : #adding }
 Game >> end [
 	state := GameFinishedState new.
@@ -245,6 +250,17 @@ Game >> moveAllBut: aSpaceship back: someSquares [
 	selectedSpaceships do: [ :spaceship |
 		(self dataFor: spaceship) move:  someSquares negated 
 		 ]
+]
+
+{ #category : #action }
+Game >> moveBackALap: aSpaceship [
+
+	(self dataFor: aSpaceship ) moveBackALap
+]
+
+{ #category : #action }
+Game >> moveForwardALap: aSpaceship [
+	(self dataFor: aSpaceship ) moveForwardALap
 ]
 
 { #category : #accessing }

@@ -78,6 +78,11 @@ SpaceshipLog >> decreaseShieldsByOne [
 	shields = 0 ifTrue: [ state := Turn1RechargeState new  ].
 ]
 
+{ #category : #action }
+SpaceshipLog >> discardACard [
+	deck discardRandomCard 
+]
+
 { #category : #comparing }
 SpaceshipLog >> hash [ 
 
@@ -120,6 +125,11 @@ positionTracker move: someSquares
 { #category : #action }
 SpaceshipLog >> moveBackALap [
 	positionTracker moveBackALap
+]
+
+{ #category : #action }
+SpaceshipLog >> moveForwardALap [
+	positionTracker moveForwardALap
 ]
 
 { #category : #accessing }

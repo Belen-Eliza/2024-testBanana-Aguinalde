@@ -1795,3 +1795,81 @@ CardTest >> test172WhenReversalCardIsPlayedOnWormholeEffectAndSpaceshipLandsInSt
 	
 	self assert: (aSpaceship position = 10 and: (aSpaceship laps = 0) )
 ]
+
+{ #category : #tests }
+CardTest >> test173WhenReversalCardIsPlayedOnWormholeEffectAndSpaceshipLandsInEndpointThenGoesToStartpointAndGainsALap [
+
+	| aGame aSpaceship aBoard aDie aReversalCard anEffect |
+	aSpaceship := Spaceship launch: 'One' with: { ReversalCard }.
+	
+	anEffect := WormholeEffect isIn: 10 goesTo: 5.
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { anEffect }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 9.
+	aGame := Game
+		         playedBy: { aSpaceship}
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aReversalCard := ReversalCard new.
+	aGame play: aReversalCard from: aSpaceship targeting: anEffect .
+	aGame playTurn.
+	
+	self assert: (aSpaceship position = 5 and: (aSpaceship laps = 1) )
+]
+
+{ #category : #tests }
+CardTest >> test174WhenReversalCardIsPlayedOnMysteryCardEffectThenSpaceshipLosesARandomCard [
+
+	| aGame aSpaceship aBoard aDie aReversalCard anEffect |
+	aSpaceship := Spaceship launch: 'One' with: { ReversalCard . MercenaryCard . SpeedCard  }.
+	
+	anEffect := MysteryCardEffect  isIn: 10 .
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { anEffect }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 9.
+	aGame := Game
+		         playedBy: { aSpaceship}
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aReversalCard := ReversalCard new.
+	aGame play: aReversalCard from: aSpaceship targeting: anEffect .
+	aGame playTurn.
+	
+	self assert: aSpaceship cards size equals: 1
+]
+
+{ #category : #tests }
+CardTest >> test175WhenReversalCardIsPlayedOnMysteryCardEffectAndSpaceshipHasNoCardsLeftThenNothingHappens [
+
+	| aGame aSpaceship aBoard aDie aReversalCard anEffect |
+	aSpaceship := Spaceship launch: 'One' with: { ReversalCard }.
+	
+	anEffect := MysteryCardEffect  isIn: 10 .
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { anEffect }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 9.
+	aGame := Game
+		         playedBy: { aSpaceship}
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aReversalCard := ReversalCard new.
+	aGame play: aReversalCard from: aSpaceship targeting: anEffect .
+	aGame playTurn.
+	
+	self assert: aSpaceship cards size equals: 0
+]

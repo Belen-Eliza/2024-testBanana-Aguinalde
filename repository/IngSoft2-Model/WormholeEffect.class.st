@@ -49,10 +49,13 @@ WormholeEffect >> applyIn: aGame for: aSpaceship [
 ]
 
 { #category : #action }
-WormholeEffect >> applyInvertedIn: aGame for: aSpaceship [ 
+WormholeEffect >> applyInvertedIn: aGame for: aSpaceship [
 
-	aGame moveBackALap: aSpaceship .
-	aGame move: aSpaceship  to: otherSide
+	squareNumber > otherSide
+		ifTrue: [ aGame moveForwardALap: aSpaceship ]
+		ifFalse: [ aGame moveBackALap: aSpaceship ].
+
+	aGame move: aSpaceship to: otherSide
 ]
 
 { #category : #initialization }

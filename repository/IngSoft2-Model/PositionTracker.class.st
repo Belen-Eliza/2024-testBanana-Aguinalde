@@ -65,6 +65,11 @@ PositionTracker >> moveBackALap [
 ]
 
 { #category : #action }
+PositionTracker >> moveForwardALap [
+	self move: board lengthInSquares 
+]
+
+{ #category : #action }
 PositionTracker >> moveTo: aSquare [
  	self move: (aSquare - self square )
 ]
