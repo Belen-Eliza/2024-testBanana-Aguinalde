@@ -53,15 +53,8 @@ Game >> applyInvertedHyperSpaceJumpFor: aSpaceship [
 { #category : #action }
 Game >> applyInvertedWormholeFor: aSpaceship goingFrom: squareNumber to: otherSide [
 
-	| toMove |
-	toMove := squareNumber > otherSide
-		          ifTrue: [
-		          board lengthInSquares - squareNumber + otherSide ]
-		          ifFalse: [
-		          (board lengthInSquares - otherSide) negated  - squareNumber ].
-
-
-	(self dataFor: aSpaceship) move: toMove
+	(self dataFor: aSpaceship) move:
+		(board distanceBetween: squareNumber and: otherSide)
 ]
 
 { #category : #action }
@@ -244,6 +237,16 @@ Game >> make: aSpaceship move: someSquares [
 ]
 
 { #category : #action }
+Game >> makeAllBut: aSpaceship move: someSquares [
+
+	| selectedSpaceships |
+	selectedSpaceships:= spaceships select:[ :spaceship | spaceship ~= aSpaceship .].
+	selectedSpaceships do: [ :spaceship |
+		(self dataFor: spaceship) move:  someSquares  
+		 ]
+]
+
+{ #category : #action }
 Game >> move: aSpaceship to: aPosition [ 
 
 	(self dataFor: aSpaceship) moveTo: aPosition  .
@@ -254,27 +257,6 @@ Game >> move: aSpaceship to: aPosition [
 Game >> moveAllBackToBeginning [
 	
 	spaceshipsData do: [ :dataForASpaceship | dataForASpaceship moveTo: 1 ]
-]
-
-{ #category : #action }
-Game >> moveAllBut: aSpaceship back: someSquares [
-
-	| selectedSpaceships |
-	selectedSpaceships:= spaceships select:[ :spaceship | spaceship ~= aSpaceship .].
-	selectedSpaceships do: [ :spaceship |
-		(self dataFor: spaceship) move:  someSquares negated 
-		 ]
-]
-
-{ #category : #action }
-Game >> moveBackALap: aSpaceship [
-
-	(self dataFor: aSpaceship ) moveBackALap
-]
-
-{ #category : #action }
-Game >> moveForwardALap: aSpaceship [
-	(self dataFor: aSpaceship ) moveForwardALap
 ]
 
 { #category : #accessing }

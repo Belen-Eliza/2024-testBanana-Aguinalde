@@ -122,16 +122,6 @@ SpaceshipLog >> move: someSquares [
 positionTracker move: someSquares 
 ]
 
-{ #category : #action }
-SpaceshipLog >> moveBackALap [
-	positionTracker moveBackALap
-]
-
-{ #category : #action }
-SpaceshipLog >> moveForwardALap [
-	positionTracker moveForwardALap
-]
-
 { #category : #accessing }
 SpaceshipLog >> moveTo: aPosition [
 
