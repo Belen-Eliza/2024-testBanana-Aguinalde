@@ -213,7 +213,9 @@ Game >> is: spaceship notAnAllyOf: aSpaceship [
 { #category : #testing }
 Game >> isInverted: anEffect [
 
-	^ activeCards anySatisfy: [ :card | card effect = anEffect ]
+	^ (activeCards count: [ :card | card effect = anEffect ]) odd 
+	
+
 ]
 
 { #category : #accessing }

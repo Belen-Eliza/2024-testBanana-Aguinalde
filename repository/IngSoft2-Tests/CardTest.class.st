@@ -1956,3 +1956,61 @@ CardTest >> test180WhenRedoCardIsPlayedAfterReversalThenAnotherEffectGetsInverte
 	
 	self assert: aSpaceship position  equals: 10
 ]
+
+{ #category : #tests }
+CardTest >> test181WhenReversalCardIsPlayedTwiceThenEffectRemainsUnchanged [
+
+	| aGame aSpaceship aBoard aDie aReversalCard anotherReversal anEffect |
+	aSpaceship := Spaceship launch: 'One' with: { ReversalCard . ReversalCard  }.
+	
+	anEffect  := BlackholeEffect isIn: 6.
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { anEffect }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 5.
+	aGame := Game
+		         playedBy: { aSpaceship}
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aReversalCard := ReversalCard new.
+	anotherReversal   := ReversalCard   new.
+	aGame play: aReversalCard from: aSpaceship targeting: anEffect .
+	aGame play: anotherReversal  from: aSpaceship  targeting: anEffect .
+	aGame playTurn.
+	
+	self assert: aSpaceship position  equals: 2
+]
+
+{ #category : #tests }
+CardTest >> test182WhenReversalCardIsPlayedThriceThenEffectIsInverted [
+
+	| aGame aSpaceship aBoard aDie aReversalCard anotherReversal moreReversal anEffect |
+	aSpaceship := Spaceship launch: 'One' with: { ReversalCard . ReversalCard . ReversalCard  }.
+	
+	anEffect  := BlackholeEffect isIn: 6.
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { anEffect }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 5.
+	aGame := Game
+		         playedBy: { aSpaceship}
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aReversalCard := ReversalCard new.
+	anotherReversal   := ReversalCard   new.
+	moreReversal := ReversalCard new.
+	aGame play: aReversalCard from: aSpaceship targeting: anEffect .
+	aGame play: anotherReversal  from: aSpaceship  targeting: anEffect .
+	aGame play: moreReversal   from: aSpaceship  targeting: anEffect .	
+	aGame playTurn.
+	
+	self assert: aSpaceship position  equals: 10
+]
