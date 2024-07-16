@@ -43,6 +43,21 @@ Game >> applyHyperSpaceJumpFor: aSpaceship [
 ]
 
 { #category : #action }
+Game >> applyInvertedHyperSpaceJumpFor: aSpaceship [ 
+
+	self  increaseShieldsByOneOf:  aSpaceship.
+	(self dataFor: aSpaceship ) move: -4.
+	
+]
+
+{ #category : #action }
+Game >> applyInvertedWormholeFor: aSpaceship goingFrom: squareNumber to: otherSide [
+
+	(self dataFor: aSpaceship) move:
+		(board distanceBetween: squareNumber and: otherSide)
+]
+
+{ #category : #action }
 Game >> battleBetween: aSpaceship and: aSpaceship2 [
 
 	| loser resultForFirstPlayer resultForSecondPlayer |
@@ -136,9 +151,20 @@ Game >> detonateAtomicBomb [
 	self decreaseAllShieldsByOne .
 ]
 
+{ #category : #action }
+Game >> discardACardFor: aSpaceship [ 
+	(self dataFor: aSpaceship ) discardACard 
+]
+
 { #category : #adding }
 Game >> end [
 	state := GameFinishedState new.
+]
+
+{ #category : #action }
+Game >> increaseShieldsByOneOf: aSpaceship [ 
+
+	(self dataFor: aSpaceship ) increaseShieldsByOne
 ]
 
 { #category : #initialization }
@@ -184,6 +210,14 @@ Game >> is: spaceship notAnAllyOf: aSpaceship [
 		  (card is: aSpaceship anAllyOf: spaceship) not ]
 ]
 
+{ #category : #testing }
+Game >> isInverted: anEffect [
+
+	^ (activeCards count: [ :card | card effect = anEffect ]) odd 
+	
+
+]
+
 { #category : #accessing }
 Game >> isOngoing [
 
@@ -205,6 +239,16 @@ Game >> make: aSpaceship move: someSquares [
 ]
 
 { #category : #action }
+Game >> makeAllBut: aSpaceship move: someSquares [
+
+	| selectedSpaceships |
+	selectedSpaceships:= spaceships select:[ :spaceship | spaceship ~= aSpaceship .].
+	selectedSpaceships do: [ :spaceship |
+		(self dataFor: spaceship) move:  someSquares  
+		 ]
+]
+
+{ #category : #action }
 Game >> move: aSpaceship to: aPosition [ 
 
 	(self dataFor: aSpaceship) moveTo: aPosition  .
@@ -215,16 +259,6 @@ Game >> move: aSpaceship to: aPosition [
 Game >> moveAllBackToBeginning [
 	
 	spaceshipsData do: [ :dataForASpaceship | dataForASpaceship moveTo: 1 ]
-]
-
-{ #category : #action }
-Game >> moveAllBut: aSpaceship back: someSquares [
-
-	| selectedSpaceships |
-	selectedSpaceships:= spaceships select:[ :spaceship | spaceship ~= aSpaceship .].
-	selectedSpaceships do: [ :spaceship |
-		(self dataFor: spaceship) move:  someSquares negated 
-		 ]
 ]
 
 { #category : #accessing }
@@ -245,7 +279,7 @@ Game >> nextTurn [
 Game >> play: aCard from: aSpaceship targeting: anotherSpaceship [
 	|card|
 	self validateIf: aCard  canBePlayedBy: aSpaceship .
-	card := aCard from: aSpaceship withTarget: anotherSpaceship useIn: self.
+	card := aCard from: aSpaceship targeting: anotherSpaceship useIn: self.
 	(self dataFor: aSpaceship) removeFromHand: aCard. 
 	^card 
 	
@@ -279,7 +313,7 @@ Game >> redoLastCardPlayedFor: aSpaceship targeting: aTarget [
 	state validateStateForCards.
 
 	aCard:= lastTypeOfCardPlayed new.
-	^ aCard from: aSpaceship withTarget: aTarget  useIn: self.
+	^ aCard from: aSpaceship targeting: aTarget  useIn: self.
 ]
 
 { #category : #action }

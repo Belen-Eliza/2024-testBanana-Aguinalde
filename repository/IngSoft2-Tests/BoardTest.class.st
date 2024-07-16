@@ -773,3 +773,32 @@ BoardTest >> test136BoardCreatedWithLightYearsDistance [
 	self assert: aBoard lengthInLightYears equals: 6.
 	
 ]
+
+{ #category : #tests }
+BoardTest >> test177BoardKnowsTheDistanceBetweenTwoSquaresPassingThroughTheBeginning [
+
+	| aBoard aLightYearsDistance |
+	aLightYearsDistance := LightyearDistance of: 6.
+	aBoard := self createBoardOf: 5 distance: aLightYearsDistance withEffects: OrderedCollection new wormholeBeginsAt: 3 andEndsAt: 4.
+	self assert: (aBoard distanceBetween: 3 and: 5) equals: -3.
+	
+]
+
+{ #category : #tests }
+BoardTest >> test178BoardKnowsTheDistanceBetweenTwoSquaresPassingThroughTheBeginning [
+
+	| aBoard aLightYearsDistance |
+	aLightYearsDistance := LightyearDistance of: 6.
+	aBoard := self createBoardOf: 10 distance: aLightYearsDistance withEffects: OrderedCollection new wormholeBeginsAt: 3 andEndsAt: 4.
+	self assert: (aBoard distanceBetween: 6 and: 4) equals: 8.
+	
+]
+
+{ #category : #tests }
+BoardTest >> test184WormholeCanCalculateHash [
+
+	| aWormholeEffect |
+	aWormholeEffect := WormholeEffect isIn: 1 goesTo: 2.
+	self assert: aWormholeEffect hash >0 
+	
+]

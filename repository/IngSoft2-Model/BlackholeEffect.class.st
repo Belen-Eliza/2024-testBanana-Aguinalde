@@ -44,6 +44,11 @@ BlackholeEffect >> applyIn: aGame for: aSpaceship [
 
 ]
 
+{ #category : #action }
+BlackholeEffect >> applyInvertedIn: aGame for: aSpaceship [ 
+	aGame make: aSpaceship  move: 4.
+]
+
 { #category : #initialization }
 BlackholeEffect >> initializeIsIn: aPosition [ 
 

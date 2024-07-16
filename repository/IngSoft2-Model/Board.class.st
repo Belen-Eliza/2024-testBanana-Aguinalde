@@ -107,6 +107,16 @@ Board >> convertToSquares: aParsecDistance [
 ^ aParsecDistance * self lengthInSquares // (parsecs inParsecs) 
 ]
 
+{ #category : #action }
+Board >> distanceBetween: aSquare and: anotherSquare [ 
+	|distance|
+	distance := 	aSquare > anotherSquare 
+	ifTrue: [ self lengthInSquares - aSquare + anotherSquare ] 
+	ifFalse: [ (self lengthInSquares - anotherSquare + aSquare ) negated  ].
+
+	^distance 
+]
+
 { #category : #initialization }
 Board >> initializeWith: theSquares length: aDistance wormholeBeginsAt: startingPoint andEndsAt: endPoint [
 

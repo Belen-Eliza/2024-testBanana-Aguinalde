@@ -1,7 +1,7 @@
 "
 Please comment me using the following template inspired by Class Responsibility Collaborator (CRC) design:
 
-For the Class part:  Squares with this effect do nothing
+For the Class part: Inverts the effect in a given square
 
 For the Responsibility part: Three sentences about my main responsibilities - what I do, what I know.
 
@@ -17,45 +17,27 @@ Public API and Key Messages
 
 Internal Representation and Key Implementation Points.
 
-    Instance Variables
-	myPosition:		<Object>
-
 
     Implementation Points
 "
 Class {
-	#name : #NullEffect,
-	#superclass : #Object,
+	#name : #ReversalCard,
+	#superclass : #PermanentCard,
 	#instVars : [
-		'squareNumber'
+		'effect'
 	],
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'instance creation' }
-NullEffect class >> isIn: aPosition [
-
- ^self new initializeIsIn: aPosition 
-]
-
-{ #category : #action }
-NullEffect >> applyIn: aGame for: aSpaceship [
-
-]
-
-{ #category : #action }
-NullEffect >> applyInvertedIn: aGame for: aSpaceship [ 
-
-]
-
-{ #category : #initialization }
-NullEffect >> initializeIsIn: aPosition [ 
-
-squareNumber := aPosition.
-]
-
 { #category : #accessing }
-NullEffect >> squareNumber [ 
+ReversalCard >> effect [
+	^ effect
+]
 
-^squareNumber 
+{ #category : #action }
+ReversalCard >> from: aSpaceship targeting: anEffect useIn: aGame [
+	self validateIfCardCanBePlayedBy: aSpaceship  in: aGame .
+	aGame addActiveCard: self.
+	effect:= anEffect .
+	^self
 ]

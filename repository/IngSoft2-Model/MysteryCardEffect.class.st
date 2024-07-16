@@ -42,6 +42,11 @@ aGame addRandomCardFor: aSpaceship .
 
 ]
 
+{ #category : #action }
+MysteryCardEffect >> applyInvertedIn: aGame for: aSpaceship [ 
+	aGame discardACardFor: aSpaceship 
+]
+
 { #category : #initialization }
 MysteryCardEffect >> initializeIsIn: aPosition [ 
 

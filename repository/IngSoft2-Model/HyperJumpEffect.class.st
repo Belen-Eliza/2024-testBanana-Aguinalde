@@ -42,19 +42,34 @@ HyperJumpEffect class >> isIn: aSquare movesDistance: someDistances [
 { #category : #action }
 HyperJumpEffect >> applyIn: aGame for: aSpaceship [
 
+	aGame
+		make: aSpaceship
+		move: (aGame convertToSquares: self distanceToMove inParsecs)
+]
+
+{ #category : #action }
+HyperJumpEffect >> applyInvertedIn: aGame for: aSpaceship [
+
+	aGame
+		make: aSpaceship
+		move:
+		(aGame convertToSquares: self distanceToMove inParsecs) negated
+]
+
+{ #category : #action }
+HyperJumpEffect >> distanceToMove [
+
 	| currentDistance |
 	currentDistance := toMove removeFirst.
 	toMove addLast: currentDistance.
-	aGame make: aSpaceship  move: (aGame convertToSquares:  (currentDistance inParsecs)) .
-	
-
+	^ currentDistance
 ]
 
 { #category : #initialization }
 HyperJumpEffect >> initializeIsIn: aSquare movesDistance: someDistance [
 
 	squareNumber := aSquare.
-	toMove  := someDistance .
+	toMove  := OrderedCollection withAll:  someDistance .
 ]
 
 { #category : #accessing }

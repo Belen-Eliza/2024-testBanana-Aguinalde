@@ -27,6 +27,6 @@ Class {
 }
 
 { #category : #action }
-RedoCard >> from: aSpaceship withTarget: aTarget useIn: aGame [
+RedoCard >> from: aSpaceship targeting: aTarget useIn: aGame [
 	^aGame redoLastCardPlayedFor: aSpaceship targeting: aTarget
 ]

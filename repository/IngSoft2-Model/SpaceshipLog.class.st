@@ -78,10 +78,21 @@ SpaceshipLog >> decreaseShieldsByOne [
 	shields = 0 ifTrue: [ state := Turn1RechargeState new  ].
 ]
 
+{ #category : #action }
+SpaceshipLog >> discardACard [
+	deck discardRandomCard 
+]
+
 { #category : #comparing }
 SpaceshipLog >> hash [ 
 
 ^shields hash + positionTracker hash + spaceship hash 
+]
+
+{ #category : #adding }
+SpaceshipLog >> increaseShieldsByOne [
+
+	shields := shields +1
 ]
 
 { #category : #initialization }

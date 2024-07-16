@@ -33,7 +33,7 @@ Class {
 }
 
 { #category : #action }
-SpeedCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
+SpeedCard >> from: aSpaceship targeting: anotherSpaceship useIn: aGame [
 	self validateIfCardCanBePlayedBy: aSpaceship in: aGame.
 	target := anotherSpaceship .
 	aGame addActiveCard: self.

@@ -49,9 +49,14 @@ MoonWalkEffect class >> isIn: aPosition moves: aNumberOfSquares [
 { #category : #action }
 MoonWalkEffect >> applyIn: aGame for: aSpaceship [ 
 	
-	aGame 	 moveAllBut: aSpaceship back: someSquares.
+	aGame 	 makeAllBut: aSpaceship move: someSquares negated .
 	
 
+]
+
+{ #category : #action }
+MoonWalkEffect >> applyInvertedIn: aGame for: aSpaceship [ 
+	aGame makeAllBut: aSpaceship  move: someSquares  
 ]
 
 { #category : #initialization }

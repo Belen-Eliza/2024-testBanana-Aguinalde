@@ -61,6 +61,13 @@ Deck >> cards [
 	^ cards
 ]
 
+{ #category : #removing }
+Deck >> discardRandomCard [
+	cards ifNotEmpty: [ cards remove:  (cards atRandom)  ]
+	
+
+]
+
 { #category : #testing }
 Deck >> includes: aCard [ 
 	^cards includes: aCard 
