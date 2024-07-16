@@ -43,6 +43,14 @@ Game >> applyHyperSpaceJumpFor: aSpaceship [
 ]
 
 { #category : #action }
+Game >> applyInvertedHyperSpaceJumpFor: aSpaceship [ 
+
+	self  increaseShieldsByOneOf:  aSpaceship.
+	(self dataFor: aSpaceship ) move: -4.
+	
+]
+
+{ #category : #action }
 Game >> battleBetween: aSpaceship and: aSpaceship2 [
 
 	| loser resultForFirstPlayer resultForSecondPlayer |
@@ -142,7 +150,7 @@ Game >> end [
 ]
 
 { #category : #action }
-Game >> increaseShieldsByOnOf: aSpaceship [ 
+Game >> increaseShieldsByOneOf: aSpaceship [ 
 
 	(self dataFor: aSpaceship ) increaseShieldsByOne
 ]
