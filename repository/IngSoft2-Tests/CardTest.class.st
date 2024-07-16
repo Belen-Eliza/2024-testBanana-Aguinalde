@@ -1691,3 +1691,55 @@ CardTest >> test168WhenReversalCardIsPlayedOnHyperjumpEffectThenAllValuesGetInve
 	
 	self assert: (aSpaceship position = 7 and: (anotherSpaceship position = 4 and: yetAnotherSpaceship position = 2 ))
 ]
+
+{ #category : #tests }
+CardTest >> test169WhenReversalCardIsPlayedOnHyperSpacejumpEffectThenSpaceshipMovesBackFourSquares [
+
+	| aGame aSpaceship aBoard aDie aReversalCard anEffect |
+	aSpaceship := Spaceship launch: 'One' with: { ReversalCard }.
+	
+	anEffect := HyperSpaceJumpEffect  isIn: 5 .
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { anEffect }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: { aSpaceship}
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aReversalCard := ReversalCard new.
+	aGame play: aReversalCard from: aSpaceship targeting: anEffect .
+	aGame playTurn.
+	
+	self assert: aSpaceship position equals: 1
+]
+
+{ #category : #tests }
+CardTest >> test170WhenReversalCardIsPlayedOnHyperSpacejumpEffectThenSpaceshipGainsAShield [
+
+	| aGame aSpaceship aBoard aDie aReversalCard anEffect |
+	aSpaceship := Spaceship launch: 'One' with: { ReversalCard }.
+	
+	anEffect := HyperSpaceJumpEffect  isIn: 5 .
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { anEffect }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: { aSpaceship}
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aReversalCard := ReversalCard new.
+	aGame play: aReversalCard from: aSpaceship targeting: anEffect .
+	aGame playTurn.
+	
+	self assert: aSpaceship shields equals: 4
+]

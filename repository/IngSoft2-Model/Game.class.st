@@ -141,6 +141,12 @@ Game >> end [
 	state := GameFinishedState new.
 ]
 
+{ #category : #action }
+Game >> increaseShieldsByOnOf: aSpaceship [ 
+
+	(self dataFor: aSpaceship ) increaseShieldsByOne
+]
+
 { #category : #initialization }
 Game >> initializePlayedBy: someSpaceships on: aBoard throwing: someDice wonAfter: aNumberOfLaps [ 
 

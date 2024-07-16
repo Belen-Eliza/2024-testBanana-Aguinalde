@@ -84,6 +84,12 @@ SpaceshipLog >> hash [
 ^shields hash + positionTracker hash + spaceship hash 
 ]
 
+{ #category : #adding }
+SpaceshipLog >> increaseShieldsByOne [
+
+	shields := shields +1
+]
+
 { #category : #initialization }
 SpaceshipLog >> initializeFor: aSpaceship with: aDeck trackingPositionWith: aPositionTracker [
 

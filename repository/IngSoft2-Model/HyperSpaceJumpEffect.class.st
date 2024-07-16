@@ -45,6 +45,13 @@ HyperSpaceJumpEffect >> applyIn: aGame for: aSpaceship [
 
 ]
 
+{ #category : #action }
+HyperSpaceJumpEffect >> applyInvertedIn: aGame for: aSpaceship [ 
+	aGame make: aSpaceship  move: -4.
+	aGame increaseShieldsByOnOf: aSpaceship 
+	
+]
+
 { #category : #initialization }
 HyperSpaceJumpEffect >> initializeIsIn: aPosition [ 
 
