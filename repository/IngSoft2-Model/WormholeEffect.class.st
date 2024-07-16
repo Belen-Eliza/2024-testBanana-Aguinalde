@@ -50,7 +50,9 @@ WormholeEffect >> applyIn: aGame for: aSpaceship [
 
 { #category : #action }
 WormholeEffect >> applyInvertedIn: aGame for: aSpaceship [ 
-	aGame move: aSpaceship  to: otherSide 
+
+	aGame moveBackALap: aSpaceship .
+	aGame move: aSpaceship  to: otherSide
 ]
 
 { #category : #initialization }

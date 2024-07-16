@@ -98,3 +98,15 @@ DeckTest >> test157DeckKnowsWhatCardsItDoesNotHave [
 
 	self deny: (aDeck includes: aThirdCard  )
 ]
+
+{ #category : #tests }
+DeckTest >> test173DeckCanDiscardARandomCard [
+
+	| aDeck aCard anotherCard  aThirdCard |
+	aCard := MercenaryCard.
+	anotherCard := SpeedCard .
+	aThirdCard := AccelerationCard .
+	aDeck := Deck createWith: { aCard . anotherCard . aThirdCard  }.
+	aDeck discardRandomCard.
+	self assert: aDeck cards size equals: 2
+]

@@ -60,6 +60,11 @@ totalSquaresMoved := totalSquaresMoved +someSquares max: 0
 ]
 
 { #category : #action }
+PositionTracker >> moveBackALap [
+	self move: board lengthInSquares negated 
+]
+
+{ #category : #action }
 PositionTracker >> moveTo: aSquare [
  	self move: (aSquare - self square )
 ]
