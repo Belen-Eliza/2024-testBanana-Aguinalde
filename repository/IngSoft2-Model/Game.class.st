@@ -51,6 +51,20 @@ Game >> applyInvertedHyperSpaceJumpFor: aSpaceship [
 ]
 
 { #category : #action }
+Game >> applyInvertedWormholeFor: aSpaceship goingFrom: squareNumber to: otherSide [
+
+	| toMove |
+	toMove := squareNumber > otherSide
+		          ifTrue: [
+		          board lengthInSquares - squareNumber + otherSide ]
+		          ifFalse: [
+		          (board lengthInSquares - otherSide) negated  - squareNumber ].
+
+
+	(self dataFor: aSpaceship) move: toMove
+]
+
+{ #category : #action }
 Game >> battleBetween: aSpaceship and: aSpaceship2 [
 
 	| loser resultForFirstPlayer resultForSecondPlayer |

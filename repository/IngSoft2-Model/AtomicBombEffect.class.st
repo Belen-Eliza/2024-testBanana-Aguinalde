@@ -44,7 +44,7 @@ AtomicBombEffect >> applyIn: aGame for: aSpaceship [
 
 { #category : #action }
 AtomicBombEffect >> applyInvertedIn: aGame for: aSpaceship [ 
-	self applyIn: aGame  for: aSpaceship 
+	aGame detonateAtomicBomb .
 ]
 
 { #category : #initialization }

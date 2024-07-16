@@ -1757,7 +1757,7 @@ CardTest >> test171WhenReversalCardIsPlayedOnWormholeEffectThenSpaceshipGoesToTh
 		          withEffects: { anEffect }
 		          wormholeBeginsAt: 13
 		          andEndsAt: 14.
-	aDie := LoadedDie of: 4.
+	aDie := LoadedDie of: 20.
 	aGame := Game
 		         playedBy: { aSpaceship}
 		         on: aBoard
@@ -1872,4 +1872,30 @@ CardTest >> test175WhenReversalCardIsPlayedOnMysteryCardEffectAndSpaceshipHasNoC
 	aGame playTurn.
 	
 	self assert: aSpaceship cards size equals: 0
+]
+
+{ #category : #tests }
+CardTest >> test176WhenReversalCardIsPlayedOnWormholeEffectAndSpaceshipLandsInStartpointOnTheFirstLapThenGoesToSquareOne [
+
+	| aGame aSpaceship aBoard aDie aReversalCard anEffect |
+	aSpaceship := Spaceship launch: 'One' with: { ReversalCard }.
+	
+	anEffect := WormholeEffect isIn: 5 goesTo: 10.
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { anEffect }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: { aSpaceship}
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aReversalCard := ReversalCard new.
+	aGame play: aReversalCard from: aSpaceship targeting: anEffect .
+	aGame playTurn.
+	
+	self assert: (aSpaceship position = 1 and: (aSpaceship laps = 0) )
 ]
