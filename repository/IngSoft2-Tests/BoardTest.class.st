@@ -793,3 +793,12 @@ BoardTest >> test178BoardKnowsTheDistanceBetweenTwoSquaresPassingThroughTheBegin
 	self assert: (aBoard distanceBetween: 6 and: 4) equals: 8.
 	
 ]
+
+{ #category : #tests }
+BoardTest >> test184WormholeCanCalculateHash [
+
+	| aWormholeEffect |
+	aWormholeEffect := WormholeEffect isIn: 1 goesTo: 2.
+	self assert: aWormholeEffect hash >0 
+	
+]
