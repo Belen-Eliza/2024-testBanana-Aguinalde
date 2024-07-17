@@ -4,6 +4,23 @@ Class {
 	#category : #'IngSoft2-Tests'
 }
 
+{ #category : #accessing }
+SpaceshipTest >> createBoardOf: length distance: aDistance withEffects: someEffects wormholeBeginsAt: startPoint andEndsAt: endPoint [
+
+	| squares |
+	squares := OrderedCollection new.
+	1 to: length  do: [ :i |
+	squares add: (Square with: (NullEffect isIn: i)) ].
+
+	someEffects do: [ :effect |
+		squares at: effect squareNumber put: (Square with: effect) ].
+	^ Board
+		  with: squares
+		  length: aDistance
+		  wormholeBeginsAt: startPoint
+		  andEndsAt: endPoint
+]
+
 { #category : #asserting }
 SpaceshipTest >> should: anErrorBlock raise: anError withMessage: errorMessage [
 
@@ -60,11 +77,20 @@ SpaceshipTest >> test113SpaceshipDataIsCreatedWithRandomValidCards [
 SpaceshipTest >> test120SpaceshipsShieldsCannotBeLessThanZero [
 
 	| aSpaceship aSpaceshipLog |
-	aSpaceship :=( Spaceship randomCardsLaunch:  'Death Star').
-	aSpaceshipLog := SpaceshipLog for: aSpaceship  with: aSpaceship starterDeck  trackingPositionWith: (PositionTracker beginIn: nil).
-	aSpaceship keepARecordWith: aSpaceshipLog .
-	6 timesRepeat: [ aSpaceshipLog  decreaseShieldsByOne ].
-	self assert: aSpaceship shields  equals: 0
+	aSpaceship := Spaceship randomCardsLaunch: 'Death Star'.
+	aSpaceshipLog := SpaceshipLog
+		                 for: aSpaceship
+		                 with: aSpaceship starterDeck
+		                 trackingPositionWith:
+			                 (PositionTracker beginIn: (self
+					                   createBoardOf: 5
+					                   distance: 5
+					                   withEffects: {  }
+					                   wormholeBeginsAt: 1
+					                   andEndsAt: 2)).
+	aSpaceship keepARecordWith: aSpaceshipLog.
+	6 timesRepeat: [ aSpaceshipLog decreaseShieldsByOne ].
+	self assert: aSpaceship shields equals: 0
 ]
 
 { #category : #tests }

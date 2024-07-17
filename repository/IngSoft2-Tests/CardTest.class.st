@@ -2248,3 +2248,58 @@ CardTest >> test192ProtectorAndProtectedSpaceshipsCanFight [
 	aGame playTurn .
 	self assert: aSpaceship position equals: 1
 ]
+
+{ #category : #tests }
+CardTest >> test193ASpaceshipMayHaveMultipleProtectors [
+
+	| aGame aSpaceship aBoard aDie aProtectorCard anotherProtectorCard anotherSpaceship yetAnotherSpaceship |
+	aSpaceship := Spaceship launch: 'One' with: { ProtectorCard . ProtectorCard }.
+	anotherSpaceship := Spaceship randomCardsLaunch: 'Two'.
+	yetAnotherSpaceship := Spaceship randomCardsLaunch: ''.
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: { aSpaceship .  anotherSpaceship . yetAnotherSpaceship }
+		         on: aBoard
+		         throwing: {aDie }
+		         wonAfter: 3.
+	aProtectorCard  := ProtectorCard  new.
+	anotherProtectorCard   := ProtectorCard  new.
+	aGame play: aProtectorCard  from: aSpaceship targeting: anotherSpaceship .
+	aGame play: anotherProtectorCard   from: aSpaceship targeting: yetAnotherSpaceship  .
+	
+	self assert: (aProtectorCard protected = aSpaceship and: (anotherProtectorCard protected = aSpaceship ))
+]
+
+{ #category : #tests }
+CardTest >> test194WhenASpaceshipHasMultipleProtectorsAndLosesABattleThenAllProtectorsLoseShields [
+
+	| aGame aSpaceship aBoard aDie aProtectorCard anotherProtectorCard anotherSpaceship yetAnotherSpaceship |
+	aSpaceship := Spaceship launch: 'One' with: { ProtectorCard . ProtectorCard }.
+	anotherSpaceship := Spaceship randomCardsLaunch: 'Two'.
+	yetAnotherSpaceship := Spaceship randomCardsLaunch: ''.
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: { aSpaceship .  anotherSpaceship . yetAnotherSpaceship }
+		         on: aBoard
+		         throwing: {aDie }
+		         wonAfter: 3.
+	aProtectorCard  := ProtectorCard  new.
+	anotherProtectorCard   := ProtectorCard  new.
+	aGame play: aProtectorCard  from: aSpaceship targeting: anotherSpaceship .
+	aGame play: anotherProtectorCard   from: aSpaceship targeting: yetAnotherSpaceship  .
+	aGame battleBetween: aSpaceship  and: anotherSpaceship .
+	
+	self assert: (aSpaceship  shields = 3 and: (anotherSpaceship  shields = 2 and: (yetAnotherSpaceship shields = 2) ))
+]
