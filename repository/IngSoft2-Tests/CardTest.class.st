@@ -2041,3 +2041,55 @@ CardTest >> test183ReversalCardAffectsBothSidesOfTheWormhole [
 	
 	self assert: (aSpaceship position = 1 and: (aSpaceship laps = 0) )
 ]
+
+{ #category : #tests }
+CardTest >> test185ProtectorCardStoresProtectorSpaceship [
+
+	| aGame aSpaceship aBoard aDie aProtectorCard  anotherSpaceship  |
+	aSpaceship := Spaceship launch: 'One' with: { ProtectorCard }.
+	anotherSpaceship := Spaceship randomCardsLaunch: ''.
+	
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: { aSpaceship}
+		         on: aBoard
+		         throwing: {aDie }
+		         wonAfter: 3.
+	aProtectorCard  := ProtectorCard  new.
+	aGame play: aProtectorCard  from: aSpaceship targeting: anotherSpaceship .
+	aGame playTurn.
+	
+	self assert: aProtectorCard protector  equals: anotherSpaceship   
+]
+
+{ #category : #tests }
+CardTest >> test186ProtectorCardStoresProtectedSpaceship [
+
+	| aGame aSpaceship aBoard aDie aProtectorCard  anotherSpaceship  |
+	aSpaceship := Spaceship launch: 'One' with: { ProtectorCard }.
+	anotherSpaceship := Spaceship randomCardsLaunch: ''.
+	
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: { aSpaceship}
+		         on: aBoard
+		         throwing: {aDie }
+		         wonAfter: 3.
+	aProtectorCard  := ProtectorCard  new.
+	aGame play: aProtectorCard  from: aSpaceship targeting: anotherSpaceship .
+	aGame playTurn.
+	
+	self assert: aProtectorCard protected equals: aSpaceship  
+]
