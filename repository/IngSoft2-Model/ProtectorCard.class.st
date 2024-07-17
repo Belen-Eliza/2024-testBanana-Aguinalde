@@ -52,3 +52,9 @@ ProtectorCard >> protected [
 ProtectorCard >> protector [
 	^ protector
 ]
+
+{ #category : #action }
+ProtectorCard >> reduceShieldsOfAllyOf: aSpaceship in: aGame [
+
+aSpaceship =protected  ifTrue: [ aGame decreaseShieldByOneOf:  protector ].
+]
