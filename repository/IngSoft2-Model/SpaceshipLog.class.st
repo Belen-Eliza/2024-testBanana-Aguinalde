@@ -61,6 +61,11 @@ SpaceshipLog >> addRandomCard [
 	deck addRandomCard 
 ]
 
+{ #category : #testing }
+SpaceshipLog >> canProtect [
+^state canProtect 
+]
+
 { #category : #accessing }
 SpaceshipLog >> cards [
 ^deck cards 
@@ -73,9 +78,11 @@ state := aState
 ]
 
 { #category : #adding }
-SpaceshipLog >> decreaseShieldsByOne [ 
-	shields := shields -1 max: 0.
-	shields = 0 ifTrue: [ state := Turn1RechargeState new  ].
+SpaceshipLog >> decreaseShieldsByOne [
+
+	shields := shields - 1 max: 0.
+	shields = 0 ifTrue:  [ self penalize ].
+	
 ]
 
 { #category : #action }
@@ -126,6 +133,12 @@ positionTracker move: someSquares
 SpaceshipLog >> moveTo: aPosition [
 
 	positionTracker moveTo:  aPosition 
+]
+
+{ #category : #action }
+SpaceshipLog >> penalize [	
+	state := Turn1RechargeState new.
+	self moveTo: 1
 ]
 
 { #category : #action }

@@ -26,6 +26,11 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #testing }
+Turn1RechargeState >> canProtect [ 
+^false 
+]
+
 { #category : #action }
 Turn1RechargeState >> playIn: aGame [
 

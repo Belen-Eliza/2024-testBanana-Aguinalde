@@ -21,6 +21,11 @@ Spaceship class >> randomCardsLaunch: aName [
 	^self new initializeRandomCardsLaunch: aName 
 ]
 
+{ #category : #testing }
+Spaceship >> canProtect [
+ ^log canProtect 
+]
+
 { #category : #accessing }
 Spaceship >> cards [ 
 ^log cards 

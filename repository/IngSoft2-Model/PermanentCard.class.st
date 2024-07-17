@@ -42,6 +42,11 @@ PermanentCard >> is: aSpaceship anAllyOf: anotherSpaceship [
 ^false.
 ]
 
+{ #category : #testing }
+PermanentCard >> isProtected: aSpaceship [
+	^false 
+]
+
 { #category : #accessing }
 PermanentCard >> mercenary [
 ^0
@@ -50,6 +55,16 @@ PermanentCard >> mercenary [
 { #category : #action }
 PermanentCard >> playOn: aSpaceship [
 ^0.
+]
+
+{ #category : #accessing }
+PermanentCard >> protected [
+^0
+]
+
+{ #category : #accessing }
+PermanentCard >> protector [ 
+^0
 ]
 
 { #category : #action }
@@ -61,11 +76,6 @@ PermanentCard >> reduceShieldsOfAllyOf: aSpaceship in: aGame [
 PermanentCard >> reinforce: aSpaceship using: aDiceBeaker [
 
 	^ 0
-]
-
-{ #category : #validation }
-PermanentCard >> validateAllianceBetween: aSpaceship and: anotherSpaceship [ 
-
 ]
 
 { #category : #validation }
