@@ -62,10 +62,10 @@ Game >> battleBetween: aSpaceship and: aSpaceship2 [
 
 	| loser resultForFirstPlayer resultForSecondPlayer |
 	resultForFirstPlayer := diceBeaker throwDice.
-	resultForFirstPlayer := resultForFirstPlayer + (activeCards inject: 0 into: [ :accumulator :card | accumulator + (card reinforce: aSpaceship  using: diceBeaker )]).
+	resultForFirstPlayer := resultForFirstPlayer + (self callReinforcementsFor: aSpaceship).
 
 	resultForSecondPlayer := diceBeaker throwDice.
-	resultForSecondPlayer := resultForSecondPlayer + (activeCards inject: 0 into: [ :accumulator :card | accumulator + (card reinforce: aSpaceship2 using: diceBeaker )]).
+	resultForSecondPlayer := resultForSecondPlayer + (self callReinforcementsFor: aSpaceship2) .
 
 	loser := resultForFirstPlayer > resultForSecondPlayer
 		         ifTrue: [ aSpaceship2 ]
@@ -101,6 +101,13 @@ Game >> calculateFinalPositionFor: aSpaceship [
 		applyEffectFor: aSpaceship
 		afterMovingTo: newPosition
 		whenPlaying: self
+]
+
+{ #category : #action }
+Game >> callReinforcementsFor: aSpaceship [
+
+	^ activeCards inject: 0 into: [ :accumulator :card |
+		  accumulator + (card reinforce: aSpaceship using: diceBeaker) ]
 ]
 
 { #category : #action }
@@ -184,17 +191,15 @@ lastEffectTriggered:= NullEffect new.
 { #category : #initialization }
 Game >> initializeSpaceships [
 
-	| numberOfPlayers dataForASpaceship|
-	numberOfPlayers := spaceships size.
-
-	spaceshipsData := OrderedCollection new.
-	spaceships do: [ :aSpaceship |
-		dataForASpaceship :=SpaceshipLog
-				 for: aSpaceship
-				 with: aSpaceship starterDeck
-				 trackingPositionWith: (PositionTracker beginIn: board).
-		spaceshipsData add: dataForASpaceship .
-		aSpaceship keepARecordWith: (dataForASpaceship ) ]
+	| dataForASpaceship |
+	spaceshipsData := spaceships collect: [ :aSpaceship |
+		                  dataForASpaceship := SpaceshipLog
+			                                       for: aSpaceship
+			                                       with: aSpaceship starterDeck
+			                                       trackingPositionWith:
+			                                       (PositionTracker beginIn: board).
+		                  aSpaceship keepARecordWith: dataForASpaceship.
+		                  dataForASpaceship ]
 ]
 
 { #category : #action }
