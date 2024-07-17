@@ -33,7 +33,7 @@ AccelerationCard >> from: aSpaceship targeting: anotherSpaceship useIn: aGame [
 	^self
 ]
 
-{ #category : #playing }
+{ #category : #action }
 AccelerationCard >> playOn: aSpaceship [
 
 ^1
