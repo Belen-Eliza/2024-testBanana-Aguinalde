@@ -325,7 +325,7 @@ Game >> reducePartyShieldsByOneOf: loser [
 
 	(self dataFor: loser) moveTo: 1.
 	
-		activeCards do: [ :card | card reduceShieldsOfAllyOf: loser in: self ].
+	activeCards do: [ :card | card reduceShieldsOfAllyOf: loser in: self ].
 ]
 
 { #category : #removing }
