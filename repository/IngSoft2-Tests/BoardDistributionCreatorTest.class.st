@@ -10,7 +10,7 @@ BoardDistributionCreatorTest >> test079BoardDistributionCreatorMakesABoardOfIndi
 	| aBoardDistributionCreator probabilites |
 	aBoardDistributionCreator := BoardDistributionCreator new.
 	probabilites := Dictionary
-		                newFromKeys: { AtomicBombEffect }
+		                newFromKeys: { MoonWalkEffect  }
 		                andValues: { 100 }.
 	self
 		assert: (aBoardDistributionCreator

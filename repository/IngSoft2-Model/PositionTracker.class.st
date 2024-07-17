@@ -53,7 +53,7 @@ PositionTracker >> laps [
 	^board lapsAfterMoving: totalSquaresMoved 
 ]
 
-{ #category : #arithmetic }
+{ #category : #action }
 PositionTracker >> move: someSquares [
 
 totalSquaresMoved := totalSquaresMoved +someSquares max: 0

@@ -57,16 +57,6 @@ PermanentCard >> playOn: aSpaceship [
 ^0.
 ]
 
-{ #category : #accessing }
-PermanentCard >> protected [
-^0
-]
-
-{ #category : #accessing }
-PermanentCard >> protector [ 
-^0
-]
-
 { #category : #action }
 PermanentCard >> reduceShieldsOfAllyOf: aSpaceship in: aGame [ 
 
