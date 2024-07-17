@@ -37,6 +37,7 @@ Class {
 { #category : #action }
 ProtectorCard >> from: aSpaceship targeting: anotherSpaceship useIn: aGame [ 
 	self validateIfCardCanBePlayedBy: aSpaceship in: aGame.
+	self validateAllianceBetween: aSpaceship  and: anotherSpaceship .
 	protector:= anotherSpaceship .
 	protected := aSpaceship .
 	aGame addActiveCard: self.
@@ -62,4 +63,9 @@ ProtectorCard >> protector [
 ProtectorCard >> reduceShieldsOfAllyOf: aSpaceship in: aGame [
 
 aSpaceship =protected  ifTrue: [ aGame decreaseShieldByOneOf:  protector ].
+]
+
+{ #category : #validation }
+ProtectorCard >> validateAllianceBetween: aSpaceship and: anotherSpaceship [
+	aSpaceship = anotherSpaceship ifTrue: [ Error signal: 'A spaceship cannot be its own protector']
 ]
