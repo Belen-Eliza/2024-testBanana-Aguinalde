@@ -318,11 +318,12 @@ Game >> redoLastCardPlayedFor: aSpaceship targeting: aTarget [
 
 { #category : #action }
 Game >> reducePartyShieldsByOneOf: loser [
-	
-	activeCards  do: [ :card | card reduceShieldsOfAllyOf: loser in: self ].
-	(self dataFor: loser) decreaseShieldsByOne . 
+
+	activeCards do: [ :card | card reduceShieldsOfAllyOf: loser in: self ].
+	(activeCards anySatisfy: [ :card | card protected = loser ])
+		ifFalse: [ (self dataFor: loser) decreaseShieldsByOne ].
+
 	(self dataFor: loser) moveTo: 1
-	
 ]
 
 { #category : #removing }

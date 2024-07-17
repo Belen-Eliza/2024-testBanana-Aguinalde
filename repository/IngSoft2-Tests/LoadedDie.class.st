@@ -52,7 +52,7 @@ LoadedDie class >> validateNumberOf: anAmountOfFaces [
 
 { #category : #initialization }
 LoadedDie >> initializeArrayOf: values [ 
-	myValues := values .
+	myValues := OrderedCollection withAll:  values .
 	faces := 0.
 ]
 

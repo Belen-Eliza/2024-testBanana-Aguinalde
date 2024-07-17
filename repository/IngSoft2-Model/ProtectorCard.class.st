@@ -26,7 +26,7 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : #ProtectorCard,
-	#superclass : #Object,
+	#superclass : #PermanentCard,
 	#instVars : [
 		'protector',
 		'protected'
@@ -34,10 +34,13 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'instance creation' }
+{ #category : #action }
 ProtectorCard >> from: aSpaceship targeting: anotherSpaceship useIn: aGame [ 
+	self validateIfCardCanBePlayedBy: aSpaceship in: aGame.
 	protector:= anotherSpaceship .
 	protected := aSpaceship .
+	aGame addActiveCard: self.
+	^self
 ]
 
 { #category : #accessing }

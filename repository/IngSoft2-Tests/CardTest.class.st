@@ -2057,7 +2057,7 @@ CardTest >> test185ProtectorCardStoresProtectorSpaceship [
 		          andEndsAt: 14.
 	aDie := LoadedDie of: 4.
 	aGame := Game
-		         playedBy: { aSpaceship}
+		         playedBy: { aSpaceship . anotherSpaceship }
 		         on: aBoard
 		         throwing: {aDie }
 		         wonAfter: 3.
@@ -2083,7 +2083,7 @@ CardTest >> test186ProtectorCardStoresProtectedSpaceship [
 		          andEndsAt: 14.
 	aDie := LoadedDie of: 4.
 	aGame := Game
-		         playedBy: { aSpaceship}
+		         playedBy: { aSpaceship .  anotherSpaceship }
 		         on: aBoard
 		         throwing: {aDie }
 		         wonAfter: 3.
@@ -2092,4 +2092,54 @@ CardTest >> test186ProtectorCardStoresProtectedSpaceship [
 	aGame playTurn.
 	
 	self assert: aProtectorCard protected equals: aSpaceship  
+]
+
+{ #category : #tests }
+CardTest >> test187ProtectorCardCannotBePlayedOutOfTurn [
+
+	| aGame aSpaceship aBoard aDie aProtectorCard  anotherSpaceship  |
+	aSpaceship := Spaceship randomCardsLaunch:  'One'.
+	anotherSpaceship := Spaceship launch: '' with: { ProtectorCard }.
+	
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: { aSpaceship . anotherSpaceship }
+		         on: aBoard
+		         throwing: {aDie }
+		         wonAfter: 3.
+	aProtectorCard  := ProtectorCard  new.
+	
+	self should: [ aGame play: aProtectorCard  from: anotherSpaceship  targeting: aSpaceship  ] raise: Error withMessage: 'Card cannot be played out of turn'
+]
+
+{ #category : #tests }
+CardTest >> test188 [
+
+	| aGame aSpaceship aBoard aDie aProtectorCard  anotherSpaceship  |
+	aSpaceship := Spaceship launch: 'One' with: { ProtectorCard }.
+	anotherSpaceship := Spaceship randomCardsLaunch: ''.
+	
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie arrayOf: { 4. 4 . 5 . 1}.
+	aGame := Game
+		         playedBy: { aSpaceship .  anotherSpaceship }
+		         on: aBoard
+		         throwing: {aDie }
+		         wonAfter: 3.
+	aProtectorCard  := ProtectorCard  new.
+	aGame play: aProtectorCard  from: aSpaceship targeting: anotherSpaceship .
+	aGame playTurn.
+	aGame playTurn.
+	self assert: aSpaceship shields equals: 3
 ]
