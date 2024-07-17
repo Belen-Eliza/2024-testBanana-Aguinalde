@@ -2477,3 +2477,31 @@ CardTest >> test200WhenRedoCardIsPlayedAfterCancellationCardThenSpaceshipHasTwoP
 
 	self assert: (aProtectorCard protected = aSpaceship and: (anotherProtectorCard protected = aSpaceship ) )
 ]
+
+{ #category : #tests }
+CardTest >> test201APenalizedSpaceshipCannotProtect [
+
+	| aGame aSpaceship aBoard aDie aProtectorCard  anotherSpaceship yetAnotherSpaceship  |
+	aSpaceship := Spaceship launch: 'One' with: { ProtectorCard . ProtectorCard  }.
+	anotherSpaceship := Spaceship randomCardsLaunch: 'Two'.
+	yetAnotherSpaceship := Spaceship randomCardsLaunch: 'Three'.
+
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie arrayOf: { 1 . 4 . 1 . 4 . 1 . 4 . 2 . 2 . 4 . 1 }.
+	aGame := Game
+		         playedBy: { aSpaceship .  anotherSpaceship . yetAnotherSpaceship  }
+		         on: aBoard
+		         throwing: {aDie }
+		         wonAfter: 3.
+	aProtectorCard  := ProtectorCard  new.
+	aGame play: aProtectorCard  from: aSpaceship targeting: anotherSpaceship .
+	3 timesRepeat: [	aGame battleBetween: anotherSpaceship  and: yetAnotherSpaceship ].
+	3 timesRepeat: [ aGame playTurn  ].
+	
+	self assert: aSpaceship shields equals: 2
+]
