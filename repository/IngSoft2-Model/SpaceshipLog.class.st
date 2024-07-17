@@ -61,6 +61,11 @@ SpaceshipLog >> addRandomCard [
 	deck addRandomCard 
 ]
 
+{ #category : #testing }
+SpaceshipLog >> canProtect [
+^state canProtect 
+]
+
 { #category : #accessing }
 SpaceshipLog >> cards [
 ^deck cards 

@@ -43,6 +43,11 @@ ProtectorCard >> from: aSpaceship targeting: anotherSpaceship useIn: aGame [
 	^self
 ]
 
+{ #category : #testing }
+ProtectorCard >> isProtected: aSpaceship [
+	^aSpaceship = protected and: protector canProtect 
+]
+
 { #category : #accessing }
 ProtectorCard >> protected [
 	^ protected

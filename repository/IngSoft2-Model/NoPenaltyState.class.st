@@ -26,6 +26,11 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #testing }
+NoPenaltyState >> canProtect [
+^true 
+]
+
 { #category : #action }
 NoPenaltyState >> playIn: aGame [
 

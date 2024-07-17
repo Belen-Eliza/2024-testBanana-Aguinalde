@@ -42,6 +42,11 @@ PermanentCard >> is: aSpaceship anAllyOf: anotherSpaceship [
 ^false.
 ]
 
+{ #category : #testing }
+PermanentCard >> isProtected: aSpaceship [
+	^false 
+]
+
 { #category : #accessing }
 PermanentCard >> mercenary [
 ^0
