@@ -54,7 +54,7 @@ CardTest >> test083WhenASpaceshipPlaysASpeedCardThenDiceThrowIncreasesByOne [
 	aCard := SpeedCard new.
 	aGame play: aCard from: aSpaceship targeting: aSpaceship.
 	aGame playTurn.
-	self assert: ( aSpaceship position ) equals: 5
+	self assert: ( aSpaceship position ) equals:5
 ]
 
 { #category : #tests }
@@ -2504,4 +2504,34 @@ CardTest >> test201APenalizedSpaceshipCannotProtect [
 	3 timesRepeat: [ aGame playTurn  ].
 	
 	self assert: aSpaceship shields equals: 2
+]
+
+{ #category : #tests }
+CardTest >> test202ASpaceshipCanBeAProtectorAndAMercenaryForDifferentSpaceships [
+
+	| aGame aSpaceship aBoard aDie aProtectorCard aMercenaryCard  anotherSpaceship yetAnotherSpaceship  |
+	aSpaceship := Spaceship launch: 'One' with: { ProtectorCard  }.
+	anotherSpaceship := Spaceship launch: 'Two' with: { MercenaryCard  } .
+	yetAnotherSpaceship := Spaceship randomCardsLaunch: 'Three'.
+
+	aBoard := self
+		          createBoardOf: 16
+		          distance: (ParsecDistance of: 16)
+		          withEffects: { }
+		          wormholeBeginsAt: 13
+		          andEndsAt: 14.
+	aDie := LoadedDie arrayOf: { 2 . 2 . 3 . 4 }.
+	aGame := Game
+		         playedBy: { aSpaceship .  anotherSpaceship . yetAnotherSpaceship  }
+		         on: aBoard
+		         throwing: {aDie }
+		         wonAfter: 3.
+	aProtectorCard  := ProtectorCard  new.
+	aMercenaryCard := MercenaryCard new.
+	aGame play: aProtectorCard  from: aSpaceship targeting: yetAnotherSpaceship  .
+	aGame playTurn.
+	aGame play: aMercenaryCard  from: anotherSpaceship targeting: yetAnotherSpaceship  .
+	aGame playTurn.
+	
+	self assert: (aSpaceship position = 1 and: (aSpaceship shields = 3) )
 ]

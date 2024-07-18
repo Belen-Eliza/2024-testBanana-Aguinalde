@@ -28,6 +28,7 @@ Class {
 
 { #category : #accessing }
 PermanentCard >> effect [
+
 ^0
 ]
 
@@ -44,16 +45,19 @@ PermanentCard >> is: aSpaceship anAllyOf: anotherSpaceship [
 
 { #category : #testing }
 PermanentCard >> isProtected: aSpaceship [
+
 	^false 
 ]
 
 { #category : #accessing }
 PermanentCard >> mercenary [
+
 ^0
 ]
 
 { #category : #action }
 PermanentCard >> playOn: aSpaceship [
+
 ^0.
 ]
 
