@@ -3,8 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'myName',
-		'starterDeck',
-		'log'
+		'log',
+		'deck'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -28,7 +28,13 @@ Spaceship >> canProtect [
 
 { #category : #accessing }
 Spaceship >> cards [ 
-^log cards 
+^deck  cards 
+]
+
+{ #category : #accessing }
+Spaceship >> deck [
+
+	^deck 
 ]
 
 { #category : #accessing }
@@ -40,14 +46,14 @@ Spaceship >> getName [
 Spaceship >> initializeLaunch: aName with: someCards [
 
 myName := aName .
-starterDeck := Deck createWith: someCards 
+deck := Deck createWith: someCards 
 ]
 
 { #category : #initialization }
 Spaceship >> initializeRandomCardsLaunch: aName [ 
 
 myName := aName .
-starterDeck := Deck createWithRandomCards .
+deck := Deck createWithRandomCards .
 ]
 
 { #category : #setter }
@@ -78,8 +84,10 @@ Spaceship >> shields [
 	^log shields 
 ]
 
-{ #category : #accessing }
-Spaceship >> starterDeck [
-
-	^starterDeck 
+{ #category : #validation }
+Spaceship >> validateThatMyDeckHas: aCard [
+	
+	(deck includes: aCard class) ifFalse: [
+		Error signal:
+			'A Spaceship cannot play a card that is not in its hand' ]
 ]
