@@ -46,29 +46,24 @@ SpaceshipLog class >> for: aSpaceship with: aDeck trackingPositionWith: aPositio
 ]
 
 { #category : #comparing }
-SpaceshipLog >> >= anotherSpaceship [
+SpaceshipLog >> >= anotherSpaceshipLog [
 
-	self laps = anotherSpaceship laps
-		ifFalse: [ ^ self laps >= anotherSpaceship laps ]
-		ifTrue: [ ^ self position >= anotherSpaceship position ]
+	self laps = anotherSpaceshipLog laps
+		ifFalse: [ ^ self laps >= anotherSpaceshipLog laps ]
+		ifTrue: [ ^ self position >= anotherSpaceshipLog position ]
 		
 
 		
 ]
 
-{ #category : #adding }
+{ #category : #'add/remove' }
 SpaceshipLog >> addRandomCard [
 	deck addRandomCard 
 ]
 
-{ #category : #testing }
+{ #category : #accessing }
 SpaceshipLog >> canProtect [
 ^state canProtect 
-]
-
-{ #category : #accessing }
-SpaceshipLog >> cards [
-^deck cards 
 ]
 
 { #category : #accessing }
@@ -77,7 +72,7 @@ SpaceshipLog >> changeStateTo: aState [
 state := aState 
 ]
 
-{ #category : #adding }
+{ #category : #'add/remove' }
 SpaceshipLog >> decreaseShieldsByOne [
 
 	shields := shields - 1 max: 0.
@@ -85,7 +80,7 @@ SpaceshipLog >> decreaseShieldsByOne [
 	
 ]
 
-{ #category : #action }
+{ #category : #'add/remove' }
 SpaceshipLog >> discardACard [
 	deck discardRandomCard 
 ]
@@ -96,7 +91,7 @@ SpaceshipLog >> hash [
 ^shields hash + positionTracker hash + spaceship hash 
 ]
 
-{ #category : #adding }
+{ #category : #'add/remove' }
 SpaceshipLog >> increaseShieldsByOne [
 
 	shields := shields +1
@@ -113,23 +108,17 @@ SpaceshipLog >> initializeFor: aSpaceship with: aDeck trackingPositionWith: aPos
 ]
 
 { #category : #accessing }
-SpaceshipLog >> keepTrackOfPositionWith: newPositionTracker [
-
-	positionTracker := newPositionTracker
-]
-
-{ #category : #accessing }
 SpaceshipLog >> laps [
 ^positionTracker laps  
 ]
 
-{ #category : #accessing }
+{ #category : #moving }
 SpaceshipLog >> move: someSquares [
 
 positionTracker move: someSquares 
 ]
 
-{ #category : #accessing }
+{ #category : #moving }
 SpaceshipLog >> moveTo: aPosition [
 
 	positionTracker moveTo:  aPosition 
@@ -152,13 +141,13 @@ SpaceshipLog >> position [
 ^positionTracker square
 ]
 
-{ #category : #adding }
+{ #category : #'add/remove' }
 SpaceshipLog >> rechargeShields [
 
 	shields := 3
 ]
 
-{ #category : #removing }
+{ #category : #'add/remove' }
 SpaceshipLog >> removeFromHand: aCard [
 
  deck remove: (aCard class)
@@ -172,12 +161,4 @@ SpaceshipLog >> shields [
 { #category : #accessing }
 SpaceshipLog >> spaceship [
 ^spaceship 
-]
-
-{ #category : #validation }
-SpaceshipLog >> validateThatSpaceshipHas: aCard [
-	
-	(deck includes: aCard class) ifFalse: [
-		Error signal:
-			'A Spaceship cannot play a card that is not in its hand' ]
 ]

@@ -52,7 +52,7 @@ SpaceshipTest >> test112SpaceshipCanBeCreatedWithTwoRandomCards [
 
 	|  aSpaceship |
 	aSpaceship := Spaceship randomCardsLaunch:  'One'.
-	aSpaceship keepARecordWith: (SpaceshipLog for: aSpaceship  with: aSpaceship starterDeck trackingPositionWith: (PositionTracker beginIn: nil)).
+	aSpaceship keepARecordWith: (SpaceshipLog for: aSpaceship  with: aSpaceship deck trackingPositionWith: (PositionTracker beginIn: nil)).
 	
 	self assert: (aSpaceship  cards size) equals:2 .
 ]
@@ -62,7 +62,7 @@ SpaceshipTest >> test113SpaceshipDataIsCreatedWithRandomValidCards [
 
 	|  aSpaceship cardTypes |
 	aSpaceship := Spaceship randomCardsLaunch:  'One'.
-	aSpaceship keepARecordWith: (SpaceshipLog for: aSpaceship  with: aSpaceship starterDeck trackingPositionWith: (PositionTracker beginIn: nil)).
+	aSpaceship keepARecordWith: (SpaceshipLog for: aSpaceship  with: aSpaceship deck trackingPositionWith: (PositionTracker beginIn: nil)).
 	cardTypes := OrderedCollection
 		             with: AccelerationCard
 		             with: SpeedCard
@@ -80,7 +80,7 @@ SpaceshipTest >> test120SpaceshipsShieldsCannotBeLessThanZero [
 	aSpaceship := Spaceship randomCardsLaunch: 'Death Star'.
 	aSpaceshipLog := SpaceshipLog
 		                 for: aSpaceship
-		                 with: aSpaceship starterDeck
+		                 with: aSpaceship deck
 		                 trackingPositionWith:
 			                 (PositionTracker beginIn: (self
 					                   createBoardOf: 5
@@ -98,7 +98,7 @@ SpaceshipTest >> test144SpaceshipLogCanCalculateHash [
 
 	| aSpaceship hash aSpaceshipLog |
 	aSpaceship :=( Spaceship randomCardsLaunch:  'Death Star').
-	aSpaceshipLog := SpaceshipLog for: aSpaceship  with: aSpaceship starterDeck  trackingPositionWith: (PositionTracker beginIn: nil).
+	aSpaceshipLog := SpaceshipLog for: aSpaceship  with: aSpaceship deck  trackingPositionWith: (PositionTracker beginIn: nil).
 	aSpaceship keepARecordWith: aSpaceshipLog .
 	hash := aSpaceshipLog  hash.
 	self assert: hash >0
@@ -110,7 +110,7 @@ SpaceshipTest >> test158SpaceshipBeginsWithAStarterDeck [
 	| aSpaceship  |
 	aSpaceship :=Spaceship launch: 'A test' with: { MercenaryCard . AccelerationCard  }.
 
-	aSpaceship keepARecordWith: (SpaceshipLog for: aSpaceship  with: (aSpaceship starterDeck ) trackingPositionWith: (PositionTracker beginIn: nil)).
+	aSpaceship keepARecordWith: (SpaceshipLog for: aSpaceship  with: (aSpaceship deck ) trackingPositionWith: (PositionTracker beginIn: nil)).
 	self assert: aSpaceship  cards  equals: (OrderedCollection with: MercenaryCard with: AccelerationCard) 
 ]
 
@@ -124,13 +124,13 @@ SpaceshipTest >> test159SpaceshipLogCannotBeAssignedTwice [
 
 	aSpaceship keepARecordWith: (SpaceshipLog
 			 for: aSpaceship
-			 with: aSpaceship starterDeck
+			 with: aSpaceship deck
 			 trackingPositionWith: (PositionTracker beginIn: nil)).
 	self
 		should: [
 			aSpaceship keepARecordWith: (SpaceshipLog
 					 for: aSpaceship
-					 with: aSpaceship starterDeck
+					 with: aSpaceship deck
 					 trackingPositionWith: (PositionTracker beginIn: nil)) ]
 		raise: Error
 		withMessage:
