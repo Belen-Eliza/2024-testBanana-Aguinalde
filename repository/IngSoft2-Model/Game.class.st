@@ -61,11 +61,11 @@ Game >> applyInvertedWormholeFor: aSpaceship goingFrom: squareNumber to: otherSi
 Game >> battleBetween: aSpaceship and: aSpaceship2 [
 
 	| loser resultForFirstPlayer resultForSecondPlayer |
-	resultForFirstPlayer := diceBeaker throwDice.
-	resultForFirstPlayer := resultForFirstPlayer + (self callReinforcementsFor: aSpaceship).
+	resultForFirstPlayer := diceBeaker throwDice
+	                        + (self callReinforcementsFor: aSpaceship).
 
-	resultForSecondPlayer := diceBeaker throwDice.
-	resultForSecondPlayer := resultForSecondPlayer + (self callReinforcementsFor: aSpaceship2) .
+	resultForSecondPlayer := diceBeaker throwDice
+	                         + (self callReinforcementsFor: aSpaceship2).
 
 	loser := resultForFirstPlayer > resultForSecondPlayer
 		         ifTrue: [ aSpaceship2 ]

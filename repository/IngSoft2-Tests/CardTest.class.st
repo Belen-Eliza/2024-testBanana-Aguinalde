@@ -2451,7 +2451,7 @@ CardTest >> test199WhenCancellationCardIsPlayedOnProtectorCardThenSpaceshipCanLo
 ]
 
 { #category : #tests }
-CardTest >> test200WhenRedoCardIsPlayedAfterCancellationCardThenSpaceshipHasTwoProtectors [
+CardTest >> test200WhenRedoCardIsPlayedAfterProtectorCardThenSpaceshipHasTwoProtectors [
 
 	| aGame aSpaceship anotherSpaceship yetAnotherSpaceship aBoard aDie aProtectorCard  aRedoCard  anotherProtectorCard |
 	aSpaceship := Spaceship launch: 'One' with: { ProtectorCard . RedoCard  }.
